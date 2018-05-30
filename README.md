@@ -50,7 +50,10 @@ pip install .
 
 I created a few jupyter notebooks that I hope can help you get familiar with the library and allow you to implement it in your future projects.
 
-Install **Jupyter Lab** and **Pandas** in order to use the Jupyter Notebooks. You can do it by using the **requirements.txt** file in this repo
+* [Basic Functionality](https://github.com/Cyb3rWard0g/ATTACK-Python-Client/blob/master/notebooks/Usage_Basics.ipynb)
+* [Custom Filters](https://github.com/Cyb3rWard0g/ATTACK-Python-Client/blob/master/notebooks/Usage_Filters.ipynb)
+
+Install **Jupyter Lab** and **Pandas** in order to use the Jupyter Notebooks on your own. You can do it by using the **requirements.txt** file in this repo
 
 ```
 pip install -r requirements.txt
