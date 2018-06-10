@@ -136,10 +136,10 @@ class attack_client(object):
             return objects_list
         elif object_type == 'external_references':
             for o in stix_objects[object_type]:
-                if o['source_name'] != 'mitre-attack' and o['source_name'] in stix_objects[object_type]:
+                if "url" in o:
                     objects_list.append(o.url)
                 else:
-                    return None
+                    objects_list.append(o.source_name)
             return objects_list
         else:
             for o in stix_objects[object_type]:
@@ -528,7 +528,7 @@ class attack_client(object):
                 data_sources.append(ds.lower())
         return list(set(data_sources))
 
-    def get_techniques_used_by_software(self):
+    def get_techniques_used_by_software(self, software_name=None):
         all_software_use = []
         all_techniques_used = []
         all_software_relationships = self.get_relationships_by_object('software')
@@ -567,7 +567,13 @@ class attack_client(object):
                         'tactic_type' : t['tactic_type']
                     }
                     all_software_use.append(all_software_use_dict)
-        return all_software_use
+        if software_name is None:
+            return all_software_use
+        else:
+            for sn in all_software_use:
+                if software_name.lower() in sn['software'].lower():
+                    all_techniques_used.append(sn)
+            return all_techniques_used
     
     def get_techniques_used_by_group(self, group_name=None):
         all_groups_use = []
@@ -659,4 +665,3 @@ class attack_client(object):
             techniques = self.get_techniques_used_by_group(group_name)
             all_used = software + techniques
         return all_used
-    
