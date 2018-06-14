@@ -19,7 +19,16 @@ from attackcti import attack_client
 mitre = attack_client()
 
 db = mitre.get_all_attack()
-df = json_normalize(db)
+
+# Removes '\n' inside of a list element of the 'system_requirements' property
+db_fixed = db
+for sr in db_fixed:
+    if 'system_requirements' in sr:
+        if sr['system_requirements']:
+            for idx, item in enumerate(sr['system_requirements']):
+                sr['system_requirements'][idx] = sr['system_requirements'][idx].replace('\n',' ')
+
+df = json_normalize(db_fixed)
 df = df[[
     'matrix','tactic','technique','technique_id','technique_description',
     'mitigation','mitigation_description','group','group_id','group_aliases',
@@ -28,22 +37,38 @@ df = df[[
     'difficulty_for_adversary','difficulty_explanation','effective_permissions','network_requirements','permissions_required',
     'remote_support','system_requirements','contributors','url']]
 
-attributes = ['tactic','platform','data_sources']
+#****** There are some columns that contain a list on their cells, we need to create a row per each value of the list
+attributes = ['tactic','platform','data_sources','permissions_required']
+# In attributes, we indicate the name of the columns that we need to distribute in rows by values of the list
 
 for a in attributes:
     s = df.apply(lambda x: pandas.Series(x[a]),axis=1).stack().reset_index(level=1, drop=True)
-    s.name = a + '_detail'
+    # "s" is going to be a column of a frame with every value of the list inside each cell of the column "a"
+    s.name = a
+    # We name "s" with the same name of "a".
     df = df.drop(a, axis=1).join(s).reset_index(drop=True)
+    # We drop the column "a" from "df", and then join "df" with "s"
 
-conditions = [(df['platform_detail']=='Linux')&(df['data_sources_detail'].str.contains('windows',case=False)== True),
-             (df['platform_detail']=='macOS')&(df['data_sources_detail'].str.contains('windows',case=False)== True),
-             (df['platform_detail']=='Linux')&(df['data_sources_detail'].str.contains('powershell',case=False)== True),
-             (df['platform_detail']=='macOS')&(df['data_sources_detail'].str.contains('powershell',case=False)== True),
-             (df['platform_detail']=='Linux')&(df['data_sources_detail'].str.contains('wmi',case=False)== True),
-             (df['platform_detail']=='macOS')&(df['data_sources_detail'].str.contains('wmi',case=False)== True)]
+#****** Now we are going to create a new column to identify windows data sources in Linux and macOS platforms
+conditions = [(df['platform']=='Linux')&(df['data_sources'].str.contains('windows',case=False)== True),
+             (df['platform']=='macOS')&(df['data_sources'].str.contains('windows',case=False)== True),
+             (df['platform']=='Linux')&(df['data_sources'].str.contains('powershell',case=False)== True),
+             (df['platform']=='macOS')&(df['data_sources'].str.contains('powershell',case=False)== True),
+             (df['platform']=='Linux')&(df['data_sources'].str.contains('wmi',case=False)== True),
+             (df['platform']=='macOS')&(df['data_sources'].str.contains('wmi',case=False)== True)]
+# In conditions we indicate a logical test
+
 choices = ['NO OK','NO OK','NO OK','NO OK','NO OK','NO OK']
+# In choices, we indicate the result when the logical test is true
+
 df['Validation'] = np.select(conditions,choices,default='OK')
+# Finally, we add a column "Validation" to "df" with the result of the logical test. The default value is going to be "OK"
 
-df_final = df[df.Validation == 'OK'].replace(['mitre-attack-mobile','Process monitoring'],['mitre-mobile-attack','Process Monitoring'])
+#****** Now we are going to create a new dataframe and filter the value "OK" in the column "Validation". We are going to replace some values in all the cells of the data frame
+df_final = df[df.Validation == 'OK'].replace(['mitre-attack-mobile','Process monitoring','Application logs'],['mitre-mobile-attack','Process Monitoring','Application Logs'])
 
-df_final.to_csv('Mitre.csv',index=False,encoding='utf-8')
+#****** Now we are going to delete the line breaks for all the cell of the dataframe. This action only applies for cells that contain a String value
+df_final = df_final.replace('\n','',regex=True)
+
+#****** Finally, we export the data frame to a CSV file
+df_final.to_csv('mitre_attack.csv',index=False,encoding='utf-8')

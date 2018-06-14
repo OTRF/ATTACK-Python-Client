@@ -23,7 +23,7 @@ services:
     volumes:
       - ./helk-logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./helk-logstash/pipeline:/usr/share/logstash/pipeline
-      - ./helk-logstash/output_templates:/usr/share/logstash/output_templates
+      - ./helk-logstash/cti:/usr/share/logstash/cti
     environment:
       - "LS_JAVA_OPTS=-Xms2g -Xmx2g"
     restart: always
@@ -38,6 +38,7 @@ services:
     container_name: helk-kibana
     volumes:
       - ./helk-kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ./helk-kibana/dashboards:/usr/share/kibana/dashboards
     restart: always
     depends_on:
       - helk-elasticsearch

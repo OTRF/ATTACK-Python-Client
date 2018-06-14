@@ -17,7 +17,7 @@
 KIBANA="helk-kibana:5601"
 #TIME_FIELD="@timestamp"
 DEFAULT_INDEX="mitre-attack-*"
-#DIR=/usr/share/kibana/dashboards
+DIR=/usr/share/kibana/dashboards
 
 # *********** Setting Index Pattern Array ***************
 declare -a index_patterns=("mitre-attack-*")
@@ -36,18 +36,10 @@ for index in ${!index_patterns[@]}; do
     -d"{\"attributes\":{\"title\":\"${index_patterns[${index}]}\"}}"
 done
 
-# *********** Making mitre-attack the default index ***************
-echo "[++] Making mitre-attack the default index..."
-curl -XPOST -H "Content-Type: application/json" -H "kbn-xsrf: anything" \
-"$KIBANA/api/kibana/settings/defaultIndex" \
--d"{\"value\":\"$DEFAULT_INDEX\"}"
-
 # *********** Loading dashboards ***************
-#echo "[++] Loading Dashboards..."
-#for file in ${DIR}/*.json
-#do  
-#    curl -XPOST "$KIBANA/api/kibana/dashboards/import" -H 'kbn-xsrf:true' \
-#    -H 'Content-type:application/json' -d @${file} || exit 1
-#done
-
-
+echo "[++] Loading Dashboards..."
+for file in ${DIR}/*.json
+do  
+    curl -XPOST "$KIBANA/api/kibana/dashboards/import" -H 'kbn-xsrf:true' \
+    -H 'Content-type:application/json' -d @${file} || exit 1
+done

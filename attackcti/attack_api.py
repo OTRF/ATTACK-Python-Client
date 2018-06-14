@@ -550,21 +550,21 @@ class attack_client(object):
                         'tactic' : t['tactic'],
                         'technique_id' : t['technique_id'],
                         'url' : t['url'],
-                        'platform' : t['platform'],
-                        'data_sources' : t['data_sources'],
-                        'defense_bypassed' : t['defense_bypassed'],
-                        'permissions_required' : t['permissions_required'],
-                        'effective_permissions' : t['effective_permissions'],
-                        'system_requirements' : t['system_requirements'],
-                        'network_requirements' : t['network_requirements'],
-                        'remote_support' : t['remote_support'],
+                        #'platform' : t['platform'],
+                        #'data_sources' : t['data_sources'],
+                        #'defense_bypassed' : t['defense_bypassed'],
+                        #'permissions_required' : t['permissions_required'],
+                        #'effective_permissions' : t['effective_permissions'],
+                        #'system_requirements' : t['system_requirements'],
+                        #'network_requirements' : t['network_requirements'],
+                        #'remote_support' : t['remote_support'],
                         'contributors' : t['contributors'],
-                        'technique_references' : t['technique_references'],
-                        'detectable_by_common_defenses' : t['detectable_by_common_defenses'],
-                        'detectable_explanation' : t['detectable_explanation'],
-                        'difficulty_for_adversary' : t['difficulty_for_adversary'],
-                        'difficulty_explanation': t['difficulty_explanation'],
-                        'tactic_type' : t['tactic_type']
+                        #'technique_references' : t['technique_references'],
+                        #'detectable_by_common_defenses' : t['detectable_by_common_defenses'],
+                        #'detectable_explanation' : t['detectable_explanation'],
+                        #'difficulty_for_adversary' : t['difficulty_for_adversary'],
+                        #'difficulty_explanation': t['difficulty_explanation'],
+                        #'tactic_type' : t['tactic_type']
                     }
                     all_software_use.append(all_software_use_dict)
         if software_name is None:
@@ -596,21 +596,21 @@ class attack_client(object):
                         'tactic' : t['tactic'],
                         'technique_id' : t['technique_id'],
                         'url' : t['url'],
-                        'platform' : t['platform'],
-                        'data_sources' : t['data_sources'],
-                        'defense_bypassed' : t['defense_bypassed'],
-                        'permissions_required' : t['permissions_required'],
-                        'effective_permissions' : t['effective_permissions'],
-                        'system_requirements' : t['system_requirements'],
-                        'network_requirements' : t['network_requirements'],
-                        'remote_support' : t['remote_support'],
+                        #'platform' : t['platform'],
+                        #'data_sources' : t['data_sources'],
+                        #'defense_bypassed' : t['defense_bypassed'],
+                        #'permissions_required' : t['permissions_required'],
+                        #'effective_permissions' : t['effective_permissions'],
+                        #'system_requirements' : t['system_requirements'],
+                        #'network_requirements' : t['network_requirements'],
+                        #'remote_support' : t['remote_support'],
                         'contributors' : t['contributors'],
-                        'technique_references' : t['technique_references'],
-                        'detectable_by_common_defenses' : t['detectable_by_common_defenses'],
-                        'detectable_explanation' : t['detectable_explanation'],
-                        'difficulty_for_adversary' : t['difficulty_for_adversary'],
-                        'difficulty_explanation': t['difficulty_explanation'],
-                        'tactic_type' : t['tactic_type']
+                        #'technique_references' : t['technique_references'],
+                        #'detectable_by_common_defenses' : t['detectable_by_common_defenses'],
+                        #'detectable_explanation' : t['detectable_explanation'],
+                        #'difficulty_for_adversary' : t['difficulty_for_adversary'],
+                        #'difficulty_explanation': t['difficulty_explanation'],
+                        #'tactic_type' : t['tactic_type']
                     }
                     all_groups_use.append(all_groups_use_dict)
         if group_name is None:
@@ -622,14 +622,16 @@ class attack_client(object):
             return all_techniques_used
 
     def get_software_used_by_group(self, group_name=None):
+        all_groups_software_use =[]
         all_groups_use = []
         all_software_used = []
         all_groups_relationships = self.get_relationships_by_object('groups')
+        software_techniques = self.get_techniques_used_by_software()
         software = self.get_all_software()
         for gr in all_groups_relationships:
             for s in software:
                 if s['id'] == gr['target_object']:
-                    all_groups_use_dict = {
+                    all_groups_software = {
                         'matrix': s['matrix'],
                         'relationship_description': gr['relationship_description'],                       
                         'group': gr['group'],
@@ -637,7 +639,7 @@ class attack_client(object):
                         'group_aliases': gr['group_aliases'],
                         'group_id': gr['group_id'],
                         'group_references': gr['group_references'],
-                        'software url': s['url'],
+                        'software_url': s['url'],
                         'software': s['software'],
                         'software_description': s['software_description'],
                         'software_labels':s['software_labels'],
@@ -645,7 +647,32 @@ class attack_client(object):
                         'software_aliases': s['software_aliases'],
                         'software_references': s['software_references']
                     }
-                    all_groups_use.append(all_groups_use_dict)
+                    all_groups_software_use.append(all_groups_software)
+        for st in software_techniques:
+            for gs in all_groups_software_use:
+                if gs['software_id'] == st['software_id']:
+                    all_software_technique = {
+                        'matrix': gs['matrix'],
+                        'relationship_description': gs['relationship_description'],                       
+                        'group': gs['group'],
+                        'group_description': gs['group_description'],
+                        'group_aliases': gs['group_aliases'],
+                        'group_id': gs['group_id'],
+                        'group_references': gs['group_references'],
+                        'software url': gs['software_url'],
+                        'software': gs['software'],
+                        'software_description': gs['software_description'],
+                        'software_labels':gs['software_labels'],
+                        'software_id': gs['software_id'],
+                        'software_aliases': gs['software_aliases'],
+                        'software_references': gs['software_references'],
+                        'technique' : st['technique'],
+                        'technique_description' : st['technique_description'],
+                        'tactic' : st['tactic'],
+                        'technique_id' : st['technique_id']
+                    }
+                    all_groups_use.append(all_software_technique)
+
         if group_name is None:
             return all_groups_use
         else:
