@@ -7,7 +7,7 @@ services:
     volumes:
       - ./helk-elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     environment:
-      - "ES_JAVA_OPTS=-Xms6g -Xmx6g"
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
     ulimits:
       memlock:
         soft: -1

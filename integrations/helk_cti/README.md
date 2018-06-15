@@ -1,11 +1,13 @@
 # HELK CTI
 
-Integrating ATT&CK CTI with [@THE_HELK](https://twitter.com/THE_HELK)
+Integrating [@MITREattack](https://twitter.com/MITREattack) CTI with [@THE_HELK](https://twitter.com/THE_HELK)
+
+![alt text](../../resources/images/HELK_MITREattack.png "HELK and MITREattack")
 
 # Goals
 
 * Provide an easy way to explore and interact with up to date ATT&CK content available in STIX via public TAXII server
-* Take advantage of Elasticsearch and Kibana's open-source full-text search and analytics engine availab in the [HELK](https://github.com/Cyb3rWard0g/HELK)
+* Take advantage of Elasticsearch and Kibana's open-source full-text search and analytics engine available in the [HELK](https://github.com/Cyb3rWard0g/HELK)
 * Help security analysts during the transition from the ATT&CK MediaWiki API to the STIX/TAXII 2.0 API
 * Learn how to integrate ATT&CK data with an open source project
 
@@ -24,6 +26,7 @@ The project is currently in an alpha stage, which means that the code and the fu
 
 * [HELK](https://github.com/Cyb3rWard0g/HELK)
 * [ATTACK-PYTHON-CLIENT](https://github.com/Cyb3rWard0g/ATTACK-Python-Client)
+* [attackcti library](https://pypi.org/project/attackcti/)
 * [MITRE CTI](https://github.com/mitre/cti)
 * [OASIS CTI TAXII Client](https://github.com/oasis-open/cti-taxii-client)
 * [OASIS CTI Python STIX2](https://github.com/oasis-open/cti-python-stix2)
@@ -178,3 +181,5 @@ sudo docker logs --follow helk-elasticsearch
 Feedback is appreciated!! I would love to know if there is anything that the integration is missing. Maybe more data? was it useful??. Let us know! :) #SharingIsCaring
 
 # TO-Do
+[ ] Create a dashboard per Matrix (Enterprise, PRE and Mobile)
+[ ] Explore Vega Viz with ATT&CK data
