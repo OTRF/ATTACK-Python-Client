@@ -3,3 +3,4 @@ jupyter
 jupyterlab
 ipykernel
 pprint
+altair
