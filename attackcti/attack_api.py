@@ -31,15 +31,16 @@ class attack_client(object):
                 technique_dict = {
                     'type': technique['type'],
                     'id': technique['id'],
-                    'created_by_ref': technique['created_by_ref'],
+                    'created_by_ref': self.try_except(technique,'created_by_ref'),
                     'created': str(technique['created']),
                     'modified': str(technique['modified']),
-                    'object_marking_refs': technique['object_marking_refs'],
+                    'object_marking_refs': self.try_except(technique,'object_marking_refs'),
                     'url': technique['external_references'][0]['url'],
                     'matrix': technique['external_references'][0]['source_name'],
                     'technique': technique['name'],
-                    'technique_description': technique['description'],
-                    'tactic': self.handle_list(technique,'kill_chain_phases'),
+                    'technique_description': self.try_except(technique, 'description'),
+                    #'tactic': self.handle_list(technique,'kill_chain_phases'),
+                    'tactic': self.try_except(technique,'kill_chain_phases'),
                     'technique_id': technique['external_references'][0]['external_id'],
                     'platform': self.try_except(technique,'x_mitre_platforms'),
                     'data_sources': self.try_except(technique,'x_mitre_data_sources'),
@@ -417,8 +418,7 @@ class attack_client(object):
         mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
         all_stix_objects = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
         all_stix_objects = self.parse_stix_objects(all_stix_objects, "techniques")
-        for o in all_stix_objects:
-            return o
+        return all_stix_objects
 
     def get_object_by_attack_id(self, object_type, attack_id):
         valid_objects = {'attack-pattern','course-of-action','intrusion-set','malware','tool'}
@@ -443,8 +443,7 @@ class attack_client(object):
             mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
             mobile_stix_objects = self.parse_stix_objects(mobile_stix_objects, dictionary[object_type])
             all_stix_objects = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
-            for o in all_stix_objects:
-                return o
+            return all_stix_objects
 
     def get_group_by_alias(self, group_alias):
         filter_objects = [
@@ -456,8 +455,7 @@ class attack_client(object):
         mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
         all_stix_objects = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
         all_stix_objects = self.parse_stix_objects(all_stix_objects, 'groups')
-        for o in all_stix_objects:
-            return o
+        return all_stix_objects
 
     def get_relationships_by_object(self, stix_object):
         valid_objects = {'groups','software','mitigations'}
@@ -692,3 +690,27 @@ class attack_client(object):
             techniques = self.get_techniques_used_by_group(group_name)
             all_used = software + techniques
         return all_used
+
+    def get_techniques_by_datasources(self, data_sources):
+        techniques_results = []
+        techniques = self.get_all_techniques()
+        if isinstance(data_sources, list):
+            for d in [x.lower() for x in data_sources]:
+                for t in techniques:
+                    if t['data_sources'] is not None and d in [x.lower() for x in t['data_sources']]:
+                        techniques_results.append(t)
+        elif isinstance(data_sources, str):
+            for t in techniques:
+                if t['data_sources'] is not None and data_sources.lower() in [x.lower() for x in t['data_sources']]:
+                    techniques_results.append(t)
+        else:
+            raise Exception("Not a list or a string")
+        # Remove Duplicates
+        already_seen = set()
+        results_dedup = []
+        for d in techniques_results:
+            i = str(d.items())
+            if i not in already_seen:
+                already_seen.add(i)
+                results_dedup.append(d)
+        return results_dedup
