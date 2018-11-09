@@ -4,4 +4,3 @@ jupyter==1.0.0
 jupyterlab==0.34.1
 ipykernel
 pprint
-altair
