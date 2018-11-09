@@ -28,7 +28,7 @@ The project is currently in a beta stage, which means that the code and the func
 
 ## Requirements
 
-Python 3+ or 2.7
+Python 3+
 
 ## Installation
 
