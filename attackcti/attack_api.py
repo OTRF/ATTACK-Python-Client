@@ -39,8 +39,11 @@ class attack_client(object):
                     'matrix': technique['external_references'][0]['source_name'],
                     'technique': technique['name'],
                     'technique_description': self.try_except(technique, 'description'),
-                    'tactic': self.try_except(technique,'kill_chain_phases'),
+                    'technique_detection': self.try_except(technique, 'x_mitre_detection'),
+                    'tactic': self.try_except(technique,'kill_chain_phases','phase_name'),
                     'technique_id': technique['external_references'][0]['external_id'],
+                    'capec_id': self.try_except(technique,'external_references','capec_id'),
+                    'capec_url': self.try_except(technique,'external_references','capec_url'),
                     'platform': self.try_except(technique,'x_mitre_platforms'),
                     'data_sources': self.try_except(technique,'x_mitre_data_sources'),
                     'defense_bypassed': self.try_except(technique,'x_mitre_defense_bypassed'),
@@ -70,7 +73,7 @@ class attack_client(object):
                     'url': mitigation['external_references'][0]['url'],
                     'mitigation': mitigation['name'],
                     'mitigation_description': mitigation['description'],
-                    'mitigation_id': mitigation['external_references'][0]['external_id'],
+                    'technique_id': mitigation['external_references'][0]['external_id'],
                     'mitigation_references': self.handle_list(mitigation,'external_references')
                 }
                 stix_objects_list.append(mitigation_dict)
@@ -106,7 +109,8 @@ class attack_client(object):
                     'software_id': software['external_references'][0]['external_id'],
                     'url': software['external_references'][0]['url'],
                     'software_aliases': self.try_except(software, 'x_mitre_aliases'),
-                    'software_references': self.try_except(software,'external_references')
+                    'software_references': self.try_except(software,'external_references'),
+                    'software_platform': self.try_except(software, 'x_mitre_platforms')
                 }
                 stix_objects_list.append(software_dict)
         elif stix_object_type == "relationships":
@@ -130,28 +134,46 @@ class attack_client(object):
 
     def handle_list(self, stix_objects, object_type):
         objects_list = list()
-        if object_type == 'kill_chain_phases':
-            for o in stix_objects[object_type]:
-                objects_list.append(o.phase_name)
-            return objects_list
-        elif object_type == 'external_references':
+        if object_type == 'external_references':
             for o in stix_objects[object_type]:
                 if "url" in o:
                     objects_list.append(o.url)
                 else:
                     objects_list.append(o.source_name)
-            return objects_list
         else:
             for o in stix_objects[object_type]:
                     objects_list.append(o)
+        return objects_list
+    
+    def handle_nested(self, stix_objects, object_type, nested_value):
+        objects_list = list()
+        if object_type == 'external_references' and nested_value == 'capec_id':
+            for o in stix_objects[object_type]:
+                if o.source_name == 'capec':
+                    objects_list.append(o.external_id)
+        elif object_type == 'external_references' and nested_value == 'capec_url':
+            for o in stix_objects[object_type]:
+                if o.source_name == 'capec':
+                    objects_list.append(o.url)
+        else:
+            for o in stix_objects[object_type]:
+                if nested_value in o:
+                    objects_list.append(o[nested_value])
+        if not objects_list:
+            return None
+        else:
             return objects_list
 
-    def try_except(self, stix_objects, object_type):
+    def try_except(self, stix_objects, object_type, nested_value=None):
         if object_type in stix_objects:
             specific_stix_object = stix_objects[object_type]
             if isinstance(specific_stix_object, list):
-                lists = self.handle_list(stix_objects, object_type)
-                return lists
+                if nested_value is None:
+                    lists = self.handle_list(stix_objects, object_type)
+                    return lists
+                else:
+                    nested_result = self.handle_nested(stix_objects, object_type, nested_value)
+                    return nested_result
             else:
                 return stix_objects[object_type]
         else:
@@ -198,8 +220,8 @@ class attack_client(object):
         }
         enterprise_stix_objects = {}
         for key in enterprise_filter_objects:
-                enterprise_stix_objects[key] = self.TC_ENTERPRISE_SOURCE.query(enterprise_filter_objects[key])
-                enterprise_stix_objects[key] = self.parse_stix_objects(enterprise_stix_objects[key], key)
+            enterprise_stix_objects[key] = self.TC_ENTERPRISE_SOURCE.query(enterprise_filter_objects[key])
+            enterprise_stix_objects[key] = self.parse_stix_objects(enterprise_stix_objects[key], key)
         return enterprise_stix_objects
 
     def get_all_pre(self):
@@ -210,8 +232,8 @@ class attack_client(object):
         }
         pre_stix_objects = {}
         for key in pre_filter_objects:
-                pre_stix_objects[key] = self.TC_PRE_SOURCE.query(pre_filter_objects[key])
-                pre_stix_objects[key] = self.parse_stix_objects(pre_stix_objects[key], key)           
+            pre_stix_objects[key] = self.TC_PRE_SOURCE.query(pre_filter_objects[key])
+            pre_stix_objects[key] = self.parse_stix_objects(pre_stix_objects[key], key)           
         return pre_stix_objects
 
     def get_all_mobile(self):
@@ -225,8 +247,8 @@ class attack_client(object):
         }
         mobile_stix_objects = {}
         for key in mobile_filter_objects:
-                mobile_stix_objects[key] = self.TC_MOBILE_SOURCE.query(mobile_filter_objects[key])
-                mobile_stix_objects[key] = self.parse_stix_objects(mobile_stix_objects[key], key)           
+            mobile_stix_objects[key] = self.TC_MOBILE_SOURCE.query(mobile_filter_objects[key])
+            mobile_stix_objects[key] = self.parse_stix_objects(mobile_stix_objects[key], key)           
         return mobile_stix_objects
 
     def get_all_techniques(self):
@@ -295,13 +317,15 @@ class attack_client(object):
                         'matrix': t['matrix'],
                         'mitigation': mr['mitigation'],
                         'mitigation_description': mr['mitigation_description'],
-                        'mitigation_id' :mr['mitigation_id'],
                         'mitigation_references': mr['mitigation_references'],
-                        'technique' : t['technique'],
-                        'technique_description' : t['technique_description'],
+                        'technique': t['technique'],
+                        'technique_description': t['technique_description'],
+                        'technique_detection': t['technique_detection'],
                         'tactic' : t['tactic'],
                         'url' : t['url'],
                         'technique_id' : t['technique_id'],
+                        'capec_id': t['capec_id'],
+                        'capec_url': t['capec_url'],
                         'platform' : t['platform'],
                         'data_sources' : t['data_sources'],
                         'defense_bypassed' : t['defense_bypassed'],
@@ -322,30 +346,7 @@ class attack_client(object):
                     technique_ids.append(t['technique_id'])
         for t in techniques:
             if t['technique_id'] not in technique_ids:
-                all_techniques_dict = {
-                    'matrix': t['matrix'],
-                    'technique' : t['technique'],
-                    'technique_description' : t['technique_description'],
-                    'tactic' : t['tactic'],
-                    'url' : t['url'],
-                    'technique_id' : t['technique_id'],
-                    'platform' : t['platform'],
-                    'data_sources' : t['data_sources'],
-                    'defense_bypassed' : t['defense_bypassed'],
-                    'permissions_required' : t['permissions_required'],
-                    'effective_permissions' : t['effective_permissions'],
-                    'system_requirements' : t['system_requirements'],
-                    'network_requirements' : t['network_requirements'],
-                    'remote_support' : t['remote_support'],
-                    'contributors' : t['contributors'],
-                    'technique_references' : t['technique_references'],
-                    'detectable_by_common_defenses' : t['detectable_by_common_defenses'],
-                    'detectable_explanation' : t['detectable_explanation'],
-                    'difficulty_for_adversary' : t['difficulty_for_adversary'],
-                    'difficulty_explanation': t['difficulty_explanation'],
-                    'tactic_type' : t['tactic_type']
-                }
-                all_mitigations_mitigate.append(all_techniques_dict)
+                all_mitigations_mitigate.append(t)
         return all_mitigations_mitigate
 
 # ******** Enterprise Matrix Functions ********
@@ -407,17 +408,23 @@ class attack_client(object):
         return mobile_relationships
 
 # ******** Custom Functions ********
-    def get_technique_by_name(self, name):
-        filter_objects = [
-            Filter('type', '=', 'attack-pattern'),
-            Filter('name', '=', name)
-        ]
-        enterprise_stix_objects = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
-        pre_stix_objects = self.TC_PRE_SOURCE.query(filter_objects)
-        mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
-        all_stix_objects = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
-        all_stix_objects = self.parse_stix_objects(all_stix_objects, "techniques")
-        return all_stix_objects
+    def get_technique_by_name(self, name, case=True):
+        if not case:
+            all_techniques = self.get_all_techniques()
+            for tech in all_techniques:
+                if name.lower() in tech['technique'].lower():
+                    return tech
+        else:
+            filter_objects = [
+                Filter('type', '=', 'attack-pattern'),
+                Filter('name', '=', name)
+            ]
+            enterprise_stix_objects = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
+            pre_stix_objects = self.TC_PRE_SOURCE.query(filter_objects)
+            mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
+            all_stix_objects = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
+            all_stix_objects = self.parse_stix_objects(all_stix_objects, "techniques")
+            return all_stix_objects
 
     def get_object_by_attack_id(self, object_type, attack_id):
         valid_objects = {'attack-pattern','course-of-action','intrusion-set','malware','tool'}
@@ -444,17 +451,23 @@ class attack_client(object):
             all_stix_objects = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
             return all_stix_objects
 
-    def get_group_by_alias(self, group_alias):
-        filter_objects = [
-            Filter('type', '=', 'intrusion-set'),
-            Filter('aliases', '=', group_alias)
-        ]
-        enterprise_stix_objects = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
-        pre_stix_objects = self.TC_PRE_SOURCE.query(filter_objects)
-        mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
-        all_stix_objects = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
-        all_stix_objects = self.parse_stix_objects(all_stix_objects, 'groups')
-        return all_stix_objects
+    def get_group_by_alias(self, group_alias, case=True):
+        if not case:
+            all_groups = self.get_all_groups()
+            for group in all_groups:
+                if group_alias.lower() in group['group_aliases'].lower():
+                    return group
+        else:
+            filter_objects = [
+                Filter('type', '=', 'intrusion-set'),
+                Filter('aliases', '=', group_alias)
+            ]
+            enterprise_stix_objects = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
+            pre_stix_objects = self.TC_PRE_SOURCE.query(filter_objects)
+            mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
+            all_stix_objects = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
+            all_stix_objects = self.parse_stix_objects(all_stix_objects, 'groups')
+            return all_stix_objects
 
     def get_relationships_by_object(self, stix_object):
         valid_objects = {'groups','software','mitigations'}
@@ -470,6 +483,8 @@ class attack_client(object):
                         if g['id'] == r['source_object'] and r['relationship'] == 'uses':
                             all_groups_relationships_dict = {
                                 'target_object' : r['target_object'],
+                                'relationship_id': r['id'],
+                                'relationship': r['relationship'],
                                 'relationship_description' : r['relationship_description'],
                                 'matrix': g['matrix'],
                                 'url': g['url'],
@@ -488,6 +503,8 @@ class attack_client(object):
                         if s['id'] == r['source_object'] and r['relationship'] == 'uses':
                             all_software_relationships_dict = {
                                 'target_object' : r['target_object'],
+                                'relationship_id': r['id'],
+                                'relationship': r['relationship'],
                                 'relationship_description' : r['relationship_description'],
                                 'software_type': s['type'],
                                 'matrix': s['matrix'],
@@ -497,7 +514,8 @@ class attack_client(object):
                                 'software_id': s['software_id'],
                                 'url': s['url'],
                                 'software_aliases': s['software_aliases'],
-                                'software_references': s['software_references']
+                                'software_references': s['software_references'],
+                                'software_platform': s['software_platform']
                             }
                             all_relationships.append(all_software_relationships_dict)
             else:
@@ -508,24 +526,18 @@ class attack_client(object):
                         if m['id'] == r['source_object'] and r['relationship'] == 'mitigates':
                             all_mitigations_relationships_dict = {
                                 'target_object' : r['target_object'],
+                                'relationship_id': r['id'],
+                                'relationship': r['relationship'],
+                                'relationship_description' : r['relationship_description'],   
                                 'matrix': m['matrix'],
                                 'mitigation': m['mitigation'],
                                 'mitigation_description': m['mitigation_description'],
-                                'mitigation_id': m['mitigation_id'],
                                 'mitigation_references': m['mitigation_references']
                             }
                             all_relationships.append(all_mitigations_relationships_dict)
             return all_relationships
-    
-    def get_all_data_sources(self):
-        techniques = self.get_all_techniques()
-        data_sources = []
-        for t in techniques:
-            for ds in t['data_sources'] or []:
-                data_sources.append(ds.lower())
-        return list(set(data_sources))
 
-    def get_techniques_used_by_software(self, software_name=None):
+    def get_techniques_used_by_software(self, software_name=None, case=True):
         all_software_use = []
         all_techniques_used = []
         all_software_relationships = self.get_relationships_by_object('software')
@@ -535,41 +547,53 @@ class attack_client(object):
                 if t['id'] == sr['target_object']:
                     all_software_use_dict = {
                         'matrix': t['matrix'],
+                        'relationship_id': sr['relationship_id'],
+                        'target_object': sr['target_object'],
                         'relationship_description': sr['relationship_description'],
+                        'relationship': sr['relationship'],
                         'software': sr['software'],
                         'software_description': sr['software_description'],
                         'software_labels':sr['software_labels'],
                         'software_id': sr['software_id'],
                         'software_aliases': sr['software_aliases'],
                         'software_references': sr['software_references'],
-                        'technique' : t['technique'],
-                        'technique_description' : t['technique_description'],
+                        'software_platform': sr['software_platform'],
+                        'technique': t['technique'],
+                        'technique_description': t['technique_description'],
+                        'technique_detection': t['technique_detection'],
                         'tactic' : t['tactic'],
-                        'technique_id' : t['technique_id'],
                         'url' : t['url'],
-                        #'platform' : t['platform'],
-                        #'data_sources' : t['data_sources'],
-                        #'defense_bypassed' : t['defense_bypassed'],
-                        #'permissions_required' : t['permissions_required'],
-                        #'effective_permissions' : t['effective_permissions'],
-                        #'system_requirements' : t['system_requirements'],
-                        #'network_requirements' : t['network_requirements'],
-                        #'remote_support' : t['remote_support'],
-                        #'contributors' : t['contributors'],
-                        #'technique_references' : t['technique_references'],
-                        #'detectable_by_common_defenses' : t['detectable_by_common_defenses'],
-                        #'detectable_explanation' : t['detectable_explanation'],
-                        #'difficulty_for_adversary' : t['difficulty_for_adversary'],
-                        #'difficulty_explanation': t['difficulty_explanation'],
-                        #'tactic_type' : t['tactic_type']
+                        'technique_id' : t['technique_id'],
+                        'capec_id': t['capec_id'],
+                        'capec_url': t['capec_url'],
+                        'platform' : t['platform'],
+                        'data_sources' : t['data_sources'],
+                        'defense_bypassed' : t['defense_bypassed'],
+                        'permissions_required' : t['permissions_required'],
+                        'effective_permissions' : t['effective_permissions'],
+                        'system_requirements' : t['system_requirements'],
+                        'network_requirements' : t['network_requirements'],
+                        'remote_support' : t['remote_support'],
+                        'contributors' : t['contributors'],
+                        'technique_references' : t['technique_references'],
+                        'detectable_by_common_defenses' : t['detectable_by_common_defenses'],
+                        'detectable_explanation' : t['detectable_explanation'],
+                        'difficulty_for_adversary' : t['difficulty_for_adversary'],
+                        'difficulty_explanation': t['difficulty_explanation'],
+                        'tactic_type' : t['tactic_type']
                     }
                     all_software_use.append(all_software_use_dict)
         if software_name is None:
             return all_software_use
         else:
-            for sn in all_software_use:
-                if software_name.lower() in sn['software'].lower():
-                    all_techniques_used.append(sn)
+            if not case:
+                for sn in all_software_use:
+                    if software_name.lower() in sn['software'].lower():
+                        all_techniques_used.append(sn)
+            else:
+                for sn in all_software_use:
+                    if software_name in sn['software']:
+                        all_techniques_used.append(sn)
             return all_techniques_used
     
     def get_techniques_used_by_group(self, group_name=None):
@@ -582,32 +606,38 @@ class attack_client(object):
                 if t['id'] == gr['target_object']:
                     all_groups_use_dict = {
                         'matrix': t['matrix'],
+                        'relationship_id': gr['relationship_id'],
+                        'target_object': gr['target_object'],
                         'relationship_description': gr['relationship_description'],
+                        'relationship': gr['relationship'],
                         'group': gr['group'],
                         'group_description': gr['group_description'],
                         'group_aliases': gr['group_aliases'],
                         'group_id': gr['group_id'],
                         'group_references': gr['group_references'],
-                        'technique' : t['technique'],
-                        'technique_description' : t['technique_description'],
+                        'technique': t['technique'],
+                        'technique_description': t['technique_description'],
+                        'technique_detection': t['technique_detection'],
                         'tactic' : t['tactic'],
-                        'technique_id' : t['technique_id'],
                         'url' : t['url'],
-                        #'platform' : t['platform'],
-                        #'data_sources' : t['data_sources'],
-                        #'defense_bypassed' : t['defense_bypassed'],
-                        #'permissions_required' : t['permissions_required'],
-                        #'effective_permissions' : t['effective_permissions'],
-                        #'system_requirements' : t['system_requirements'],
-                        #'network_requirements' : t['network_requirements'],
-                        #'remote_support' : t['remote_support'],
-                        #'contributors' : t['contributors'],
-                        #'technique_references' : t['technique_references'],
-                        #'detectable_by_common_defenses' : t['detectable_by_common_defenses'],
-                        #'detectable_explanation' : t['detectable_explanation'],
-                        #'difficulty_for_adversary' : t['difficulty_for_adversary'],
-                        #'difficulty_explanation': t['difficulty_explanation'],
-                        #'tactic_type' : t['tactic_type']
+                        'technique_id' : t['technique_id'],
+                        'capec_id': t['capec_id'],
+                        'capec_url': t['capec_url'],
+                        'platform' : t['platform'],
+                        'data_sources' : t['data_sources'],
+                        'defense_bypassed' : t['defense_bypassed'],
+                        'permissions_required' : t['permissions_required'],
+                        'effective_permissions' : t['effective_permissions'],
+                        'system_requirements' : t['system_requirements'],
+                        'network_requirements' : t['network_requirements'],
+                        'remote_support' : t['remote_support'],
+                        'contributors' : t['contributors'],
+                        'technique_references' : t['technique_references'],
+                        'detectable_by_common_defenses' : t['detectable_by_common_defenses'],
+                        'detectable_explanation' : t['detectable_explanation'],
+                        'difficulty_for_adversary' : t['difficulty_for_adversary'],
+                        'difficulty_explanation': t['difficulty_explanation'],
+                        'tactic_type' : t['tactic_type']
                     }
                     all_groups_use.append(all_groups_use_dict)
         if group_name is None:
@@ -642,38 +672,15 @@ class attack_client(object):
                         'software_labels':s['software_labels'],
                         'software_id': s['software_id'],
                         'software_aliases': s['software_aliases'],
-                        'software_references': s['software_references']
+                        'software_references': s['software_references'],
+                        'software_platform': s['software_platform']
                     }
                     all_groups_software_use.append(all_groups_software)
-        for st in software_techniques:
-            for gs in all_groups_software_use:
-                if gs['software_id'] == st['software_id']:
-                    all_software_technique = {
-                        'matrix': gs['matrix'],
-                        'relationship_description': gs['relationship_description'],                       
-                        'group': gs['group'],
-                        'group_description': gs['group_description'],
-                        'group_aliases': gs['group_aliases'],
-                        'group_id': gs['group_id'],
-                        'group_references': gs['group_references'],
-                        'software url': gs['software_url'],
-                        'software': gs['software'],
-                        'software_description': gs['software_description'],
-                        'software_labels':gs['software_labels'],
-                        'software_id': gs['software_id'],
-                        'software_aliases': gs['software_aliases'],
-                        'software_references': gs['software_references'],
-                        'technique' : st['technique'],
-                        'technique_description' : st['technique_description'],
-                        'tactic' : st['tactic'],
-                        'technique_id' : st['technique_id']
-                    }
-                    all_groups_use.append(all_software_technique)
 
         if group_name is None:
-            return all_groups_use
+            return all_groups_software_use
         else:
-            for gn in all_groups_use:
+            for gn in all_groups_software_use:
                 if group_name.lower() in gn['group'].lower():
                     all_software_used.append(gn)
             return all_software_used
@@ -689,6 +696,14 @@ class attack_client(object):
             techniques = self.get_techniques_used_by_group(group_name)
             all_used = software + techniques
         return all_used
+    
+    def get_all_data_sources(self):
+        techniques = self.get_all_techniques()
+        data_sources = []
+        for t in techniques:
+            for ds in t['data_sources'] or []:
+                data_sources.append(ds.lower())
+        return list(set(data_sources))
 
     def get_techniques_by_datasources(self, data_sources):
         techniques_results = []
