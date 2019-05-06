@@ -151,14 +151,6 @@ class attack_client(object):
             "name": "identity",
             "identity_class": "identity_class"
         }
-        attack_stix_mapping = {
-            "attack-pattern": "technique",
-            "course-of-action": "mitigation",
-            "intrusion-set": "group",
-            "malware": "software",
-            "tool": "software",
-            "relationship": "relationship"
-        }
 
         # ******** Helper Functions ********
         def handle_list(list_object, object_type):
@@ -182,7 +174,10 @@ class attack_client(object):
                 elif obj_dict['type'] == 'matrix':
                     obj_dict['matrix_id'] = list_object[0]['external_id']
             elif object_type == "kill_chain_phases":
-                obj_dict['tactic'] = list_object[0]['phase_name']
+                tactic_list = list()
+                for phase in list_object:
+                    tactic_list.append(phase['phase_name'])
+                obj_dict['tactic'] = tactic_list
 
         stix_objects_list = list()
         for obj in stix_objects:
@@ -193,8 +188,7 @@ class attack_client(object):
             dict_keys =  list(obj_dict.keys())
             for key in dict_keys:
                 if obj['type'] == "attack-pattern":
-                    if obj['revoked'] == False:
-                        stix_mapping = technique_stix_mapping
+                    stix_mapping = technique_stix_mapping
                 elif obj['type'] == "course-of-action":
                     stix_mapping = mitigation_stix_mapping
                 elif obj['type'] == "intrusion-set":
@@ -223,6 +217,20 @@ class attack_client(object):
             stix_objects_list.append(obj_dict)
         return stix_objects_list
 
+    def remove_revoked(self, stix_objects):
+        no_revoked = list()
+        for obj in stix_objects:
+            if 'revoked' not in obj.keys():
+                no_revoked.append(obj)
+        return no_revoked
+    
+    def extract_revoked(self, stix_objects):
+        extract_revoked = list()
+        for obj in stix_objects:
+            if 'revoked' in obj.keys():
+                extract_revoked.append(obj)
+        return extract_revoked
+
     # ******** Enterprise ATT&CK Technology Domain  *******
     def get_all_enterprise(self, stix_format=True):
         enterprise_filter_objects = {
@@ -239,7 +247,7 @@ class attack_client(object):
         }
         enterprise_stix_objects = {}
         for key in enterprise_filter_objects:
-            enterprise_stix_objects[key] = self.TC_ENTERPRISE_SOURCE.query(enterprise_filter_objects[key])
+            enterprise_stix_objects[key] = (self.TC_ENTERPRISE_SOURCE.query(enterprise_filter_objects[key]))
             if not stix_format:
                 enterprise_stix_objects[key] = self.translate_stix_objects(enterprise_stix_objects[key])
         return enterprise_stix_objects
@@ -393,21 +401,22 @@ class attack_client(object):
 
     # ******** Get All Functions ********
     def get_all_stix_objects(self, stix_format=True):
-        techniques_pre_keys = {"techniques","groups","relationships"}
-        techniques_mobile_keys = {"techniques","mitigations","groups","malware","tools","relationships"}
         enterprise_objects = self.get_all_enterprise()
         pre_objects = self.get_all_pre()
         mobile_objects = self.get_all_mobile()
-        for key in techniques_pre_keys:
-            for pre in pre_objects[key]:
-                if pre not in enterprise_objects[key]:
-                    enterprise_objects[key].append(pre)
-        for key in techniques_mobile_keys:
-            for m in mobile_objects[key]:
-                if m not in enterprise_objects[key]:
-                    enterprise_objects[key].append(m)
+        for keypre in pre_objects.keys():
+            for preobj in pre_objects[keypre]:
+                if keypre in enterprise_objects.keys():
+                    if preobj not in enterprise_objects[keypre]:
+                        enterprise_objects[keypre].append(preobj)
+        for keymob in mobile_objects.keys():
+            for mobobj in mobile_objects[keymob]:
+                if keymob in enterprise_objects.keys():
+                    if mobobj not in enterprise_objects[keymob]:
+                        enterprise_objects[keymob].append(mobobj)
         if not stix_format:
-            enterprise_objects = self.translate_stix_objects(enterprise_objects)
+            for enterkey in enterprise_objects.keys():
+                enterprise_objects[enterkey] = self.translate_stix_objects(enterprise_objects[enterkey])
         return enterprise_objects
     
     def get_all_techniques(self, stix_format=True):
