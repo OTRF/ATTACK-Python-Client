@@ -171,7 +171,7 @@ This python wrapper allows ATT&amp;CK users to query STIX content from the ATT&a
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Python3</li>
+<li><p>Python3</p></li>
 </ul>
 </div>
 <div class="section" id="installation">
@@ -192,7 +192,7 @@ $ pip install .
 <p>You can simply import the <code class="docutils literal notranslate"><span class="pre">attackcti</span></code> library and start retrieving ATT&amp;CK content in STIX from its public TAXII server:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">all_enterprise</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_all_enterprise</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">all_enterprise</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise</span><span class="p">()</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">all_enterprise</span><span class="p">)</span>
 <span class="go">10</span>
@@ -255,7 +255,7 @@ $ pip install .
 </pre></div>
 </div>
 <p>However, you can use the available <code class="docutils literal notranslate"><span class="pre">stix_format</span></code> parameter and set it to <code class="docutils literal notranslate"><span class="pre">False</span></code>  to return a dictionary and with a more friendly field name schema as shown below:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">all_enterprise_friendly</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_all_enterprise</span><span class="p">(</span><span class="n">stix_format</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">all_enterprise_friendly</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise</span><span class="p">(</span><span class="n">stix_format</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">all_enterprise_friendly</span><span class="p">[</span><span class="s1">&#39;techniques&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 <span class="go">&lt;class &#39;dict&#39;&gt;</span>
 
@@ -314,7 +314,7 @@ $ pip install .
 <h2>Notebooks<a class="headerlink" href="#notebooks" title="Permalink to this headline">¶</a></h2>
 <p>I put together a few Jupyte notebooks for you to learn a little bit more about a few of the functions available in the <code class="docutils literal notranslate"><span class="pre">attackcti</span></code> library:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/Cyb3rWard0g/ATTACK-Python-Client/tree/master/notebooks">Notebooks</a></li>
+<li><p><a class="reference external" href="https://github.com/Cyb3rWard0g/ATTACK-Python-Client/tree/master/notebooks">Notebooks</a></p></li>
 </ul>
 </div>
 </div>

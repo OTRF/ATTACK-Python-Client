@@ -35,7 +35,7 @@ You can simply import the ``attackcti`` library and start retrieving ATT&CK cont
 
     >>> from attackcti import attack_client
     >>> lift = attack_client()
-    >>> all_enterprise = lift.get_all_enterprise()
+    >>> all_enterprise = lift.get_enterprise()
 
     >>> len(all_enterprise)
     10
@@ -102,7 +102,7 @@ However, you can use the available ``stix_format`` parameter and set it to ``Fal
 
 .. code-block:: python
 
-    >>> all_enterprise_friendly = lift.get_all_enterprise(stix_format=False)
+    >>> all_enterprise_friendly = lift.get_enterprise(stix_format=False)
     >>> type(all_enterprise_friendly['techniques'][0])
     <class 'dict'>
  

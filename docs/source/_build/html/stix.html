@@ -177,57 +177,57 @@
 <p>STIX Objects categorize each piece of information with specific attributes to be populated.
 Chaining multiple objects together through relationships allow for easy or complex representations of CTI.</p>
 <ul class="simple">
-<li><strong>Attack Pattern</strong>: A type of Tactics, Techniques, and Procedures (TTP) that describes ways threat actors attempt to compromise targets.</li>
-<li><strong>Campaign</strong>: A grouping of adversarial behaviors that describes a set of malicious activities or attacks that occur over a period of time against a specific set of targets.</li>
-<li><strong>Course of Action</strong>: An action taken to either prevent an attack or respond to an attack.</li>
-<li><strong>Identity</strong>: Individuals, organizations, or groups, as well as classes of individuals, organizations, or groups.</li>
-<li><strong>Indicator</strong>: Contains a pattern that can be used to detect suspicious or malicious cyber activity.</li>
-<li><strong>Intrusion Set</strong>: A grouped set of adversarial behaviors and resources with common properties believed to be orchestrated by a single threat actor.</li>
-<li><strong>Malware</strong>: A type of TTP, also known as malicious code and malicious software, used to compromise the confidentiality, integrity, or availability of a victim’s data or system.</li>
-<li><strong>Observed Data</strong>: Conveys information observed on a system or network (e.g., an IP address).</li>
-<li><strong>Report</strong>: Collections of threat intelligence focused on one or more topics, such as a description of a threat actor, malware, or attack technique, including contextual details.</li>
-<li><strong>Threat Actor</strong>: Individuals, groups, or organizations believed to be operating with malicious intent.</li>
-<li><strong>Tool</strong>: Legitimate software that can be used by threat actors to perform attacks.</li>
-<li><strong>Vulnerability</strong>: A mistake in software that can be directly used by a hacker to gain access to a system or network.</li>
+<li><p><strong>Attack Pattern</strong>: A type of Tactics, Techniques, and Procedures (TTP) that describes ways threat actors attempt to compromise targets.</p></li>
+<li><p><strong>Campaign</strong>: A grouping of adversarial behaviors that describes a set of malicious activities or attacks that occur over a period of time against a specific set of targets.</p></li>
+<li><p><strong>Course of Action</strong>: An action taken to either prevent an attack or respond to an attack.</p></li>
+<li><p><strong>Identity</strong>: Individuals, organizations, or groups, as well as classes of individuals, organizations, or groups.</p></li>
+<li><p><strong>Indicator</strong>: Contains a pattern that can be used to detect suspicious or malicious cyber activity.</p></li>
+<li><p><strong>Intrusion Set</strong>: A grouped set of adversarial behaviors and resources with common properties believed to be orchestrated by a single threat actor.</p></li>
+<li><p><strong>Malware</strong>: A type of TTP, also known as malicious code and malicious software, used to compromise the confidentiality, integrity, or availability of a victim’s data or system.</p></li>
+<li><p><strong>Observed Data</strong>: Conveys information observed on a system or network (e.g., an IP address).</p></li>
+<li><p><strong>Report</strong>: Collections of threat intelligence focused on one or more topics, such as a description of a threat actor, malware, or attack technique, including contextual details.</p></li>
+<li><p><strong>Threat Actor</strong>: Individuals, groups, or organizations believed to be operating with malicious intent.</p></li>
+<li><p><strong>Tool</strong>: Legitimate software that can be used by threat actors to perform attacks.</p></li>
+<li><p><strong>Vulnerability</strong>: A mistake in software that can be directly used by a hacker to gain access to a system or network.</p></li>
 </ul>
 <p>STIX also defines two relationship objects (SROs)</p>
 <ul class="simple">
-<li>Relationship: Used to link two SDOs and to describe how they are related to each other.</li>
-<li>Sighting: Denotes the belief that an element of CTI was seen (e.g., indicator, malware).</li>
+<li><p>Relationship: Used to link two SDOs and to describe how they are related to each other.</p></li>
+<li><p>Sighting: Denotes the belief that an element of CTI was seen (e.g., indicator, malware).</p></li>
 </ul>
 </div>
 <div class="section" id="stix-att-ck">
 <h2>STIX &amp; ATT&amp;CK<a class="headerlink" href="#stix-att-ck" title="Permalink to this headline">¶</a></h2>
 <p>The ATT&amp;CK framework is now available on a public TAXII server, and the content is in STIX2 format.
 Therefore, the ATT&amp;Ck team had to map/translate ATT&amp;CK objects and properties to STIX 2.0 objects and properties syntax.</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="44%" />
-<col width="56%" />
+<col style="width: 44%" />
+<col style="width: 56%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">ATT&amp;CK Concept</th>
-<th class="head">STIX Object Type</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>ATT&amp;CK Concept</p></th>
+<th class="head"><p>STIX Object Type</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>Technique</td>
-<td>attack-pattern</td>
+<tbody>
+<tr class="row-even"><td><p>Technique</p></td>
+<td><p>attack-pattern</p></td>
 </tr>
-<tr class="row-odd"><td>Group</td>
-<td>intrusion-set</td>
+<tr class="row-odd"><td><p>Group</p></td>
+<td><p>intrusion-set</p></td>
 </tr>
-<tr class="row-even"><td>Software</td>
-<td>malware or tool</td>
+<tr class="row-even"><td><p>Software</p></td>
+<td><p>malware or tool</p></td>
 </tr>
-<tr class="row-odd"><td>Mitigation</td>
-<td>course-of-action</td>
+<tr class="row-odd"><td><p>Mitigation</p></td>
+<td><p>course-of-action</p></td>
 </tr>
-<tr class="row-even"><td>Tactic</td>
-<td>x-mitre-tractic</td>
+<tr class="row-even"><td><p>Tactic</p></td>
+<td><p>x-mitre-tractic</p></td>
 </tr>
-<tr class="row-odd"><td>Matrix</td>
-<td>x-mitre-matrix</td>
+<tr class="row-odd"><td><p>Matrix</p></td>
+<td><p>x-mitre-matrix</p></td>
 </tr>
 </tbody>
 </table>
@@ -237,13 +237,13 @@ The <code class="docutils literal notranslate"><span class="pre">get_object</spa
 However, the cti-python-stix2 library provides a more dynamic and flexible filtering capability to retrieve ATT&amp;CK content by specific STIX objects such as <code class="docutils literal notranslate"><span class="pre">attack-patterns</span></code>, <code class="docutils literal notranslate"><span class="pre">intrusion-set</span></code>, <code class="docutils literal notranslate"><span class="pre">x-mitre-matrix</span></code>, etc.</p>
 <p>ATT&amp;CK users can use the cti-python-stix2 library to retrieve STIX 2.0 data, but they must first reference a STIX <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Source</span></code>.</p>
 <ul class="simple">
-<li>Data Sources represent locations from which STIX data can be retrieved.</li>
-<li>The STIX library comes with a TAXIICollection suite that contains TAXIICollectionStore, TAXIICollectionSource, and TAXIICollectionSink classes.</li>
-<li>The TAXIICollection suite supports searching on all STIX2 common object properties. This works simply by augmenting the filtering that is done remotely at the TAXII2 server instance.</li>
-<li>The TAXIICollection will seperate any supplied queries into TAXII supported filters and non-supported filters.</li>
-<li>During a TAXIICollection API call, TAXII2 supported filters get inserted into the TAXII2 server request (to be evaluated at the server). The rest of the filters are kept locally and then applied to the STIX2 content that is returned from the TAXII2 server, before being returned from the TAXIICollection API call.</li>
-<li>The TAXIICollectionSource class retrieves STIX content from local/remote TAXII Collection(s)</li>
-<li>The TAXIICollectionSource class can be used with a <code class="docutils literal notranslate"><span class="pre">Collection</span></code> object that can be instantiated by the taxii client library.</li>
+<li><p>Data Sources represent locations from which STIX data can be retrieved.</p></li>
+<li><p>The STIX library comes with a TAXIICollection suite that contains TAXIICollectionStore, TAXIICollectionSource, and TAXIICollectionSink classes.</p></li>
+<li><p>The TAXIICollection suite supports searching on all STIX2 common object properties. This works simply by augmenting the filtering that is done remotely at the TAXII2 server instance.</p></li>
+<li><p>The TAXIICollection will seperate any supplied queries into TAXII supported filters and non-supported filters.</p></li>
+<li><p>During a TAXIICollection API call, TAXII2 supported filters get inserted into the TAXII2 server request (to be evaluated at the server). The rest of the filters are kept locally and then applied to the STIX2 content that is returned from the TAXII2 server, before being returned from the TAXIICollection API call.</p></li>
+<li><p>The TAXIICollectionSource class retrieves STIX content from local/remote TAXII Collection(s)</p></li>
+<li><p>The TAXIICollectionSource class can be used with a <code class="docutils literal notranslate"><span class="pre">Collection</span></code> object that can be instantiated by the taxii client library.</p></li>
 </ul>
 </div>
 <div class="section" id="query-att-ck">
@@ -399,12 +399,12 @@ However, the cti-python-stix2 library provides a more dynamic and flexible filte
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference external" href="https://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/attck%E2%84%A2-content-available-in-stix%E2%84%A2-20-via">https://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/attck%E2%84%A2-content-available-in-stix%E2%84%A2-20-via</a></li>
-<li><a class="reference external" href="https://oasis-open.github.io/cti-documentation/stix/intro">https://oasis-open.github.io/cti-documentation/stix/intro</a></li>
-<li><a class="reference external" href="https://docs.google.com/document/d/1IvkLxg_tCnICsatu2lyxKmWmh1gY2h8HUNssKIE-UIA/edit#heading=h.axjijf603msy">https://docs.google.com/document/d/1IvkLxg_tCnICsatu2lyxKmWmh1gY2h8HUNssKIE-UIA/edit#heading=h.axjijf603msy</a></li>
-<li><a class="reference external" href="https://github.com/mitre/cti/blob/master/USAGE.md#mapping-concepts">https://github.com/mitre/cti/blob/master/USAGE.md#mapping-concepts</a></li>
-<li><a class="reference external" href="https://stix2.readthedocs.io/en/latest/overview.html">https://stix2.readthedocs.io/en/latest/overview.html</a></li>
-<li><a class="reference external" href="https://stix2.readthedocs.io/en/latest/api/datastore/stix2.datastore.filters.html">https://stix2.readthedocs.io/en/latest/api/datastore/stix2.datastore.filters.html</a></li>
+<li><p><a class="reference external" href="https://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/attck%E2%84%A2-content-available-in-stix%E2%84%A2-20-via">https://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/attck%E2%84%A2-content-available-in-stix%E2%84%A2-20-via</a></p></li>
+<li><p><a class="reference external" href="https://oasis-open.github.io/cti-documentation/stix/intro">https://oasis-open.github.io/cti-documentation/stix/intro</a></p></li>
+<li><p><a class="reference external" href="https://docs.google.com/document/d/1IvkLxg_tCnICsatu2lyxKmWmh1gY2h8HUNssKIE-UIA/edit#heading=h.axjijf603msy">https://docs.google.com/document/d/1IvkLxg_tCnICsatu2lyxKmWmh1gY2h8HUNssKIE-UIA/edit#heading=h.axjijf603msy</a></p></li>
+<li><p><a class="reference external" href="https://github.com/mitre/cti/blob/master/USAGE.md#mapping-concepts">https://github.com/mitre/cti/blob/master/USAGE.md#mapping-concepts</a></p></li>
+<li><p><a class="reference external" href="https://stix2.readthedocs.io/en/latest/overview.html">https://stix2.readthedocs.io/en/latest/overview.html</a></p></li>
+<li><p><a class="reference external" href="https://stix2.readthedocs.io/en/latest/api/datastore/stix2.datastore.filters.html">https://stix2.readthedocs.io/en/latest/api/datastore/stix2.datastore.filters.html</a></p></li>
 </ul>
 </div>
 </div>
