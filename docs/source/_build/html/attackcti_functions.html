@@ -1,0 +1,751 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Library Functions &mdash; attackcti 0.2.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Licenses" href="license.html" />
+    <link rel="prev" title="ATTACK CTI Overview" href="attackcti_overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> attackcti
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">OASIS CTI TC</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oasis_overview.html">OASIS Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="taxii_client.html">CTI TAXII Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stix.html">CTI STIX</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ATTACK CTI Library:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="attackcti_overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#get-enterprise-self-stix-format-true">get_enterprise(self, stix_format=True)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#get-enterprise-techniques-self-stix-format-true">get_enterprise_techniques(self, stix_format=True)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#get-enterprise-mitigations-self-stix-format-true">get_enterprise_mitigations(self, stix_format=True)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#get-enterprise-groups-self-stix-format-true">get_enterprise_groups(self, stix_format=True)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#get-all-enterprise-malware-self-stix-format-true">get_all_enterprise_malware(self, stix_format=True)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#get-data-sources-self">get_data_sources(self)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#get-techniques-by-datasources-self-args-stix-format-true">get_techniques_by_datasources(self, *args, stix_format=True)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Licenses:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">GNU General Public License V3</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">attackcti</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Library Functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/attackcti_functions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="library-functions">
+<h1>Library Functions<a class="headerlink" href="#library-functions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="get-enterprise-self-stix-format-true">
+<h2>get_enterprise(self, stix_format=True)<a class="headerlink" href="#get-enterprise-self-stix-format-true" title="Permalink to this headline">¶</a></h2>
+<p>Extracts all the available STIX objects in the Enterprise ATT&amp;CK matrix categorized in the following way:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ATT&amp;CK Format</th>
+<th class="head">STIX Format</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>technique</td>
+<td>attack-pattern</td>
+</tr>
+<tr class="row-odd"><td>mitigation</td>
+<td>course-of-action</td>
+</tr>
+<tr class="row-even"><td>group</td>
+<td>intrusion-set</td>
+</tr>
+<tr class="row-odd"><td>malware</td>
+<td>malware</td>
+</tr>
+<tr class="row-even"><td>tool</td>
+<td>tool</td>
+</tr>
+<tr class="row-odd"><td>relationship</td>
+<td>relationship</td>
+</tr>
+<tr class="row-even"><td>tactic</td>
+<td>x-mitre-tactic</td>
+</tr>
+<tr class="row-odd"><td>matrix</td>
+<td>x-mitre-tactic</td>
+</tr>
+<tr class="row-even"><td>identity</td>
+<td>identity</td>
+</tr>
+<tr class="row-odd"><td>marking-definition</td>
+<td>markinng-definition</td>
+</tr>
+</tbody>
+</table>
+<p>Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">stix_format</span></code>: returns results in original STIX format or friendly syntax (‘attack-pattern’ or ‘technique’)</li>
+</ul>
+</div></blockquote>
+<p>Returns: Dictionary</p>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="k">import</span> <span class="n">attack_client</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enterprise</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise</span><span class="p">)</span>
+<span class="go">&lt;class &#39;dict&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enterprise</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;techniques&#39;, &#39;mitigations&#39;, &#39;groups&#39;, &#39;malware&#39;, &#39;tools&#39;, &#39;relationships&#39;, &#39;tactics&#39;, &#39;matrix&#39;, &#39;identity&#39;, &#39;marking-definition&#39;])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise</span><span class="p">[</span><span class="s1">&#39;techniques&#39;</span><span class="p">])</span>
+<span class="go">&lt;class &#39;list&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise</span><span class="p">[</span><span class="s1">&#39;techniques&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">&lt;class &#39;stix2.v20.sdo.AttackPattern&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">enterprise</span><span class="p">[</span><span class="s1">&#39;techniques&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">{</span>
+<span class="go">    &quot;type&quot;: &quot;attack-pattern&quot;,</span>
+<span class="go">    &quot;id&quot;: &quot;attack-pattern--cf7b3a06-8b42-4c33-bbe9-012120027925&quot;,</span>
+<span class="go">    &quot;created_by_ref&quot;: &quot;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&quot;,</span>
+<span class="go">    &quot;created&quot;: &quot;2019-04-25T20:53:07.719Z&quot;,</span>
+<span class="go">    &quot;modified&quot;: &quot;2019-04-29T21:13:49.686Z&quot;,</span>
+<span class="go">    &quot;name&quot;: &quot;Compile After Delivery&quot;,</span>
+<span class="go">    &quot;description&quot;: &quot;Adversaries may attempt to make payloads difficult to discover and analyze by delivering files to victims as uncompiled code. Similar to [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027), text-based source code files may subvert analysis and scrutiny from protections targeting executables/binaries. These payloads will need to be compiled before execution; typically via native utilities such as csc.exe or GCC/MinGW.(Citation: ClearSky MuddyWater Nov 2018)\n\nSource code payloads may also be encrypted, encoded, and/or embedded within other files, such as those delivered as a [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193). Payloads may also be delivered in formats unrecognizable and inherently benign to the native OS (ex: EXEs on macOS/Linux) before later being (re)compiled into a proper executable binary with a bundled compiler and execution framework.(Citation: TrendMicro WindowsAppMac)\n&quot;,</span>
+<span class="go">    &quot;kill_chain_phases&quot;: [</span>
+<span class="go">        {</span>
+<span class="go">            &quot;kill_chain_name&quot;: &quot;mitre-attack&quot;,</span>
+<span class="go">            &quot;phase_name&quot;: &quot;defense-evasion&quot;</span>
+<span class="go">        }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;external_references&quot;: [</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;mitre-attack&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://attack.mitre.org/techniques/T1500&quot;,</span>
+<span class="go">            &quot;external_id&quot;: &quot;T1500&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;ClearSky MuddyWater Nov 2018&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;ClearSky Cyber Security. (2018, November). MuddyWater Operations in Lebanon and Oman: Using an Israeli compromised domain for a two-stage campaign. Retrieved November 29, 2018.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://www.clearskysec.com/wp-content/uploads/2018/11/MuddyWater-Operations-in-Lebanon-and-Oman.pdf&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;TrendMicro WindowsAppMac&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;Trend Micro. (2019, February 11). Windows App Runs on Mac, Downloads Info Stealer and Adware. Retrieved April 25, 2019.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://blog.trendmicro.com/trendlabs-security-intelligence/windows-app-runs-on-mac-downloads-info-stealer-and-adware/&quot;</span>
+<span class="go">        }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;object_marking_refs&quot;: [</span>
+<span class="go">        &quot;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_contributors&quot;: [</span>
+<span class="go">        &quot;Ye Yint Min Thu Htut, Offensive Security Team, DBS Bank&quot;,</span>
+<span class="go">        &quot;Praetorian&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_data_sources&quot;: [</span>
+<span class="go">        &quot;Process command-line parameters&quot;,</span>
+<span class="go">        &quot;Process monitoring&quot;,</span>
+<span class="go">        &quot;File monitoring&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_defense_bypassed&quot;: [</span>
+<span class="go">        &quot;Static File Analysis&quot;,</span>
+<span class="go">        &quot;Binary Analysis&quot;,</span>
+<span class="go">        &quot;Anti-virus&quot;,</span>
+<span class="go">        &quot;Host intrusion prevention systems&quot;,</span>
+<span class="go">        &quot;Signature-based detection&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_detection&quot;: &quot;Monitor the execution file paths and command-line arguments for common compilers, such as csc.exe and GCC/MinGW, and correlate with other suspicious behavior to reduce false positives from normal user and administrator behavior. The compilation of payloads may also generate file creation and/or file write events. Look for non-native binary formats and cross-platform compiler and execution frameworks like Mono and determine if they have a legitimate purpose on the system.(Citation: TrendMicro WindowsAppMac) Typically these should only be used in specific and limited cases, like for software development.&quot;,</span>
+<span class="go">    &quot;x_mitre_permissions_required&quot;: [</span>
+<span class="go">        &quot;User&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_platforms&quot;: [</span>
+<span class="go">        &quot;Linux&quot;,</span>
+<span class="go">        &quot;macOS&quot;,</span>
+<span class="go">        &quot;Windows&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_system_requirements&quot;: [</span>
+<span class="go">        &quot;Compiler software (either native to the system or delivered by the adversary)&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_version&quot;: &quot;1.0&quot;</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="get-enterprise-techniques-self-stix-format-true">
+<h2>get_enterprise_techniques(self, stix_format=True)<a class="headerlink" href="#get-enterprise-techniques-self-stix-format-true" title="Permalink to this headline">¶</a></h2>
+<p>Extracts all the available techniques STIX objects in the Enterprise ATT&amp;CK matrix</p>
+<p>Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">stix_format</span></code>: returns results in original STIX format or friendly syntax (‘attack-pattern’ or ‘technique’)</li>
+</ul>
+</div></blockquote>
+<p>Returns: List of stix2 objects</p>
+<div class="section" id="id1">
+<h3>Examples<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="k">import</span> <span class="n">attack_client</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enterprise_techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_techniques</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise_techniques</span><span class="p">)</span>
+<span class="go">&lt;class &#39;list&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise_techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">&lt;class &#39;stix2.v20.sdo.AttackPattern&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">enterprise_techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">{</span>
+<span class="go">    &quot;type&quot;: &quot;attack-pattern&quot;,</span>
+<span class="go">    &quot;id&quot;: &quot;attack-pattern--cf7b3a06-8b42-4c33-bbe9-012120027925&quot;,</span>
+<span class="go">    &quot;created_by_ref&quot;: &quot;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&quot;,</span>
+<span class="go">    &quot;created&quot;: &quot;2019-04-25T20:53:07.719Z&quot;,</span>
+<span class="go">    &quot;modified&quot;: &quot;2019-04-29T21:13:49.686Z&quot;,</span>
+<span class="go">    &quot;name&quot;: &quot;Compile After Delivery&quot;,</span>
+<span class="go">    &quot;description&quot;: &quot;Adversaries may attempt to make payloads difficult to discover and analyze by delivering files to victims as uncompiled code. Similar to [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027), text-based source code files may subvert analysis and scrutiny from protections targeting executables/binaries. These payloads will need to be compiled before execution; typically via native utilities such as csc.exe or GCC/MinGW.(Citation: ClearSky MuddyWater Nov 2018)\n\nSource code payloads may also be encrypted, encoded, and/or embedded within other files, such as those delivered as a [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193). Payloads may also be delivered in formats unrecognizable and inherently benign to the native OS (ex: EXEs on macOS/Linux) before later being (re)compiled into a proper executable binary with a bundled compiler and execution framework.(Citation: TrendMicro WindowsAppMac)\n&quot;,</span>
+<span class="go">    &quot;kill_chain_phases&quot;: [</span>
+<span class="go">        {</span>
+<span class="go">            &quot;kill_chain_name&quot;: &quot;mitre-attack&quot;,</span>
+<span class="go">            &quot;phase_name&quot;: &quot;defense-evasion&quot;</span>
+<span class="go">        }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;external_references&quot;: [</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;mitre-attack&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://attack.mitre.org/techniques/T1500&quot;,</span>
+<span class="go">            &quot;external_id&quot;: &quot;T1500&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;ClearSky MuddyWater Nov 2018&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;ClearSky Cyber Security. (2018, November). MuddyWater Operations in Lebanon and Oman: Using an Israeli compromised domain for a two-stage campaign. Retrieved November 29, 2018.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://www.clearskysec.com/wp-content/uploads/2018/11/MuddyWater-Operations-in-Lebanon-and-Oman.pdf&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;TrendMicro WindowsAppMac&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;Trend Micro. (2019, February 11). Windows App Runs on Mac, Downloads Info Stealer and Adware. Retrieved April 25, 2019.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://blog.trendmicro.com/trendlabs-security-intelligence/windows-app-runs-on-mac-downloads-info-stealer-and-adware/&quot;</span>
+<span class="go">        }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;object_marking_refs&quot;: [</span>
+<span class="go">        &quot;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_contributors&quot;: [</span>
+<span class="go">        &quot;Ye Yint Min Thu Htut, Offensive Security Team, DBS Bank&quot;,</span>
+<span class="go">        &quot;Praetorian&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_data_sources&quot;: [</span>
+<span class="go">        &quot;Process command-line parameters&quot;,</span>
+<span class="go">        &quot;Process monitoring&quot;,</span>
+<span class="go">        &quot;File monitoring&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_defense_bypassed&quot;: [</span>
+<span class="go">        &quot;Static File Analysis&quot;,</span>
+<span class="go">        &quot;Binary Analysis&quot;,</span>
+<span class="go">        &quot;Anti-virus&quot;,</span>
+<span class="go">        &quot;Host intrusion prevention systems&quot;,</span>
+<span class="go">        &quot;Signature-based detection&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_detection&quot;: &quot;Monitor the execution file paths and command-line arguments for common compilers, such as csc.exe and GCC/MinGW, and correlate with other suspicious behavior to reduce false positives from normal user and administrator behavior. The compilation of payloads may also generate file creation and/or file write events. Look for non-native binary formats and cross-platform compiler and execution frameworks like Mono and determine if they have a legitimate purpose on the system.(Citation: TrendMicro WindowsAppMac) Typically these should only be used in specific and limited cases, like for software development.&quot;,</span>
+<span class="go">    &quot;x_mitre_permissions_required&quot;: [</span>
+<span class="go">        &quot;User&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_platforms&quot;: [</span>
+<span class="go">        &quot;Linux&quot;,</span>
+<span class="go">        &quot;macOS&quot;,</span>
+<span class="go">        &quot;Windows&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_system_requirements&quot;: [</span>
+<span class="go">        &quot;Compiler software (either native to the system or delivered by the adversary)&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_version&quot;: &quot;1.0&quot;</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="get-enterprise-mitigations-self-stix-format-true">
+<h2>get_enterprise_mitigations(self, stix_format=True)<a class="headerlink" href="#get-enterprise-mitigations-self-stix-format-true" title="Permalink to this headline">¶</a></h2>
+<p>Extracts all the available mitigations STIX objects in the Enterprise ATT&amp;CK matrix</p>
+<p>Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">stix_format</span></code>: returns results in original STIX format or friendly syntax (‘attack-pattern’ or ‘technique’)</li>
+</ul>
+</div></blockquote>
+<p>Returns: List of stix2 objects</p>
+<div class="section" id="id2">
+<h3>Examples<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="k">import</span> <span class="n">attack_client</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enterprise_mitigations</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_mitigations</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise_mitigations</span><span class="p">)</span>
+<span class="go">&lt;class &#39;list&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise_mitigations</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">&lt;class &#39;stix2.v20.sdo.CourseOfAction&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">enterprise_mitigations</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">{</span>
+<span class="go">    &quot;type&quot;: &quot;course-of-action&quot;,</span>
+<span class="go">    &quot;id&quot;: &quot;course-of-action--70886857-0f19-4caa-b081-548354a8a994&quot;,</span>
+<span class="go">    &quot;created_by_ref&quot;: &quot;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&quot;,</span>
+<span class="go">    &quot;created&quot;: &quot;2019-04-26T19:30:33.607Z&quot;,</span>
+<span class="go">    &quot;modified&quot;: &quot;2019-04-26T19:41:45.126Z&quot;,</span>
+<span class="go">    &quot;name&quot;: &quot;Firmware Corruption Mitigation&quot;,</span>
+<span class="go">    &quot;description&quot;: &quot;Prevent adversary access to privileged accounts or access necessary to perform this technique. Check the integrity of the existing BIOS and device firmware to determine if it is vulnerable to modification. Patch the BIOS and other firmware as necessary to prevent successful use of known vulnerabilities. &quot;,</span>
+<span class="go">    &quot;external_references&quot;: [</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;mitre-attack&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://attack.mitre.org/techniques/T1495&quot;,</span>
+<span class="go">            &quot;external_id&quot;: &quot;T1495&quot;</span>
+<span class="go">        }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;object_marking_refs&quot;: [</span>
+<span class="go">        &quot;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_version&quot;: &quot;1.0&quot;</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="get-enterprise-groups-self-stix-format-true">
+<h2>get_enterprise_groups(self, stix_format=True)<a class="headerlink" href="#get-enterprise-groups-self-stix-format-true" title="Permalink to this headline">¶</a></h2>
+<p>Extracts all the available groups STIX objects in the Enterprise ATT&amp;CK matrix</p>
+<p>Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">stix_format</span></code>: returns results in original STIX format or friendly syntax (‘attack-pattern’ or ‘technique’)</li>
+</ul>
+</div></blockquote>
+<p>Returns: List of stix2 objects</p>
+<div class="section" id="id3">
+<h3>Examples<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="k">import</span> <span class="n">attack_client</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enterprise_groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_groups</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise_groups</span><span class="p">)</span>
+<span class="go">&lt;class &#39;list&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">&lt;class &#39;stix2.v20.sdo.IntrusionSet&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">enterprise_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">{</span>
+<span class="go">    &quot;type&quot;: &quot;intrusion-set&quot;,</span>
+<span class="go">    &quot;id&quot;: &quot;intrusion-set--9538b1a4-4120-4e2d-bf59-3b11fcab05a4&quot;,</span>
+<span class="go">    &quot;created_by_ref&quot;: &quot;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&quot;,</span>
+<span class="go">    &quot;created&quot;: &quot;2019-04-16T15:14:38.533Z&quot;,</span>
+<span class="go">    &quot;modified&quot;: &quot;2019-04-29T18:59:16.079Z&quot;,</span>
+<span class="go">    &quot;name&quot;: &quot;TEMP.Veles&quot;,</span>
+<span class="go">    &quot;description&quot;: &quot;[TEMP.Veles](https://attack.mitre.org/groups/G0088) is a Russia-based threat group that has targeted critical infrastructure. The group has been observed utilizing TRITON, a malware framework designed to manipulate industrial safety systems.(Citation: FireEye TRITON 2019)(Citation: FireEye TEMP.Veles 2018)(Citation: FireEye TEMP.Veles JSON April 2019)&quot;,</span>
+<span class="go">    &quot;aliases&quot;: [</span>
+<span class="go">        &quot;TEMP.Veles&quot;,</span>
+<span class="go">        &quot;XENOTIME&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;external_references&quot;: [</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;mitre-attack&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://attack.mitre.org/groups/G0088&quot;,</span>
+<span class="go">            &quot;external_id&quot;: &quot;G0088&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;TEMP.Veles&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;(Citation: FireEye TRITON 2019)&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;XENOTIME&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;The activity group XENOTIME, as defined by Dragos, has overlaps with activity reported upon by FireEye about TEMP.Veles as well as the actors behind TRITON.(Citation: Dragos Xenotime 2018)(Citation: Pylos Xenotime 2019)(Citation: FireEye TRITON 2019)(Citation: FireEye TEMP.Veles 2018 )&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;FireEye TRITON 2019&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;Miller, S, et al. (2019, April 10). TRITON Actor TTP Profile, Custom Attack Tools, Detections, and ATT&amp;CK Mapping. Retrieved April 16, 2019.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://www.fireeye.com/blog/threat-research/2019/04/triton-actor-ttp-profile-custom-attack-tools-detections.html&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;FireEye TEMP.Veles 2018&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;FireEye Intelligence . (2018, October 23). TRITON Attribution: Russian Government-Owned Lab Most Likely Built Custom Intrusion Tools for TRITON Attackers. Retrieved April 16, 2019.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://www.fireeye.com/blog/threat-research/2018/10/triton-attribution-russian-government-owned-lab-most-likely-built-tools.html &quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;FireEye TEMP.Veles JSON April 2019&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;Miller, S., et al. (2019, April 10). TRITON Appendix C. Retrieved April 29, 2019.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://www.fireeye.com/content/dam/fireeye-www/blog/files/TRITON_Appendix_C.html&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;Dragos Xenotime 2018&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;Dragos, Inc.. (n.d.). Xenotime. Retrieved April 16, 2019.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://dragos.com/resource/xenotime/&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;Pylos Xenotime 2019&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;Slowik, J.. (2019, April 12). A XENOTIME to Remember: Veles in the Wild. Retrieved April 16, 2019.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://pylos.co/2019/04/12/a-xenotime-to-remember-veles-in-the-wild/&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;FireEye TEMP.Veles 2018 &quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;FireEye Intelligence . (2018, October 23). TRITON Attribution: Russian Government-Owned Lab Most Likely Built Custom Intrusion Tools for TRITON Attackers. Retrieved April 16, 2019.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://www.fireeye.com/blog/threat-research/2018/10/triton-attribution-russian-government-owned-lab-most-likely-built-tools.html &quot;</span>
+<span class="go">        }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;object_marking_refs&quot;: [</span>
+<span class="go">        &quot;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_version&quot;: &quot;1.0&quot;</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="get-all-enterprise-malware-self-stix-format-true">
+<h2>get_all_enterprise_malware(self, stix_format=True)<a class="headerlink" href="#get-all-enterprise-malware-self-stix-format-true" title="Permalink to this headline">¶</a></h2>
+<p>Extracts all the available malware STIX objects in the Enterprise ATT&amp;CK matrix</p>
+<p>Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">stix_format</span></code>: returns results in original STIX format or friendly syntax (‘attack-pattern’ or ‘technique’)</li>
+</ul>
+</div></blockquote>
+<p>Returns: List of stix2 objects</p>
+<div class="section" id="id4">
+<h3>Examples<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="k">import</span> <span class="n">attack_client</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enterprise_malware</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_all_enterprise_malware</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise_malware</span><span class="p">)</span>
+<span class="go">&lt;class &#39;list&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">enterprise_malware</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">&lt;class &#39;stix2.v20.sdo.Malware&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">enterprise_malware</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">{</span>
+<span class="go">    &quot;type&quot;: &quot;malware&quot;,</span>
+<span class="go">    &quot;id&quot;: &quot;malware--d1531eaa-9e17-473e-a680-3298469662c3&quot;,</span>
+<span class="go">    &quot;created_by_ref&quot;: &quot;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&quot;,</span>
+<span class="go">    &quot;created&quot;: &quot;2019-04-23T18:41:36.914Z&quot;,</span>
+<span class="go">    &quot;modified&quot;: &quot;2019-04-29T21:19:34.739Z&quot;,</span>
+<span class="go">    &quot;name&quot;: &quot;CoinTicker&quot;,</span>
+<span class="go">    &quot;description&quot;: &quot;[CoinTicker](https://attack.mitre.org/software/S0369) is a malicious application that poses as a cryptocurrency price ticker and installs components of the open source backdoors EvilOSX and EggShell.(Citation: CoinTicker 2019)&quot;,</span>
+<span class="go">    &quot;labels&quot;: [</span>
+<span class="go">        &quot;malware&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;external_references&quot;: [</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;mitre-attack&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://attack.mitre.org/software/S0369&quot;,</span>
+<span class="go">            &quot;external_id&quot;: &quot;S0369&quot;</span>
+<span class="go">        },</span>
+<span class="go">        {</span>
+<span class="go">            &quot;source_name&quot;: &quot;CoinTicker 2019&quot;,</span>
+<span class="go">            &quot;description&quot;: &quot;Thomas Reed. (2018, October 29). Mac cryptocurrency ticker app installs backdoors. Retrieved April 23, 2019.&quot;,</span>
+<span class="go">            &quot;url&quot;: &quot;https://blog.malwarebytes.com/threat-analysis/2018/10/mac-cryptocurrency-ticker-app-installs-backdoors/&quot;</span>
+<span class="go">        }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;object_marking_refs&quot;: [</span>
+<span class="go">        &quot;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_aliases&quot;: [</span>
+<span class="go">        &quot;CoinTicker&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_contributors&quot;: [</span>
+<span class="go">        &quot;Richie Cyrus, SpecterOps&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_platforms&quot;: [</span>
+<span class="go">        &quot;macOS&quot;</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;x_mitre_version&quot;: &quot;1.0&quot;</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="get-data-sources-self">
+<h2>get_data_sources(self)<a class="headerlink" href="#get-data-sources-self" title="Permalink to this headline">¶</a></h2>
+<p>Extracts all data sources mapped to techniques across all matrices.</p>
+<p>Returns: List</p>
+<div class="section" id="id5">
+<h3>Examples<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="k">import</span> <span class="n">attack_client</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lift</span><span class="o">.</span><span class="n">get_data_sources</span><span class="p">()</span>
+<span class="go">[&#39;Process command-line parameters&#39;, &#39;Process monitoring&#39;, &#39;File monitoring&#39;, &#39;SSL/TLS inspection&#39;,</span>
+<span class="go">&#39;Web logs&#39;, &#39;Web application firewall logs&#39;, &#39;Network intrusion detection system&#39;, &#39;Network protocol analysis&#39;,</span>
+<span class="go">&#39;Network device logs&#39;, &#39;Netflow/Enclave netflow&#39;, &#39;Sensor health and status&#39;, &#39;Process use of network&#39;,</span>
+<span class="go">&#39;BIOS&#39;, &#39;Component firmware&#39;, &#39;Packet capture&#39;, &#39;Application logs&#39;, &#39;Windows Registry&#39;, &#39;Services&#39;,</span>
+<span class="go">&#39;Windows event logs&#39;, &#39;API monitoring&#39;, &#39;Kernel drivers&#39;, &#39;MBR&#39;, &#39;DNS records&#39;, &#39;PowerShell logs&#39;,</span>
+<span class="go">&#39;Anti-virus&#39;, &#39;Email gateway&#39;, &#39;DLL monitoring&#39;, &#39;Authentication logs&#39;, &#39;Web proxy&#39;, &#39;Windows Error Reporting&#39;,</span>
+<span class="go">&#39;System calls&#39;, &#39;Data loss prevention&#39;, &#39;Third-party application logs&#39;, &#39;Binary file metadata&#39;,</span>
+<span class="go">&#39;Asset management&#39;, &#39;Detonation chamber&#39;, &#39;Mail server&#39;, &#39;Loaded DLLs&#39;, &#39;Browser extensions&#39;,</span>
+<span class="go">&#39;Access tokens&#39;, &#39;Environment variable&#39;, &#39;User interface&#39;, &#39;Malware reverse engineering&#39;,</span>
+<span class="go">&#39;Digital certificate logs&#39;, &#39;Disk forensics&#39;, &#39;Host network interface&#39;, &#39;WMI Objects&#39;, &#39;VBR&#39;,</span>
+<span class="go">&#39;Named Pipes&#39;, &#39;EFI&#39;]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="get-techniques-by-datasources-self-args-stix-format-true">
+<h2>get_techniques_by_datasources(self, <a href="#id6"><span class="problematic" id="id7">*</span></a>args, stix_format=True)<a class="headerlink" href="#get-techniques-by-datasources-self-args-stix-format-true" title="Permalink to this headline">¶</a></h2>
+<p>Extracts all techniques mapped to one or multiple data sources.</p>
+<p>Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">*args</span></code>: one or more data sources (“datasource1”, “datsasource2”)</li>
+<li><code class="docutils literal notranslate"><span class="pre">stix_format</span></code>: returns results in original STIX format or friendly syntax (‘attack-pattern’ or ‘technique’)</li>
+</ul>
+</div></blockquote>
+<p>Returns: List</p>
+<div class="section" id="id8">
+<h3>Examples<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="k">import</span> <span class="n">attack_client</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques_by_datasources</span><span class="p">(</span><span class="s2">&quot;windows event logs&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">techniques</span><span class="p">)</span>
+<span class="go">22</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">techniques</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span><span class="n">t</span><span class="p">[</span><span class="s1">&#39;x_mitre_data_sources&#39;</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="go">Inhibit System Recovery [&#39;Windows Registry&#39;, &#39;Services&#39;, &#39;Windows event logs&#39;, &#39;Process command-line parameters&#39;, &#39;Process monitoring&#39;]</span>
+<span class="go">Group Policy Modification [&#39;Windows event logs&#39;]</span>
+<span class="go">File Permissions Modification [&#39;File monitoring&#39;, &#39;Process monitoring&#39;, &#39;Process command-line parameters&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">BITS Jobs [&#39;API monitoring&#39;, &#39;Packet capture&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">CMSTP [&#39;Process monitoring&#39;, &#39;Process command-line parameters&#39;, &#39;Process use of network&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Control Panel Items [&#39;API monitoring&#39;, &#39;Binary file metadata&#39;, &#39;DLL monitoring&#39;, &#39;Windows Registry&#39;, &#39;Windows event logs&#39;, &#39;Process command-line parameters&#39;, &#39;Process monitoring&#39;]</span>
+<span class="go">Indirect Command Execution [&#39;File monitoring&#39;, &#39;Process monitoring&#39;, &#39;Process command-line parameters&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Kerberoasting [&#39;Windows event logs&#39;]</span>
+<span class="go">SIP and Trust Provider Hijacking [&#39;API monitoring&#39;, &#39;Application logs&#39;, &#39;DLL monitoring&#39;, &#39;Loaded DLLs&#39;, &#39;Process monitoring&#39;, &#39;Windows Registry&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Distributed Component Object Model [&#39;API monitoring&#39;, &#39;Authentication logs&#39;, &#39;DLL monitoring&#39;, &#39;Packet capture&#39;, &#39;Process monitoring&#39;, &#39;Windows Registry&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Dynamic Data Exchange [&#39;API monitoring&#39;, &#39;DLL monitoring&#39;, &#39;Process monitoring&#39;, &#39;Windows Registry&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Hooking [&#39;API monitoring&#39;, &#39;Binary file metadata&#39;, &#39;DLL monitoring&#39;, &#39;Loaded DLLs&#39;, &#39;Process monitoring&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Image File Execution Options Injection [&#39;Process monitoring&#39;, &#39;Windows Registry&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">LLMNR/NBT-NS Poisoning and Relay [&#39;Windows event logs&#39;, &#39;Windows Registry&#39;, &#39;Packet capture&#39;, &#39;Netflow/Enclave netflow&#39;]</span>
+<span class="go">SID-History Injection [&#39;API monitoring&#39;, &#39;Authentication logs&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Create Account [&#39;Process monitoring&#39;, &#39;Process command-line parameters&#39;, &#39;Authentication logs&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Modify Registry [&#39;Windows Registry&#39;, &#39;File monitoring&#39;, &#39;Process monitoring&#39;, &#39;Process command-line parameters&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Account Manipulation [&#39;Authentication logs&#39;, &#39;API monitoring&#39;, &#39;Windows event logs&#39;, &#39;Packet capture&#39;]</span>
+<span class="go">Indicator Removal on Host [&#39;File monitoring&#39;, &#39;Process monitoring&#39;, &#39;Process command-line parameters&#39;, &#39;API monitoring&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Scheduled Task [&#39;File monitoring&#39;, &#39;Process monitoring&#39;, &#39;Process command-line parameters&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">New Service [&#39;Windows Registry&#39;, &#39;Process monitoring&#39;, &#39;Process command-line parameters&#39;, &#39;Windows event logs&#39;]</span>
+<span class="go">Obfuscated Files or Information [&#39;Network protocol analysis&#39;, &#39;Process use of network&#39;, &#39;File monitoring&#39;,</span>
+<span class="go">&#39;Malware reverse engineering&#39;, &#39;Binary file metadata&#39;, &#39;Process command-line parameters&#39;, &#39;Environment variable&#39;,</span>
+<span class="go">&#39;Process monitoring&#39;, &#39;Windows event logs&#39;, &#39;Network intrusion detection system&#39;, &#39;Email gateway&#39;, &#39;SSL/TLS inspection&#39;]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="license.html" class="btn btn-neutral float-right" title="Licenses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="attackcti_overview.html" class="btn btn-neutral float-left" title="ATTACK CTI Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Roberto Rodriguez @Cyb3rWard0g
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

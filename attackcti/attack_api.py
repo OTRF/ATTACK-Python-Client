@@ -232,7 +232,7 @@ class attack_client(object):
         return extract_revoked
 
     # ******** Enterprise ATT&CK Technology Domain  *******
-    def get_all_enterprise(self, stix_format=True):
+    def get_enterprise(self, stix_format=True):
         enterprise_filter_objects = {
             "techniques": Filter("type", "=", "attack-pattern"),
             "mitigations": Filter("type", "=", "course-of-action"),
@@ -252,50 +252,50 @@ class attack_client(object):
                 enterprise_stix_objects[key] = self.translate_stix_objects(enterprise_stix_objects[key])
         return enterprise_stix_objects
 
-    def get_all_enterprise_techniques(self, stix_format=True):
+    def get_enterprise_techniques(self, stix_format=True):
         enterprise_techniques = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "attack-pattern"))
         if not stix_format:
             enterprise_techniques = self.translate_stix_objects(enterprise_techniques)
         return enterprise_techniques
     
-    def get_all_enterprise_mitigations(self, stix_format=True):
+    def get_enterprise_mitigations(self, stix_format=True):
         enterprise_mitigations = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "course-of-action"))
         if not stix_format:
             enterprise_mitigations = self.translate_stix_objects(enterprise_mitigations)
         return enterprise_mitigations
     
-    def get_all_enterprise_groups(self, stix_format=True):
+    def get_enterprise_groups(self, stix_format=True):
         enterprise_groups = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "intrusion-set"))
         if not stix_format:
             enterprise_groups = self.translate_stix_objects(enterprise_groups)
         return enterprise_groups
     
-    def get_all_enterprise_malware(self, stix_format=True):
+    def get_enterprise_malware(self, stix_format=True):
         enterprise_malware = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "malware"))
         if not stix_format:
             enterprise_malware = self.translate_stix_objects(enterprise_malware)
         return enterprise_malware
     
-    def get_all_enterprise_tools(self, stix_format=True):
+    def get_enterprise_tools(self, stix_format=True):
         enterprise_tools = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "tool"))
         if not stix_format:
             enterprise_tools = self.translate_stix_objects(enterprise_tools)
         return enterprise_tools
     
-    def get_all_enterprise_relationships(self, stix_format=True):
+    def get_enterprise_relationships(self, stix_format=True):
         enterprise_relationships = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             enterprise_relationships = self.translate_stix_objects(enterprise_relationships)
         return enterprise_relationships
     
-    def get_all_enterprise_tactics(self, stix_format=True):
+    def get_enterprise_tactics(self, stix_format=True):
         enterprise_tactics = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             enterprise_tactics = self.translate_stix_objects(enterprise_tactics)
         return enterprise_tactics
 
     # ******** Pre ATT&CK Domain  *******
-    def get_all_pre(self, stix_format=True):
+    def get_pre(self, stix_format=True):
         pre_filter_objects = {
             "techniques": Filter("type", "=", "attack-pattern"),
             "groups": Filter("type", "=", "intrusion-set"),
@@ -312,32 +312,32 @@ class attack_client(object):
                 pre_stix_objects[key] = self.translate_stix_objects(pre_stix_objects[key])           
         return pre_stix_objects
 
-    def get_all_pre_techniques(self, stix_format=True):
+    def get_pre_techniques(self, stix_format=True):
         pre_techniques = self.TC_PRE_SOURCE.query(Filter("type", "=", "attack-pattern"))
         if not stix_format:
             pre_techniques = self.translate_stix_objects(pre_techniques)
         return pre_techniques
 
-    def get_all_pre_groups(self, stix_format=True):
+    def get_pre_groups(self, stix_format=True):
         pre_groups = self.TC_PRE_SOURCE.query(Filter("type", "=", "intrusion-set"))
         if not stix_format:
             pre_groups = self.translate_stix_objects(pre_groups)
         return pre_groups
 
-    def get_all_pre_relationships(self, stix_format=True):
+    def get_pre_relationships(self, stix_format=True):
         pre_relationships = self.TC_PRE_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             pre_relationships = self.translate_stix_objects(pre_relationships)
         return pre_relationships
     
-    def get_all_pre_tactics(self, stix_format=True):
+    def get_pre_tactics(self, stix_format=True):
         pre_tactics = self.TC_PRE_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             pre_tactics = self.translate_stix_objects(pre_tactics)
         return pre_tactics
 
     # ******** Mobile ATT&CK Technology Domain  *******
-    def get_all_mobile(self, stix_format=True):
+    def get_mobile(self, stix_format=True):
         mobile_filter_objects = {
             "techniques": Filter("type", "=", "attack-pattern"),
             "mitigations": Filter("type", "=", "course-of-action"),
@@ -357,53 +357,53 @@ class attack_client(object):
                 mobile_stix_objects[key] = self.translate_stix_objects(mobile_stix_objects[key])           
         return mobile_stix_objects
   
-    def get_all_mobile_techniques(self, stix_format=True):
+    def get_mobile_techniques(self, stix_format=True):
         mobile_techniques = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "attack-pattern"))
         if not stix_format:
             mobile_techniques = self.translate_stix_objects(mobile_techniques)
         return mobile_techniques
     
-    def get_all_mobile_mitigations(self, stix_format=True):
+    def get_mobile_mitigations(self, stix_format=True):
         mobile_mitigations = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "course-of-action"))
         if not stix_format:
             mobile_mitigations = self.translate_stix_objects(mobile_mitigations)
         return mobile_mitigations
 
-    def get_all_mobile_groups(self, stix_format=True):
+    def get_mobile_groups(self, stix_format=True):
         mobile_groups = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "intrusion-set"))
         if not stix_format:
             mobile_groups = self.translate_stix_objects(mobile_groups)
         return mobile_groups
     
-    def get_all_mobile_malware(self, stix_format=True):
+    def get_mobile_malware(self, stix_format=True):
         mobile_malware = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "malware"))
         if not stix_format:
             mobile_malware = self.translate_stix_objects(mobile_malware)
         return mobile_malware
     
-    def get_all_mobile_tools(self, stix_format=True):
+    def get_mobile_tools(self, stix_format=True):
         mobile_tools = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "tool"))
         if not stix_format:
             mobile_tools = self.translate_stix_objects(mobile_tools)
         return mobile_tools
 
-    def get_all_mobile_relationships(self, stix_format=True):
+    def get_mobile_relationships(self, stix_format=True):
         mobile_relationships = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             mobile_relationships = self.translate_stix_objects(mobile_relationships)
         return mobile_relationships
     
-    def get_all_mobile_tactics(self, stix_format=True):
+    def get_mobile_tactics(self, stix_format=True):
         mobile_tactics = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             mobile_tactics = self.translate_stix_objects(mobile_tactics)
         return mobile_tactics
 
     # ******** Get All Functions ********
-    def get_all_stix_objects(self, stix_format=True):
-        enterprise_objects = self.get_all_enterprise()
-        pre_objects = self.get_all_pre()
-        mobile_objects = self.get_all_mobile()
+    def get_stix_objects(self, stix_format=True):
+        enterprise_objects = self.get_enterprise()
+        pre_objects = self.get_pre()
+        mobile_objects = self.get_mobile()
         for keypre in pre_objects.keys():
             for preobj in pre_objects[keypre]:
                 if keypre in enterprise_objects.keys():
@@ -419,19 +419,19 @@ class attack_client(object):
                 enterprise_objects[enterkey] = self.translate_stix_objects(enterprise_objects[enterkey])
         return enterprise_objects
     
-    def get_all_techniques(self, stix_format=True):
-        enterprise_techniques = self.get_all_enterprise_techniques()
-        pre_techniques = self.get_all_pre_techniques()
-        mobile_techniques = self.get_all_mobile_techniques()
+    def get_techniques(self, stix_format=True):
+        enterprise_techniques = self.get_enterprise_techniques()
+        pre_techniques = self.get_pre_techniques()
+        mobile_techniques = self.get_mobile_techniques()
         all_techniques = enterprise_techniques + pre_techniques + mobile_techniques
         if not stix_format:
             all_techniques = self.translate_stix_objects(all_techniques)
         return all_techniques
     
-    def get_all_groups(self, stix_format=True):
-        enterprise_groups = self.get_all_enterprise_groups()
-        pre_groups = self.get_all_pre_groups()
-        mobile_groups = self.get_all_mobile_groups()
+    def get_groups(self, stix_format=True):
+        enterprise_groups = self.get_enterprise_groups()
+        pre_groups = self.get_pre_groups()
+        mobile_groups = self.get_mobile_groups()
         for pg in pre_groups:
             if pg not in enterprise_groups:
                 enterprise_groups.append(pg)
@@ -442,9 +442,9 @@ class attack_client(object):
             enterprise_groups = self.translate_stix_objects(enterprise_groups)
         return enterprise_groups
    
-    def get_all_mitigations(self, stix_format=True):
-        enterprise_mitigations = self.get_all_enterprise_mitigations()
-        mobile_mitigations = self.get_all_mobile_mitigations()
+    def get_mitigations(self, stix_format=True):
+        enterprise_mitigations = self.get_enterprise_mitigations()
+        mobile_mitigations = self.get_mobile_mitigations()
         for mm in mobile_mitigations:
             if mm not in enterprise_mitigations:
                 enterprise_mitigations.append(mm)
@@ -452,11 +452,11 @@ class attack_client(object):
             enterprise_mitigations = self.translate_stix_objects(enterprise_mitigations)
         return enterprise_mitigations
     
-    def get_all_software(self, stix_format=True):
-        enterprise_malware = self.get_all_enterprise_malware()
-        enterprise_tools = self.get_all_enterprise_tools()
-        mobile_malware = self.get_all_mobile_malware()
-        mobile_tools = self.get_all_mobile_tools()
+    def get_software(self, stix_format=True):
+        enterprise_malware = self.get_enterprise_malware()
+        enterprise_tools = self.get_enterprise_tools()
+        mobile_malware = self.get_mobile_malware()
+        mobile_tools = self.get_mobile_tools()
         for mt in mobile_tools:
             if mt not in enterprise_tools:
                 enterprise_tools.append(mt)
@@ -468,10 +468,10 @@ class attack_client(object):
             all_software = self.translate_stix_objects(all_software)
         return all_software
    
-    def get_all_relationships(self, stix_format=True):
-        enterprise_relationships = self.get_all_enterprise_relationships()
-        pre_relationships = self.get_all_pre_relationships()
-        mobile_relationships = self.get_all_mobile_relationships()
+    def get_relationships(self, stix_format=True):
+        enterprise_relationships = self.get_enterprise_relationships()
+        pre_relationships = self.get_pre_relationships()
+        mobile_relationships = self.get_mobile_relationships()
         for pr in pre_relationships:
             if pr not in enterprise_relationships:
                 enterprise_relationships.append(pr)
@@ -482,10 +482,10 @@ class attack_client(object):
             enterprise_relationships = self.translate_stix_objects(enterprise_relationships)
         return enterprise_relationships
     
-    def get_all_tactics(self, stix_format=True):
-        enterprise_tactics = self.get_all_enterprise_tactics()
-        pre_tactics = self.get_all_pre_tactics()
-        mobile_tactics = self.get_all_mobile_tactics()
+    def get_tactics(self, stix_format=True):
+        enterprise_tactics = self.get_enterprise_tactics()
+        pre_tactics = self.get_pre_tactics()
+        mobile_tactics = self.get_mobile_tactics()
         all_tactics = enterprise_tactics + pre_tactics + mobile_tactics
         if not stix_format:
             all_tactics = self.translate_stix_objects(all_tactics)
@@ -494,7 +494,7 @@ class attack_client(object):
     # ******** Custom Functions ********
     def get_technique_by_name(self, name, case=True, stix_format=True):
         if not case:
-            all_techniques = self.get_all_techniques()
+            all_techniques = self.get_techniques()
             all_techniques_list = list()
             for tech in all_techniques:
                 if name.lower() in tech['name'].lower():
@@ -510,7 +510,7 @@ class attack_client(object):
         return all_techniques_list
     
     def get_techniques_by_content(self, name, case=True, stix_format=True):
-        all_techniques = self.get_all_techniques()
+        all_techniques = self.get_techniques()
         all_techniques_list = list()
         for tech in all_techniques:
             if "description" in tech.keys():
@@ -522,7 +522,7 @@ class attack_client(object):
     
     def get_techniques_by_platform(self, name, case=True, stix_format=True ):
         if not case:
-            all_techniques = self.get_all_techniques()
+            all_techniques = self.get_techniques()
             all_techniques_list = list()
             for tech in all_techniques:
                 if 'x_mitre_platforms' in tech.keys():
@@ -541,7 +541,7 @@ class attack_client(object):
     
     def get_techniques_by_tactic(self, name, case=True, stix_format=True ):
         if not case:
-            all_techniques = self.get_all_techniques()
+            all_techniques = self.get_techniques()
             all_techniques_list = list()
             for tech in all_techniques:
                 if 'kill_chain_phases' in tech.keys():
@@ -573,7 +573,7 @@ class attack_client(object):
 
     def get_group_by_alias(self, group_alias, case=True, stix_format=True):
         if not case:
-            all_groups = self.get_all_groups()
+            all_groups = self.get_groups()
             all_groups_list = list()
             for group in all_groups:
                 if "aliases" in group.keys():
@@ -764,14 +764,14 @@ class attack_client(object):
     
     def get_techniques_mitigated_by_all_mitigations(self, stix_format=True):
         # Get all relationships available
-        relationships = self.get_all_relationships()
+        relationships = self.get_relationships()
         # Get all mitigation relationships
         mitigation_relationships = list()
         for relation in relationships:
             if get_type_from_id(relation.source_ref) in ['course-of-action']:
                 mitigation_relationships.append(relation)
         # Get all techniques
-        techniques = self.get_all_techniques()
+        techniques = self.get_techniques()
         all_techniques_list = list()
         # loop through mitigation relationships to match technique
         for mr in mitigation_relationships:
@@ -782,37 +782,22 @@ class attack_client(object):
             all_techniques_list = self.translate_stix_objects(all_techniques_list)
         return all_techniques_list
 
-    def get_all_data_sources(self):
-        techniques = self.get_all_techniques()
+    def get_data_sources(self):
+        techniques = self.get_techniques()
         data_sources = []
         for t in techniques:
             if 'x_mitre_data_sources' in t.keys():
-                for ds in t['x_mitre_data_sources']:
-                    data_sources.append(ds.lower())
-        return list(set(data_sources))
+                data_sources += [d for d in t['x_mitre_data_sources'] if d not in data_sources]
+        return data_sources
 
-    def get_techniques_by_datasources(self, data_sources, stix_format=True):
+    def get_techniques_by_datasources(self, *args, stix_format=True):
         techniques_results = []
-        techniques = self.get_all_techniques()
-        if isinstance(data_sources, list):
-            for d in [x.lower() for x in data_sources]:
-                for t in techniques:
-                    if 'x_mitre_data_sources' in t.keys() and d in [x.lower() for x in t['x_mitre_data_sources']]:
-                        techniques_results.append(t)
-        elif isinstance(data_sources, str):
+        techniques = self.get_techniques()
+        for d in args:
             for t in techniques:
-                if 'x_mitre_data_sources' in t.keys() and data_sources.lower() in [x.lower() for x in t['x_mitre_data_sources']]:
-                    techniques_results.append(t)
-        else:
-            raise Exception("Not a list or a string")
-        # Remove Duplicates
-        already_seen = set()
-        results_dedup = []
-        for d in techniques_results:
-            i = str(d.items())
-            if i not in already_seen:
-                already_seen.add(i)
-                results_dedup.append(d)
+                if 'x_mitre_data_sources' in t.keys() and [x for x in t['x_mitre_data_sources'] if d.lower() in x.lower()]:
+                    if t not in techniques_results:
+                        techniques_results.append(t)
         if not stix_format:
-            results_dedup = self.translate_stix_objects(results_dedup)
-        return results_dedup
+            techniques_results = self.translate_stix_objects(techniques_results)
+        return techniques_results
