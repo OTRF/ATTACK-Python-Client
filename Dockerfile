@@ -17,14 +17,13 @@ USER root
 RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
-    ${NB_USER}
+    ${NB_USER} \
+    python3 -m pip install attackcti==0.2.7
 
 COPY notebooks/ ${HOME}
 
 RUN chown -R ${NB_USER}:${NB_USER} ${HOME} ${JUPYTER_DIR}
 
 USER ${NB_USER}
-
-RUN python3 -m pip install attackcti==0.2.7
 
 WORKDIR ${HOME}
