@@ -13,7 +13,7 @@ with open('README.md')as f:
 
 setuptools.setup(
     name="attackcti",
-    version="0.2.7",
+    version="0.2.8",
     author="Roberto Rodriguez",
     author_email="rrodriguezops@gmail.com",
     description="ATTACK CTI Libary",
@@ -37,5 +37,6 @@ setuptools.setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
 )

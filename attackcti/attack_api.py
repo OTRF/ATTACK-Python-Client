@@ -217,19 +217,16 @@ class attack_client(object):
             stix_objects_list.append(obj_dict)
         return stix_objects_list
 
-    def remove_revoked(self, stix_objects):
-        no_revoked = list()
+    def remove_revoked(self, stix_objects, extract=False):
+        handle_revoked = list()
         for obj in stix_objects:
-            if 'revoked' not in obj.keys():
-                no_revoked.append(obj)
-        return no_revoked
-    
-    def extract_revoked(self, stix_objects):
-        extract_revoked = list()
-        for obj in stix_objects:
-            if 'revoked' in obj.keys():
-                extract_revoked.append(obj)
-        return extract_revoked
+            if 'revoked' in obj.keys() and obj['revoked'] == True:
+                if extract:
+                    handle_revoked.append(obj)
+                else:
+                    continue
+            handle_revoked.append(obj)
+        return handle_revoked
 
     # ******** Enterprise ATT&CK Technology Domain  *******
     def get_enterprise(self, stix_format=True):
