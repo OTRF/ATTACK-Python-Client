@@ -50,26 +50,6 @@ cd ATTACK-Python-Client
 pip install .
 ```
 
-## Jupyter Notebooks - Code Integration
-
-I created a few jupyter notebooks that I hope can help you get familiar with the library and allow you to implement it in your future projects.
-
-* [Basic Functionality](https://github.com/Cyb3rWard0g/ATTACK-Python-Client/blob/master/notebooks/Usage_Basics.ipynb)
-* [Custom Filters](https://github.com/Cyb3rWard0g/ATTACK-Python-Client/blob/master/notebooks/Usage_Filters.ipynb)
-
-Install **Jupyter Lab** and **Pandas** in order to use the Jupyter Notebooks on your own. You can do it by using the **requirements.txt** file in this repo
-
-```
-pip install -r requirements.txt
-```
-
-Start Jupyter Lab by running the following commands in the root directory of the repo
-
-```
-cd notebooks
-jupyter lab
-```
-
 # Author
 
 * Roberto Rodriguez [@Cyb3rWard0g](https://twitter.com/Cyb3rWard0g)
@@ -78,10 +58,7 @@ jupyter lab
 
 * Jose Luis Rodriguez [@Cyb3rPandaH](https://twitter.com/Cyb3rPandaH)
 
-# Contributing
-
-
 # To-Do
 
-* [ ] Revokation logic to update Groups Objects
+* [X] Revokation logic to update Groups Objects
 * [ ] Integration with HELK
