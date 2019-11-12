@@ -14,6 +14,11 @@ from stix2.utils import get_type_from_id
 from taxii2client import Collection
 import json
 
+import sys,os,os.path
+# os.environ['http_proxy'] = "http://xxxxxxx"
+# os.environ['https_proxy'] = "https://xxxxxxx"
+
+
 ATTCK_STIX_COLLECTIONS = "https://cti-taxii.mitre.org/stix/collections/"
 ENTERPRISE_ATTCK = "95ecc380-afe9-11e4-9b6c-751b66dd541e"
 PRE_ATTCK = "062767bd-02d2-4b72-84ba-56caef0f8658"
