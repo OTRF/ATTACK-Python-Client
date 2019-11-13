@@ -417,27 +417,16 @@ class attack_client(object):
         return enterprise_objects
     
     def get_techniques(self, stix_format=True):
-        enterprise_techniques = self.get_enterprise_techniques()
-        pre_techniques = self.get_pre_techniques()
-        mobile_techniques = self.get_mobile_techniques()
-        all_techniques = enterprise_techniques + pre_techniques + mobile_techniques
+        all_techniques = self.COMPOSITE_DS.query(Filter("type", "=", "attack-pattern"))
         if not stix_format:
             all_techniques = self.translate_stix_objects(all_techniques)
         return all_techniques
     
     def get_groups(self, stix_format=True):
-        enterprise_groups = self.get_enterprise_groups()
-        pre_groups = self.get_pre_groups()
-        mobile_groups = self.get_mobile_groups()
-        for pg in pre_groups:
-            if pg not in enterprise_groups:
-                enterprise_groups.append(pg)
-        for mg in mobile_groups:
-            if mg not in enterprise_groups:
-                enterprise_groups.append(mg)
+        all_groups = self.COMPOSITE_DS.query(Filter("type", "=", "intrusion-set"))
         if not stix_format:
-            enterprise_groups = self.translate_stix_objects(enterprise_groups)
-        return enterprise_groups
+            all_groups = self.translate_stix_objects(all_groups)
+        return all_groups
    
     def get_mitigations(self, stix_format=True):
         enterprise_mitigations = self.get_enterprise_mitigations()
@@ -466,24 +455,13 @@ class attack_client(object):
         return all_software
    
     def get_relationships(self, stix_format=True):
-        enterprise_relationships = self.get_enterprise_relationships()
-        pre_relationships = self.get_pre_relationships()
-        mobile_relationships = self.get_mobile_relationships()
-        for pr in pre_relationships:
-            if pr not in enterprise_relationships:
-                enterprise_relationships.append(pr)
-        for mr in mobile_relationships:
-            if mr not in enterprise_relationships:
-                enterprise_relationships.append(mr)
+        all_relationships = self.COMPOSITE_DS.query(Filter("type", "=", "relationship"))
         if not stix_format:
-            enterprise_relationships = self.translate_stix_objects(enterprise_relationships)
-        return enterprise_relationships
+            all_relationships = self.translate_stix_objects(all_relationships)
+        return all_relationships
     
     def get_tactics(self, stix_format=True):
-        enterprise_tactics = self.get_enterprise_tactics()
-        pre_tactics = self.get_pre_tactics()
-        mobile_tactics = self.get_mobile_tactics()
-        all_tactics = enterprise_tactics + pre_tactics + mobile_tactics
+        all_tactics = self.COMPOSITE_DS.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             all_tactics = self.translate_stix_objects(all_tactics)
         return all_tactics
@@ -629,6 +607,57 @@ class attack_client(object):
             all_techniques_list = self.translate_stix_objects(all_techniques_list)
         return all_techniques_list
     
+    def get_techniques_used_by_all_groups(self, stix_format=True):
+        groups = self.get_groups()
+        groups = self.remove_revoked(groups)
+        techniques = self.get_techniques()
+        group_relationships = list()
+        group_techniques_ref = list()
+        groups_use_techniques = list()
+        filters = [
+            Filter("type", "=", "relationship"),
+            Filter('relationship_type','=','uses')
+        ]
+        relationships = self.COMPOSITE_DS.query(filters)
+        
+        for rel in relationships:
+            if get_type_from_id(rel.source_ref) == 'intrusion-set'\
+            and get_type_from_id(rel.target_ref) == 'attack-pattern':
+                group_relationships.append(rel)
+        
+        for g in groups:
+            for rel in group_relationships:
+                if g['id'] == rel['source_ref']:
+                    gs = json.loads(g.serialize())
+                    gs['technique_ref'] = rel['target_ref']
+                    gs['relationship_description'] = rel['description']
+                    gs['relationship_id'] = rel['id']
+                    group_techniques_ref.append(gs)
+        
+        for gt in group_techniques_ref:
+            for t in techniques:
+                if gt['technique_ref'] == t['id']:
+                    tactic_list = list()
+                    for phase in t['kill_chain_phases']:
+                        tactic_list.append(phase['phase_name'])
+                    gt['technique'] = t['name']
+                    gt['technique_description'] = t['description']
+                    gt['tactic'] = tactic_list
+                    gt['technique_id'] = t['external_references'][0]['external_id']
+                    gt['matrix'] =  t['external_references'][0]['source_name']
+                    if 'x_mitre_platforms' in t.keys():
+                        gt['platform'] = t['x_mitre_platforms']
+                    if 'x_mitre_data_sources' in t.keys():
+                        gt['data_sources'] = t['x_mitre_data_sources']
+                    if 'x_mitre_permissions_required' in t.keys():
+                        gt['permissions_required'] = t['x_mitre_permissions_required']
+                    if 'x_mitre_effective_permissions' in t.keys():
+                        gt['effective_permissions'] = t['x_mitre_effective_permissions']
+                    groups_use_techniques.append(gt)
+        if not stix_format:
+            groups_use_techniques = self.translate_stix_objects(groups_use_techniques)
+        return groups_use_techniques
+
     def get_software_used_by_group(self, stix_object, stix_format=True):
         relationships = self.get_relationships_by_object(stix_object)
         software_relationships = list()
@@ -798,3 +827,59 @@ class attack_client(object):
         if not stix_format:
             techniques_results = self.translate_stix_objects(techniques_results)
         return techniques_results
+    
+    def export_groups_navigator_layers(self):
+        techniques_used = self.get_techniques_used_by_all_groups()
+        groups = self.get_groups()
+        groups = self.remove_revoked(groups)
+        groups_list = []
+        for g in groups:
+            group_dict = dict()
+            group_dict[g['name']] = []
+            groups_list.append(group_dict)      
+        for group in groups_list:
+            for group_name,techniques_list in group.items():
+                for gut in techniques_used:
+                    if group_name == gut['name']:
+                        technique_dict = dict()
+                        technique_dict['techniqueId'] = gut['technique_id']
+                        technique_dict['techniqueName'] = gut['technique']
+                        technique_dict['comment'] = gut['relationship_description']
+                        technique_dict['tactic'] = gut['tactic']
+                        technique_dict['group_id'] = gut['external_references'][0]['external_id']
+                        if 'data_sources' in gut.keys():
+                            technique_dict['dataSources'] = gut['data_sources']
+                        techniques_list.append(technique_dict)
+        for group in groups_list:
+            for k,v in group.items():
+                if v:
+                    actor_layer = {
+                        "description": ("Enterprise techniques used by {0}, ATT&CK group {1} v1.0".format(k,v[0]['group_id'])),
+                        "name": ("{0} ({1})".format(k,v[0]['group_id'])),
+                        "domain": "mitre-enterprise",
+                        "version": "2.2",
+                        "techniques": [
+                            {
+                                "score": 1,
+                                "techniqueID" : technique['techniqueId'],
+                                "techniqueName" : technique['techniqueName'],
+                                "comment": technique['comment']
+                            } for technique in v
+                        ],
+                        "gradient": {
+                            "colors": [
+                                "#ffffff",
+                                "#ff6666"
+                            ],
+                            "minValue": 0,
+                            "maxValue": 1
+                        },
+                        "legendItems": [
+                            {
+                                "label": ("used by {}".format(k)),
+                                "color": "#ff6666"
+                            }
+                        ]
+                    }
+                    with open(('{0}_{1}.json'.format(k,v[0]['group_id'])), 'w') as f:
+                        f.write(json.dumps(actor_layer))
