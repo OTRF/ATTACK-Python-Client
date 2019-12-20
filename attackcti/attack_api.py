@@ -9,27 +9,49 @@
 # https://github.com/oasis-open/cti-python-stix2/issues/183
 # https://stackoverflow.com/a/4406521
 
-from stix2 import TAXIICollectionSource, Filter, CompositeDataSource
+from stix2 import TAXIICollectionSource, Filter, CompositeDataSource, FileSystemSource
 from stix2.utils import get_type_from_id
 from taxii2client import Collection
 import json
+import os
 
 ATTCK_STIX_COLLECTIONS = "https://cti-taxii.mitre.org/stix/collections/"
 ENTERPRISE_ATTCK = "95ecc380-afe9-11e4-9b6c-751b66dd541e"
 PRE_ATTCK = "062767bd-02d2-4b72-84ba-56caef0f8658"
 MOBILE_ATTCK = "2f669986-b40b-4423-b720-4396ca6a462b"
 
-class attack_client(object):
-    ENTERPRISE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + ENTERPRISE_ATTCK + "/")
-    PRE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + PRE_ATTCK + "/")
-    MOBILE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + MOBILE_ATTCK + "/")
-    
-    TC_ENTERPRISE_SOURCE = TAXIICollectionSource(ENTERPRISE_COLLECTION)
-    TC_PRE_SOURCE = TAXIICollectionSource(PRE_COLLECTION)
-    TC_MOBILE_SOURCE = TAXIICollectionSource(MOBILE_COLLECTION)
+ENTERPRISE_ATTCK_LOCAL_DIR = "enterprise-attack"
+PRE_ATTCK_LOCAL_DIR = "pre-attack"
+MOBILE_ATTCK_LOCAL_DIR = "mobile-attack"
 
-    COMPOSITE_DS = CompositeDataSource()
-    COMPOSITE_DS.add_data_sources([TC_ENTERPRISE_SOURCE, TC_PRE_SOURCE, TC_MOBILE_SOURCE])
+
+class attack_client(object):
+    TC_ENTERPRISE_SOURCE = None
+    TC_PRE_SOURCE = None
+    TC_MOBILE_SOURCE = None
+    COMPOSITE_DS = None
+
+    def __init__(self, local_path=None):
+        if local_path is not None and os.path.isdir(os.path.join(local_path, ENTERPRISE_ATTCK_LOCAL_DIR)) \
+                                  and os.path.isdir(os.path.join(local_path, PRE_ATTCK_LOCAL_DIR)) \
+                                  and os.path.isdir(os.path.join(local_path, MOBILE_ATTCK_LOCAL_DIR)):
+            self.TC_ENTERPRISE_SOURCE = FileSystemSource(os.path.join(local_path, ENTERPRISE_ATTCK_LOCAL_DIR))
+            self.TC_PRE_SOURCE = FileSystemSource(os.path.join(local_path, PRE_ATTCK_LOCAL_DIR))
+            self.TC_MOBILE_SOURCE = FileSystemSource(os.path.join(local_path, MOBILE_ATTCK_LOCAL_DIR))
+        else:
+            local_path = None
+
+        if local_path is None:
+            ENTERPRISE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + ENTERPRISE_ATTCK + "/")
+            PRE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + PRE_ATTCK + "/")
+            MOBILE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + MOBILE_ATTCK + "/")
+
+            self.TC_ENTERPRISE_SOURCE = TAXIICollectionSource(ENTERPRISE_COLLECTION)
+            self.TC_PRE_SOURCE = TAXIICollectionSource(PRE_COLLECTION)
+            self.TC_MOBILE_SOURCE = TAXIICollectionSource(MOBILE_COLLECTION)
+
+        self.COMPOSITE_DS = CompositeDataSource()
+        self.COMPOSITE_DS.add_data_sources([self.TC_ENTERPRISE_SOURCE, self.TC_PRE_SOURCE, self.TC_MOBILE_SOURCE])
             
     def translate_stix_objects(self, stix_objects):
         technique_stix_mapping = {
