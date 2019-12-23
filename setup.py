@@ -13,13 +13,12 @@ with open('README.md')as f:
 
 setuptools.setup(
     name="attackcti",
-    version="0.3.0",
+    version="0.3.1",
     author="Roberto Rodriguez",
-    author_email="rrodriguezops@gmail.com",
     description="ATTACK CTI Libary",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Cyb3rWard0g/ATTACK-Python-Client",
+    url="https://github.com/hunters-forge/ATTACK-Python-Client",
     keywords="threat hunting dfir cti cyber threat intelligence",
     packages=setuptools.find_packages(),
     install_requires=[
