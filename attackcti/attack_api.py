@@ -39,9 +39,6 @@ class attack_client(object):
             self.TC_PRE_SOURCE = FileSystemSource(os.path.join(local_path, PRE_ATTCK_LOCAL_DIR))
             self.TC_MOBILE_SOURCE = FileSystemSource(os.path.join(local_path, MOBILE_ATTCK_LOCAL_DIR))
         else:
-            local_path = None
-
-        if local_path is None:
             ENTERPRISE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + ENTERPRISE_ATTCK + "/")
             PRE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + PRE_ATTCK + "/")
             MOBILE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + MOBILE_ATTCK + "/")
