@@ -11,7 +11,7 @@
 
 from stix2 import TAXIICollectionSource, Filter, CompositeDataSource, FileSystemSource
 from stix2.utils import get_type_from_id
-from taxii2client import Collection
+from taxii2client.v20 import Collection
 import json
 import os
 
