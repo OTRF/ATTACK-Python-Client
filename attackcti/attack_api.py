@@ -246,6 +246,17 @@ class attack_client(object):
                     continue
             handle_revoked.append(obj)
         return handle_revoked
+    
+    def remove_deprecated(self, stix_objects, extract=False):
+        handle_deprecated = list()
+        for obj in stix_objects:
+            if 'x_mitre_deprecated' in obj.keys() and obj['x_mitre_deprecated'] == True:
+                if extract:
+                    handle_deprecated.append(obj)
+                else:
+                    continue
+            handle_deprecated.append(obj)
+        return handle_deprecated
 
     # ******** Enterprise ATT&CK Technology Domain  *******
     def get_enterprise(self, stix_format=True):
