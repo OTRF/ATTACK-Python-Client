@@ -239,23 +239,33 @@ class attack_client(object):
     def remove_revoked(self, stix_objects, extract=False):
         handle_revoked = list()
         for obj in stix_objects:
-            if 'revoked' in obj.keys() and obj['revoked'] == True:
+            if 'revoked' in obj.keys():
                 if extract:
-                    handle_revoked.append(obj)
+                    if obj['revoked']:
+                        handle_revoked.append(obj)
+                    else:
+                        continue
                 else:
-                    continue
-            handle_revoked.append(obj)
+                    if obj['revoked'] == False:
+                        handle_revoked.append(obj)
+            else:
+                handle_revoked.append(obj)
         return handle_revoked
     
     def remove_deprecated(self, stix_objects, extract=False):
         handle_deprecated = list()
         for obj in stix_objects:
-            if 'x_mitre_deprecated' in obj.keys() and obj['x_mitre_deprecated'] == True:
+            if 'x_mitre_deprecated' in obj.keys():
                 if extract:
-                    handle_deprecated.append(obj)
+                    if obj['x_mitre_deprecated']:
+                        handle_deprecated.append(obj)
+                    else:
+                        continue
                 else:
-                    continue
-            handle_deprecated.append(obj)
+                    if obj['x_mitre_deprecated'] == False:
+                        handle_deprecated.append(obj)
+            else:
+                handle_deprecated.append(obj)
         return handle_deprecated
 
     # ******** Enterprise ATT&CK Technology Domain  *******
@@ -667,11 +677,14 @@ class attack_client(object):
         for gt in group_techniques_ref:
             for t in techniques:
                 if gt['technique_ref'] == t['id']:
+                    if 'revoked' in t.keys():
+                        gt['revoked'] = t['revoked']
                     tactic_list = list()
-                    for phase in t['kill_chain_phases']:
-                        tactic_list.append(phase['phase_name'])
+                    if 'kill_chain_phases' in t.keys():
+                        tactic_list = t['kill_chain_phases']
                     gt['technique'] = t['name']
-                    gt['technique_description'] = t['description']
+                    if 'description' in t.keys():
+                        gt['technique_description'] = t['description']
                     gt['tactic'] = tactic_list
                     gt['technique_id'] = t['external_references'][0]['external_id']
                     gt['matrix'] =  t['external_references'][0]['source_name']
@@ -887,7 +900,7 @@ class attack_client(object):
                         "description": ("Enterprise techniques used by {0}, ATT&CK group {1} v1.0".format(k,v[0]['group_id'])),
                         "name": ("{0} ({1})".format(k,v[0]['group_id'])),
                         "domain": "mitre-enterprise",
-                        "version": "2.2",
+                        "version": "3.0",
                         "techniques": [
                             {
                                 "score": 1,

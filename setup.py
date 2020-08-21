@@ -13,7 +13,7 @@ with open('README.md')as f:
 
 setuptools.setup(
     name="attackcti",
-    version="0.3.2",
+    version="0.3.3",
     author="Roberto Rodriguez",
     description="ATTACK CTI Libary",
     long_description=long_description,
