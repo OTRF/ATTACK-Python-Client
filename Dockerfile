@@ -18,7 +18,7 @@ RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
     ${NB_USER} \
-    && python3 -m pip install --upgrade attackcti==0.3.1 pandas==0.25.2 altair vega
+    && python3 -m pip install --upgrade attackcti==0.3.4 pandas==1.1.4 altair vega
 
 COPY notebooks/ ${HOME}
 
