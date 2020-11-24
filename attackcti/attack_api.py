@@ -14,6 +14,7 @@ from stix2.utils import get_type_from_id
 from taxii2client.v20 import Collection
 import json
 import os
+import warnings
 
 ATTACK_STIX_COLLECTIONS = "https://cti-taxii.mitre.org/stix/collections/"
 ENTERPRISE_ATTACK = "95ecc380-afe9-11e4-9b6c-751b66dd541e"
@@ -244,37 +245,37 @@ class attack_client(object):
             stix_objects_list.append(obj_dict)
         return stix_objects_list
 
-    def remove_revoked(self, stix_objects, extract=False):
-        handle_revoked = list()
+    def remove_revoked(self, stix_objects):
+        non_revoked = list()
         for obj in stix_objects:
-            if 'revoked' in obj.keys():
-                if extract:
-                    if obj['revoked']:
-                        handle_revoked.append(obj)
-                    else:
-                        continue
-                else:
-                    if obj['revoked'] == False:
-                        handle_revoked.append(obj)
+            if 'revoked' in obj.keys() and obj['revoked'] == True:
+                continue
             else:
-                handle_revoked.append(obj)
-        return handle_revoked
+                non_revoked.append(obj)
+        return non_revoked
     
-    def remove_deprecated(self, stix_objects, extract=False):
-        handle_deprecated = list()
+    def extract_revoked(self, stix_objects):
+        revoked = list()
         for obj in stix_objects:
-            if 'x_mitre_deprecated' in obj.keys():
-                if extract:
-                    if obj['x_mitre_deprecated']:
-                        handle_deprecated.append(obj)
-                    else:
-                        continue
-                else:
-                    if obj['x_mitre_deprecated'] == False:
-                        handle_deprecated.append(obj)
+            if 'revoked' in obj.keys() and obj['revoked'] == True:
+                revoked.append(obj)
+        return revoked
+    
+    def remove_deprecated(self, stix_objects):
+        non_deprecated = list()
+        for obj in stix_objects:
+            if 'x_mitre_deprecated' in obj.keys() and obj['x_mitre_deprecated'] == True:
+                continue
             else:
-                handle_deprecated.append(obj)
-        return handle_deprecated
+                non_deprecated.append(obj)
+        return non_deprecated
+
+    def extract_deprecated(self, stix_objects):
+        deprecated = list()
+        for obj in stix_objects:
+            if 'x_mitre_deprecated' in obj.keys() and obj['x_mitre_deprecated'] == True:
+                deprecated.append(obj)
+        return deprecated
 
     # ******** Enterprise ATT&CK Technology Domain  *******
     def get_enterprise(self, stix_format=True):
@@ -421,6 +422,9 @@ class attack_client(object):
             List of STIX objects
         
         """
+
+        warnings.warn("PRE ATT&CK is deprecated. It will be removed in future versions. Consider adjusting your application")
+
         pre_filter_objects = {
             "techniques": Filter("type", "=", "attack-pattern"),
             "groups": Filter("type", "=", "intrusion-set"),
@@ -434,7 +438,7 @@ class attack_client(object):
         for key in pre_filter_objects:
             pre_stix_objects[key] = self.TC_PRE_SOURCE.query(pre_filter_objects[key])
             if not stix_format:
-                pre_stix_objects[key] = self.translate_stix_objects(pre_stix_objects[key])           
+                pre_stix_objects[key] = self.translate_stix_objects(pre_stix_objects[key])          
         return pre_stix_objects
 
     def get_pre_techniques(self, stix_format=True):
@@ -447,6 +451,9 @@ class attack_client(object):
             List of STIX objects
         
         """
+
+        warnings.warn("PRE ATT&CK is deprecated. It will be removed in future versions. Consider adjusting your application")
+
         pre_techniques = self.TC_PRE_SOURCE.query(Filter("type", "=", "attack-pattern"))
         if not stix_format:
             pre_techniques = self.translate_stix_objects(pre_techniques)
@@ -462,6 +469,9 @@ class attack_client(object):
             List of STIX objects
         
         """
+
+        warnings.warn("PRE ATT&CK is deprecated. It will be removed in future versions. Consider adjusting your application")
+
         pre_groups = self.TC_PRE_SOURCE.query(Filter("type", "=", "intrusion-set"))
         if not stix_format:
             pre_groups = self.translate_stix_objects(pre_groups)
@@ -477,6 +487,9 @@ class attack_client(object):
             List of STIX objects
         
         """
+
+        warnings.warn("PRE ATT&CK is deprecated. It will be removed in future versions. Consider adjusting your application")
+
         pre_relationships = self.TC_PRE_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             pre_relationships = self.translate_stix_objects(pre_relationships)
@@ -492,6 +505,9 @@ class attack_client(object):
             List of STIX objects
         
         """
+
+        warnings.warn("PRE ATT&CK is deprecated. It will be removed in future versions. Consider adjusting your application")
+
         pre_tactics = self.TC_PRE_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             pre_tactics = self.translate_stix_objects(pre_tactics)
@@ -508,6 +524,7 @@ class attack_client(object):
             List of STIX objects
         
         """
+
         mobile_filter_objects = {
             "techniques": Filter("type", "=", "attack-pattern"),
             "mitigations": Filter("type", "=", "course-of-action"),

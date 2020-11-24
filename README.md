@@ -1,6 +1,8 @@
 # ATT&CK Python Client
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/OTRF/ATTACK-Python-Client/master)
+[![Open_Threat_Research Community](https://img.shields.io/badge/Open_Threat_Research-Community-brightgreen.svg)](https://twitter.com/OTR_Community)
+[![Open Source Love svg1](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 A Python module to access up to date ATT&CK content available in STIX via public TAXII server. This project leverages the python classes and functions of the [cti-python-stix2](https://github.com/oasis-open/cti-python-stix2) and [cti-taxii-client](https://github.com/oasis-open/cti-taxii-client) libraries developed by MITRE.
 
@@ -15,10 +17,6 @@ A Python module to access up to date ATT&CK content available in STIX via public
 ## Current Status: Production/Stable
 
 The project is currently in a Production/Stable stage, which means that the current main functions are more stable. I would love to get your feedback to make it a better project.
-
-## Updates
-
-* 11/23/2020 - Added ICS ATT&CK functionality (PRE-ATTACK is deprecated but still available through the library to not break current deployments that leverage it)
 
 ## Resources
 
