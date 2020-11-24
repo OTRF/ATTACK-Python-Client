@@ -49,7 +49,7 @@ pip install attackcti
 Or you can also do the following:
 
 ```
-git clone https://github.com/Cyb3rWard0g/ATTACK-Python-Client
+git clone https://github.com/OTRF/ATTACK-Python-Client
 cd ATTACK-Python-Client
 pip install .
 ```

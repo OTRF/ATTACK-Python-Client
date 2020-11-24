@@ -22,7 +22,7 @@ Or you can install it from source:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/Cyb3rWard0g/ATTACK-Python-Client
+    $ git clone https://github.com/OTRF/ATTACK-Python-Client
     $ cd ATTACK-Python-Client
     $ pip install .
 
