@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ATTACK-Python-Client's documentation!
-================================================
+ATTACK-Python-Client's documentation!
+=====================================
 
 A Python module to access up to date ATT&CK content available in STIX format via its public TAXII server.
 This project leverages the python classes and functions of the `cti-python-stix2 <https://github.com/oasis-open/cti-python-stix2>`_ and `cti-taxii-client <https://github.com/oasis-open/cti-taxii-client>`_ libraries developed by MITRE.
@@ -18,6 +18,19 @@ Goals
 * Help security analysts during the transition from the ATT&CK MediaWiki API to the STIX/TAXII 2.0 API
 * Learn STIX2 and TAXII Client Python libraries
 
+Updates
+*******
+
+* 11/23/2020 - Added ICS ATT&CK functionality (PRE-ATTACK is deprecated but still available through the library to not break current deployments that leverage it)
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: ATTACK CTI Library:
+
+   Overview <attackcti_overview>
+   Functions <attackcti_functions>
+   
 .. toctree::
    :maxdepth: 2
    :caption: OASIS CTI TC
@@ -28,13 +41,6 @@ Goals
 
 .. toctree::
    :maxdepth: 2
-   :caption: ATTACK CTI Library:
-
-   Overview <attackcti_overview>
-   Functions <attackcti_functions>
-
-.. toctree::
-   :maxdepth: 2
    :caption: Licenses:
 
-   GNU General Public License V3 <license>
+   BSD 3-Clause License <license>

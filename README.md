@@ -1,10 +1,10 @@
 # ATT&CK Python Client
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/hunters-forge/ATTACK-Python-Client/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/OTRF/ATTACK-Python-Client/master)
 
 A Python module to access up to date ATT&CK content available in STIX via public TAXII server. This project leverages the python classes and functions of the [cti-python-stix2](https://github.com/oasis-open/cti-python-stix2) and [cti-taxii-client](https://github.com/oasis-open/cti-taxii-client) libraries developed by MITRE.
 
-# Goals
+## Goals
 
 * Provide an easy way to access and interact with up to date ATT&CK content available in STIX via public TAXII server
 * Allow security analysts to quickly explore ATT&CK content and apply it in their daily operations
@@ -12,11 +12,15 @@ A Python module to access up to date ATT&CK content available in STIX via public
 * Help security analysts during the transition from the ATT&CK MediaWiki API to the STIX/TAXII 2.0 API
 * Learn STIX2 and TAXII Client Python libraries
 
-# Current Status: Beta
+## Current Status: Production/Stable
 
-The project is currently in a beta stage, which means that the code and the functionality is changing, but the current main functions are stabilising. I would love to get your feedback to make it a better project.
+The project is currently in a Production/Stable stage, which means that the current main functions are more stable. I would love to get your feedback to make it a better project.
 
-# Resources
+## Updates
+
+* 11/23/2020 - Added ICS ATT&CK functionality (PRE-ATTACK is deprecated but still available through the library to not break current deployments that leverage it)
+
+## Resources
 
 * [MITRE CTI](https://github.com/mitre/cti)
 * [OASIS CTI TAXII Client](https://github.com/oasis-open/cti-taxii-client)
@@ -26,15 +30,15 @@ The project is currently in a beta stage, which means that the code and the func
 * [Invoke-ATTACKAPI](https://github.com/Cyb3rWard0g/Invoke-ATTACKAPI)
 * [Mitre-Attack-API](https://github.com/annamcabee/Mitre-Attack-API)
 
-# Getting Started
+## Getting Started
 
 [Attackcti Docs](https://attackcti.readthedocs.io/en/latest/)
 
-## Requirements
+### Requirements
 
 Python 3+
 
-## Installation
+### Installation
 
 You can install it via PIP:
 
@@ -50,15 +54,10 @@ cd ATTACK-Python-Client
 pip install .
 ```
 
-# Author
+## Author
 
 * Roberto Rodriguez [@Cyb3rWard0g](https://twitter.com/Cyb3rWard0g)
 
-# Contributors
+## Official Committers
 
 * Jose Luis Rodriguez [@Cyb3rPandaH](https://twitter.com/Cyb3rPandaH)
-
-# To-Do
-
-* [X] Revokation logic to update Groups Objects
-* [ ] Integration with HELK

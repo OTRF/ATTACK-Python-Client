@@ -78,7 +78,7 @@ ATT&CK users can use the taxii client and stix libraries together to reference s
 .. code-block:: python
 
     >>> from stix2 import TAXIICollectionSource, Filter
-    >>> from taxii2client import Collection
+    >>> from taxii2client.v20 import Collection
 
     >>> ATTCK_STIX_COLLECTIONS = "https://cti-taxii.mitre.org/stix/collections/"
     >>> ENTERPRISE_ATTCK = "95ecc380-afe9-11e4-9b6c-751b66dd541e"

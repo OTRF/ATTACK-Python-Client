@@ -160,4 +160,4 @@ Notebooks
 
 I put together a few Jupyte notebooks for you to learn a little bit more about a few of the functions available in the ``attackcti`` library:
 
-* `Notebooks <https://github.com/Cyb3rWard0g/ATTACK-Python-Client/tree/master/notebooks>`_
+* `Notebooks <https://github.com/OTRF/ATTACK-Python-Client/tree/master/notebooks>`_

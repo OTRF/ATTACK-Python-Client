@@ -32,7 +32,7 @@ ATT&CK users can use the initial ``Server`` class to instantiate a server object
 
 .. code-block:: python
 
-    >>> from taxii2client import Server
+    >>> from taxii2client.v20 import Server
     >>> server = Server("https://cti-taxii.mitre.org/taxii/")
 
 The server variable can then be used to access initial metadata about the ATT&CK TAXII server:
@@ -125,7 +125,7 @@ We can then use the ``Collection`` class to instantiate TAXII2 Collection object
 
 .. code-block:: python
 
-    >>> from taxii2client import Collection
+    >>> from taxii2client.v20 import Collection
 
     >>> ENTERPRISE_COLLECTION = Collection(api_root.collections[0].url)
     >>> PRE_COLLECTION = Collection(api_root.collections[1].url)

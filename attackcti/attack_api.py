@@ -15,40 +15,48 @@ from taxii2client.v20 import Collection
 import json
 import os
 
-ATTCK_STIX_COLLECTIONS = "https://cti-taxii.mitre.org/stix/collections/"
-ENTERPRISE_ATTCK = "95ecc380-afe9-11e4-9b6c-751b66dd541e"
-PRE_ATTCK = "062767bd-02d2-4b72-84ba-56caef0f8658"
-MOBILE_ATTCK = "2f669986-b40b-4423-b720-4396ca6a462b"
+ATTACK_STIX_COLLECTIONS = "https://cti-taxii.mitre.org/stix/collections/"
+ENTERPRISE_ATTACK = "95ecc380-afe9-11e4-9b6c-751b66dd541e"
+PRE_ATTACK = "062767bd-02d2-4b72-84ba-56caef0f8658"
+MOBILE_ATTACK = "2f669986-b40b-4423-b720-4396ca6a462b"
+ICS_ATTACK = "02c3ef24-9cd4-48f3-a99f-b74ce24f1d34"
 
-ENTERPRISE_ATTCK_LOCAL_DIR = "enterprise-attack"
-PRE_ATTCK_LOCAL_DIR = "pre-attack"
-MOBILE_ATTCK_LOCAL_DIR = "mobile-attack"
+ENTERPRISE_ATTACK_LOCAL_DIR = "enterprise-attack"
+PRE_ATTACK_LOCAL_DIR = "pre-attack"
+MOBILE_ATTACK_LOCAL_DIR = "mobile-attack"
+ICS_ATTACK_LOCAL_DIR = "ics-attack"
 
 
 class attack_client(object):
+    """A Python Module for ATT&CK"""
     TC_ENTERPRISE_SOURCE = None
     TC_PRE_SOURCE = None
     TC_MOBILE_SOURCE = None
+    TC_ICS_SOURCE = None
     COMPOSITE_DS = None
 
     def __init__(self, local_path=None):
-        if local_path is not None and os.path.isdir(os.path.join(local_path, ENTERPRISE_ATTCK_LOCAL_DIR)) \
-                                  and os.path.isdir(os.path.join(local_path, PRE_ATTCK_LOCAL_DIR)) \
-                                  and os.path.isdir(os.path.join(local_path, MOBILE_ATTCK_LOCAL_DIR)):
-            self.TC_ENTERPRISE_SOURCE = FileSystemSource(os.path.join(local_path, ENTERPRISE_ATTCK_LOCAL_DIR))
-            self.TC_PRE_SOURCE = FileSystemSource(os.path.join(local_path, PRE_ATTCK_LOCAL_DIR))
-            self.TC_MOBILE_SOURCE = FileSystemSource(os.path.join(local_path, MOBILE_ATTCK_LOCAL_DIR))
+        if local_path is not None and os.path.isdir(os.path.join(local_path, ENTERPRISE_ATTACK_LOCAL_DIR)) \
+                                  and os.path.isdir(os.path.join(local_path, PRE_ATTACK_LOCAL_DIR)) \
+                                  and os.path.isdir(os.path.join(local_path, MOBILE_ATTACK_LOCAL_DIR)) \
+                                  and os.path.isdir(os.path.join(local_path, ICS_ATTACK_LOCAL_DIR)):
+            self.TC_ENTERPRISE_SOURCE = FileSystemSource(os.path.join(local_path, ENTERPRISE_ATTACK_LOCAL_DIR))
+            self.TC_PRE_SOURCE = FileSystemSource(os.path.join(local_path, PRE_ATTACK_LOCAL_DIR))
+            self.TC_MOBILE_SOURCE = FileSystemSource(os.path.join(local_path, MOBILE_ATTACK_LOCAL_DIR))
+            self.TC_ICS_SOURCE = FileSystemSource(os.path.join(local_path, ICS_ATTACK_LOCAL_DIR))
         else:
-            ENTERPRISE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + ENTERPRISE_ATTCK + "/")
-            PRE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + PRE_ATTCK + "/")
-            MOBILE_COLLECTION = Collection(ATTCK_STIX_COLLECTIONS + MOBILE_ATTCK + "/")
+            ENTERPRISE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ENTERPRISE_ATTACK + "/")
+            PRE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + PRE_ATTACK + "/")
+            MOBILE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + MOBILE_ATTACK + "/")
+            ICS_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ICS_ATTACK + "/")
 
             self.TC_ENTERPRISE_SOURCE = TAXIICollectionSource(ENTERPRISE_COLLECTION)
             self.TC_PRE_SOURCE = TAXIICollectionSource(PRE_COLLECTION)
             self.TC_MOBILE_SOURCE = TAXIICollectionSource(MOBILE_COLLECTION)
+            self.TC_ICS_SOURCE = TAXIICollectionSource(ICS_COLLECTION)
 
         self.COMPOSITE_DS = CompositeDataSource()
-        self.COMPOSITE_DS.add_data_sources([self.TC_ENTERPRISE_SOURCE, self.TC_PRE_SOURCE, self.TC_MOBILE_SOURCE])
+        self.COMPOSITE_DS.add_data_sources([self.TC_ENTERPRISE_SOURCE, self.TC_PRE_SOURCE, self.TC_MOBILE_SOURCE, self.TC_ICS_SOURCE])
             
     def translate_stix_objects(self, stix_objects):
         technique_stix_mapping = {
@@ -270,6 +278,15 @@ class attack_client(object):
 
     # ******** Enterprise ATT&CK Technology Domain  *******
     def get_enterprise(self, stix_format=True):
+        """ Extracts all the available STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+
+        Returns:
+            List of STIX objects
+        
+        """
         enterprise_filter_objects = {
             "techniques": Filter("type", "=", "attack-pattern"),
             "mitigations": Filter("type", "=", "course-of-action"),
@@ -290,49 +307,120 @@ class attack_client(object):
         return enterprise_stix_objects
 
     def get_enterprise_techniques(self, stix_format=True):
+        """ Extracts all the available techniques STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
         enterprise_techniques = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "attack-pattern"))
         if not stix_format:
             enterprise_techniques = self.translate_stix_objects(enterprise_techniques)
         return enterprise_techniques
     
     def get_enterprise_mitigations(self, stix_format=True):
+        """ Extracts all the available mitigations STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         enterprise_mitigations = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "course-of-action"))
         if not stix_format:
             enterprise_mitigations = self.translate_stix_objects(enterprise_mitigations)
         return enterprise_mitigations
     
     def get_enterprise_groups(self, stix_format=True):
+        """ Extracts all the available groups STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         enterprise_groups = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "intrusion-set"))
         if not stix_format:
             enterprise_groups = self.translate_stix_objects(enterprise_groups)
         return enterprise_groups
     
     def get_enterprise_malware(self, stix_format=True):
+        """ Extracts all the available malware STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         enterprise_malware = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "malware"))
         if not stix_format:
             enterprise_malware = self.translate_stix_objects(enterprise_malware)
         return enterprise_malware
     
     def get_enterprise_tools(self, stix_format=True):
+        """ Extracts all the available tools STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         enterprise_tools = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "tool"))
         if not stix_format:
             enterprise_tools = self.translate_stix_objects(enterprise_tools)
         return enterprise_tools
     
     def get_enterprise_relationships(self, stix_format=True):
+        """ Extracts all the available relationships STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         enterprise_relationships = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             enterprise_relationships = self.translate_stix_objects(enterprise_relationships)
         return enterprise_relationships
     
     def get_enterprise_tactics(self, stix_format=True):
+        """ Extracts all the available tactics STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         enterprise_tactics = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             enterprise_tactics = self.translate_stix_objects(enterprise_tactics)
         return enterprise_tactics
 
-    # ******** Pre ATT&CK Domain  *******
+    # ******** Pre ATT&CK Domain [DEPRECATED] 11/23/2020 *******
     def get_pre(self, stix_format=True):
+        """ Extracts all the available STIX objects in the Pre ATT&CK matrix [ DEPRECATED AS OF 11/23/2020 ]
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         pre_filter_objects = {
             "techniques": Filter("type", "=", "attack-pattern"),
             "groups": Filter("type", "=", "intrusion-set"),
@@ -350,24 +438,60 @@ class attack_client(object):
         return pre_stix_objects
 
     def get_pre_techniques(self, stix_format=True):
+        """ Extracts all the available techniques STIX objects in the Pre ATT&CK matrix [ DEPRECATED AS OF 11/23/2020 ]
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         pre_techniques = self.TC_PRE_SOURCE.query(Filter("type", "=", "attack-pattern"))
         if not stix_format:
             pre_techniques = self.translate_stix_objects(pre_techniques)
         return pre_techniques
 
     def get_pre_groups(self, stix_format=True):
+        """ Extracts all the available groups STIX objects in the Pre ATT&CK matrix [ DEPRECATED AS OF 11/23/2020 ]
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         pre_groups = self.TC_PRE_SOURCE.query(Filter("type", "=", "intrusion-set"))
         if not stix_format:
             pre_groups = self.translate_stix_objects(pre_groups)
         return pre_groups
 
     def get_pre_relationships(self, stix_format=True):
+        """ Extracts all the available relationships STIX objects in the Pre ATT&CK matrix [ DEPRECATED AS OF 11/23/2020 ]
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         pre_relationships = self.TC_PRE_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             pre_relationships = self.translate_stix_objects(pre_relationships)
         return pre_relationships
     
     def get_pre_tactics(self, stix_format=True):
+        """ Extracts all the available tactics STIX objects in the Pre ATT&CK matrix [ DEPRECATED AS OF 11/23/2020 ]
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         pre_tactics = self.TC_PRE_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             pre_tactics = self.translate_stix_objects(pre_tactics)
@@ -375,6 +499,15 @@ class attack_client(object):
 
     # ******** Mobile ATT&CK Technology Domain  *******
     def get_mobile(self, stix_format=True):
+        """ Extracts all the available STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         mobile_filter_objects = {
             "techniques": Filter("type", "=", "attack-pattern"),
             "mitigations": Filter("type", "=", "course-of-action"),
@@ -395,52 +528,233 @@ class attack_client(object):
         return mobile_stix_objects
   
     def get_mobile_techniques(self, stix_format=True):
+        """ Extracts all the available techniques STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         mobile_techniques = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "attack-pattern"))
         if not stix_format:
             mobile_techniques = self.translate_stix_objects(mobile_techniques)
         return mobile_techniques
     
     def get_mobile_mitigations(self, stix_format=True):
+        """ Extracts all the available mitigations STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         mobile_mitigations = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "course-of-action"))
         if not stix_format:
             mobile_mitigations = self.translate_stix_objects(mobile_mitigations)
         return mobile_mitigations
 
     def get_mobile_groups(self, stix_format=True):
+        """ Extracts all the available groups STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         mobile_groups = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "intrusion-set"))
         if not stix_format:
             mobile_groups = self.translate_stix_objects(mobile_groups)
         return mobile_groups
     
     def get_mobile_malware(self, stix_format=True):
+        """ Extracts all the available malware STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         mobile_malware = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "malware"))
         if not stix_format:
             mobile_malware = self.translate_stix_objects(mobile_malware)
         return mobile_malware
     
     def get_mobile_tools(self, stix_format=True):
+        """Extracts all the available tools STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         mobile_tools = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "tool"))
         if not stix_format:
             mobile_tools = self.translate_stix_objects(mobile_tools)
         return mobile_tools
 
     def get_mobile_relationships(self, stix_format=True):
+        """ Extracts all the available relationships STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         mobile_relationships = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             mobile_relationships = self.translate_stix_objects(mobile_relationships)
         return mobile_relationships
     
     def get_mobile_tactics(self, stix_format=True):
+        """ Extracts all the available tactics STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         mobile_tactics = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             mobile_tactics = self.translate_stix_objects(mobile_tactics)
         return mobile_tactics
+    
+    # ******** ICS ATT&CK Technology Domain *******
+    def get_ics(self, stix_format=True):
+        """ Extracts all the available STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        ics_filter_objects = {
+            "techniques": Filter("type", "=", "attack-pattern"),
+            "mitigations": Filter("type", "=", "course-of-action"),
+            "groups": Filter("type", "=", "intrusion-set"),
+            "malware": Filter("type", "=", "malware"),
+            "relationships": Filter("type", "=", "relationship"),
+            "tactics": Filter("type", "=", "x-mitre-tactic"),
+            "matrix": Filter("type", "=", "x-mitre-matrix")
+        }
+        ics_stix_objects = {}
+        for key in ics_filter_objects:
+            ics_stix_objects[key] = self.TC_ICS_SOURCE.query(ics_filter_objects[key])
+            if not stix_format:
+                ics_stix_objects[key] = self.translate_stix_objects(ics_stix_objects[key])           
+        return ics_stix_objects
+
+    def get_ics_techniques(self, stix_format=True):
+        """ Extracts all the available techniques STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        ics_techniques = self.TC_ICS_SOURCE.query(Filter("type", "=", "attack-pattern"))
+        if not stix_format:
+            ics_techniques = self.translate_stix_objects(ics_techniques)
+        return ics_techniques
+
+    def get_ics_mitigations(self, stix_format=True):
+        """ Extracts all the available mitigations STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        ics_mitigations = self.TC_ICS_SOURCE.query(Filter("type", "=", "course-of-action"))
+        if not stix_format:
+            ics_mitigations = self.translate_stix_objects(ics_mitigations)
+        return ics_mitigations
+
+    def get_ics_groups(self, stix_format=True):
+        """ Extracts all the available groups STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        ics_groups = self.TC_ICS_SOURCE.query(Filter("type", "=", "intrusion-set"))
+        if not stix_format:
+            ics_groups = self.translate_stix_objects(ics_groups)
+        return ics_groups
+
+    def get_ics_malware(self, stix_format=True):
+        """ Extracts all the available malware STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        ics_malware = self.TC_ICS_SOURCE.query(Filter("type", "=", "malware"))
+        if not stix_format:
+            ics_malware = self.translate_stix_objects(ics_malware)
+        return ics_malware
+
+    def get_ics_relationships(self, stix_format=True):
+        """ Extracts all the available relationships STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        ics_relationships = self.TC_ICS_SOURCE.query(Filter("type", "=", "relationship"))
+        if not stix_format:
+            ics_relationships = self.translate_stix_objects(ics_relationships)
+        return ics_relationships
+    
+    def get_ics_tactics(self, stix_format=True):
+        """ Extracts all the available tactics STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        ics_tactics = self.TC_ICS_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
+        if not stix_format:
+            ics_tactics = self.translate_stix_objects(ics_tactics)
+        return ics_tactics
 
     # ******** Get All Functions ********
     def get_stix_objects(self, stix_format=True):
         enterprise_objects = self.get_enterprise()
         pre_objects = self.get_pre()
         mobile_objects = self.get_mobile()
+        ics_objects = self.get_ics()
         for keypre in pre_objects.keys():
             for preobj in pre_objects[keypre]:
                 if keypre in enterprise_objects.keys():
@@ -451,56 +765,118 @@ class attack_client(object):
                 if keymob in enterprise_objects.keys():
                     if mobobj not in enterprise_objects[keymob]:
                         enterprise_objects[keymob].append(mobobj)
+        for keyics in ics_objects.keys():
+            for icsobj in ics_objects[keyics]:
+                if keyics in enterprise_objects.keys():
+                    if icsobj not in enterprise_objects[keyics]:
+                        enterprise_objects[keyics].append(icsobj)
         if not stix_format:
             for enterkey in enterprise_objects.keys():
                 enterprise_objects[enterkey] = self.translate_stix_objects(enterprise_objects[enterkey])
         return enterprise_objects
     
     def get_techniques(self, stix_format=True):
+        """ Extracts all the available techniques STIX objects across all ATT&CK matrices
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         all_techniques = self.COMPOSITE_DS.query(Filter("type", "=", "attack-pattern"))
         if not stix_format:
             all_techniques = self.translate_stix_objects(all_techniques)
         return all_techniques
     
     def get_groups(self, stix_format=True):
+        """ Extracts all the available groups STIX objects across all ATT&CK matrices
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         all_groups = self.COMPOSITE_DS.query(Filter("type", "=", "intrusion-set"))
         if not stix_format:
             all_groups = self.translate_stix_objects(all_groups)
         return all_groups
    
     def get_mitigations(self, stix_format=True):
+        """ Extracts all the available mitigations STIX objects across all ATT&CK matrices
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        """
         enterprise_mitigations = self.get_enterprise_mitigations()
         mobile_mitigations = self.get_mobile_mitigations()
+        ics_mitigations = self.get_ics_mitigations()
         for mm in mobile_mitigations:
             if mm not in enterprise_mitigations:
                 enterprise_mitigations.append(mm)
+        for im in ics_mitigations:
+            if im not in enterprise_mitigations:
+                enterprise_mitigations.append(im)
         if not stix_format:
             enterprise_mitigations = self.translate_stix_objects(enterprise_mitigations)
         return enterprise_mitigations
     
     def get_software(self, stix_format=True):
+        """ Extracts all the available software STIX objects across all ATT&CK matrices
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         enterprise_malware = self.get_enterprise_malware()
         enterprise_tools = self.get_enterprise_tools()
         mobile_malware = self.get_mobile_malware()
         mobile_tools = self.get_mobile_tools()
+        ics_malware = self.get_ics_malware()
         for mt in mobile_tools:
             if mt not in enterprise_tools:
                 enterprise_tools.append(mt)
         for mmal in mobile_malware:
             if mmal not in enterprise_malware:
                 enterprise_malware.append(mmal)
+        for imal in ics_malware:
+            if imal not in enterprise_malware:
+                enterprise_malware.append(imal)
         all_software = enterprise_tools + enterprise_malware
         if not stix_format:
             all_software = self.translate_stix_objects(all_software)
         return all_software
    
     def get_relationships(self, stix_format=True):
+        """ Extracts all the available relationships STIX objects across all ATT&CK matrices
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         all_relationships = self.COMPOSITE_DS.query(Filter("type", "=", "relationship"))
         if not stix_format:
             all_relationships = self.translate_stix_objects(all_relationships)
         return all_relationships
     
     def get_tactics(self, stix_format=True):
+        """ Extracts all the available tactics STIX objects across all ATT&CK matrices
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         all_tactics = self.COMPOSITE_DS.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             all_tactics = self.translate_stix_objects(all_tactics)
@@ -508,6 +884,16 @@ class attack_client(object):
 
     # ******** Custom Functions ********
     def get_technique_by_name(self, name, case=True, stix_format=True):
+        """ Extracts technique STIX object by name across all ATT&CK matrices
+
+        Args:
+            case (bool) : case sensitive or not
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         if not case:
             all_techniques = self.get_techniques()
             all_techniques_list = list()
@@ -525,6 +911,16 @@ class attack_client(object):
         return all_techniques_list
     
     def get_techniques_by_content(self, name, case=True, stix_format=True):
+        """ Extracts technique STIX object by content across all ATT&CK matrices
+
+        Args:
+            case (bool) : case sensitive or not
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         all_techniques = self.get_techniques()
         all_techniques_list = list()
         for tech in all_techniques:
@@ -536,6 +932,16 @@ class attack_client(object):
         return all_techniques_list
     
     def get_techniques_by_platform(self, name, case=True, stix_format=True ):
+        """ Extracts techniques STIX object by platform across all ATT&CK matrices
+
+        Args:
+            case (bool) : case sensitive or not
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         if not case:
             all_techniques = self.get_techniques()
             all_techniques_list = list()
@@ -555,6 +961,16 @@ class attack_client(object):
         return all_techniques_list
     
     def get_techniques_by_tactic(self, name, case=True, stix_format=True ):
+        """ Extracts techniques STIX objects by tactic accross all ATT&CK matrices
+
+        Args:
+            case (bool) : case sensitive or not
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         if not case:
             all_techniques = self.get_techniques()
             all_techniques_list = list()
@@ -573,6 +989,17 @@ class attack_client(object):
         return all_techniques_list
 
     def get_object_by_attack_id(self, object_type, attack_id, stix_format=True):
+        """ Extracts STIX object by attack id accross all ATT&CK matrices
+
+        Args:
+            object_type (str) : Object type such as 'attack-pattern' or 'course-of-action' or 'intrusion-set' or 'malware' or 'tool
+            attack_id (str) : STIX object ID
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         valid_objects = {'attack-pattern','course-of-action','intrusion-set','malware','tool'}
         if object_type not in valid_objects:
             raise ValueError("ERROR: Valid object must be one of %r" % valid_objects)
@@ -587,6 +1014,17 @@ class attack_client(object):
             return all_stix_objects
 
     def get_group_by_alias(self, group_alias, case=True, stix_format=True):
+        """ Extracts group STIX objects by alias name accross all ATT&CK matrices
+
+        Args:
+            group_alias (str) : Alias of threat actor group
+            case (bool) : case sensitive or not
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         if not case:
             all_groups = self.get_groups()
             all_groups_list = list()
@@ -606,6 +1044,16 @@ class attack_client(object):
         return all_groups_list
     
     def get_techniques_since_time(self, timestamp, stix_format=True):
+        """ Extracts techniques STIX objects since specific time accross all ATT&CK matrices
+
+        Args:
+            timestamp (timestamp): Timestamp
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         filter_objects = [
             Filter('type', '=', 'attack-pattern'),
             Filter('created', '>', timestamp)
@@ -616,6 +1064,16 @@ class attack_client(object):
         return all_techniques_list
 
     def get_relationships_by_object(self, stix_object, stix_format=True):
+        """ Extracts relationship STIX objects by STIX object accross all ATT&CK matrices
+
+        Args:
+            stix_object (stix object) : STIX Object to exrtract relationships from
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         if stix_object['type'] == 'course-of-action':
             relationships = self.COMPOSITE_DS.relationships(stix_object, 'mitigates', source_only=True)
         else:
@@ -625,6 +1083,16 @@ class attack_client(object):
         return relationships
     
     def get_techniques_used_by_group(self, stix_object, stix_format=True):
+        """ Extracts technique STIX objects used by one group accross all ATT&CK matrices
+
+        Args:
+            stix_object (stix object) : STIX Object group to extract techniques from
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         relationships = self.get_relationships_by_object(stix_object)
         filter_objects = [
             Filter('type', '=', 'attack-pattern'),
@@ -642,12 +1110,25 @@ class attack_client(object):
             mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
         except:
             mobile_stix_objects = []
-        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
+        try:
+            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_objects)
+        except:
+            ics_stix_objects = []
+        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
         if not stix_format:
             all_techniques_list = self.translate_stix_objects(all_techniques_list)
         return all_techniques_list
     
     def get_techniques_used_by_all_groups(self, stix_format=True):
+        """ Extracts technique STIX objects used by all groups accross all ATT&CK matrices
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         groups = self.get_groups()
         groups = self.remove_revoked(groups)
         techniques = self.get_techniques()
@@ -702,6 +1183,16 @@ class attack_client(object):
         return groups_use_techniques
 
     def get_software_used_by_group(self, stix_object, stix_format=True):
+        """ Extracts software STIX objects used by one group accross all ATT&CK matrices
+
+        Args:
+            stix_object (stix object) : STIX Object group to extract software from
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         relationships = self.get_relationships_by_object(stix_object)
         software_relationships = list()
         for relation in relationships:
@@ -723,12 +1214,26 @@ class attack_client(object):
             mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
         except:
             mobile_stix_objects = []
-        all_software_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
+        try:
+            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_objects)
+        except:
+            ics_stix_objects = []
+        all_software_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
         if not stix_format:
             all_software_list = self.translate_stix_objects(all_software_list)
         return all_software_list
 
     def get_techniques_used_by_software(self, stix_object, stix_format=True):
+        """ Extracts technique STIX objects used by software accross all ATT&CK matrices
+
+        Args:
+            stix_object (stix object) : STIX Object software to extract techniques from
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         relationships = self.get_relationships_by_object(stix_object)
         software_relationships = list()
         for relation in relationships:
@@ -750,12 +1255,26 @@ class attack_client(object):
             mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
         except:
             mobile_stix_objects = []
-        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
+        try:
+            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_objects)
+        except:
+            ics_stix_objects = []
+        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
         if not stix_format:
             all_techniques_list = self.translate_stix_objects(all_techniques_list)
         return all_techniques_list
     
     def get_techniques_used_by_group_software(self, stix_object, stix_format=True):
+        """ Extracts technique STIX objects used by group software accross all ATT&CK matrices
+
+        Args:
+            stix_object (stix object) : STIX Object group software to extract techniques from
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         # Get all relationships available for group
         relationships = self.get_relationships_by_object(stix_object)
         software_relationships = list()
@@ -781,7 +1300,11 @@ class attack_client(object):
             mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
         except:
             mobile_stix_objects = []
-        software_uses = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
+        try:
+            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_objects)
+        except:
+            ics_stix_objects = []
+        software_uses = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
         # Get all techniques used by the software that is used by group
         filter_techniques = [
             Filter('type', '=', 'attack-pattern'),
@@ -799,12 +1322,26 @@ class attack_client(object):
             mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_techniques)
         except:
             mobile_stix_objects = []
-        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
+        try:
+            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_techniques)
+        except:
+            ics_stix_objects = []
+        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
         if not stix_format:
             all_techniques_list = self.translate_stix_objects(all_techniques_list)
         return all_techniques_list
     
     def get_techniques_mitigated_by_mitigation(self, stix_object, stix_format=True):
+        """ Extracts technique STIX objects mitigated by one mitigation accross all ATT&CK matrices
+
+        Args:
+            stix_object (stix object) : STIX Object mitigation to extract techniques mitigated from
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         relationships = self.get_relationships_by_object(stix_object)
         mitigation_relationships = list()
         for relation in relationships:
@@ -826,12 +1363,25 @@ class attack_client(object):
             mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
         except:
             mobile_stix_objects = []
-        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects
+        try:
+            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_objects)
+        except:
+            ics_stix_objects = []
+        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
         if not stix_format:
             all_techniques_list = self.translate_stix_objects(all_techniques_list)
         return all_techniques_list
     
     def get_techniques_mitigated_by_all_mitigations(self, stix_format=True):
+        """ Extracts technique STIX objects mitigated by all mitigations accross all ATT&CK matrices
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         # Get all relationships available
         relationships = self.get_relationships()
         # Get all mitigation relationships
@@ -852,6 +1402,7 @@ class attack_client(object):
         return all_techniques_list
 
     def get_data_sources(self):
+        """ Extracts data sources metadata from all technique STIX objects accross all ATT&CK matrices """
         techniques = self.get_techniques()
         data_sources = []
         for t in techniques:
@@ -860,6 +1411,15 @@ class attack_client(object):
         return data_sources
 
     def get_techniques_by_datasources(self, *args, stix_format=True):
+        """ Extracts technique STIX objects by specific data sources accross all ATT&CK matrices
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
         techniques_results = []
         techniques = self.get_techniques()
         for d in args:
@@ -872,6 +1432,7 @@ class attack_client(object):
         return techniques_results
     
     def export_groups_navigator_layers(self):
+        """ Export group STIX objects metadata in MITRE Navigator Layers format """
         techniques_used = self.get_techniques_used_by_all_groups()
         groups = self.get_groups()
         groups = self.remove_revoked(groups)
