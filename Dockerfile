@@ -20,7 +20,7 @@ RUN adduser --disabled-password \
     ${NB_USER} \
     && python3 -m pip install --upgrade six==1.15.0 attackcti==0.3.4.3 pandas==1.1.4 altair vega
 
-COPY docs/playground/* ${HOME}/notebooks
+COPY docs/playground ${HOME}/notebooks
 
 RUN chown -R ${NB_USER}:${NB_USER} ${HOME} ${JUPYTER_DIR}
 
