@@ -14,6 +14,10 @@ A Python module to access up to date ATT&CK content available in STIX via public
 * Help security analysts during the transition from the ATT&CK MediaWiki API to the STIX/TAXII 2.0 API
 * Learn STIX2 and TAXII Client Python libraries
 
+## Documentation
+
+## [https://attackcti.com](https://attackcti.com)
+
 ## Current Status: Production/Stable
 
 The project is currently in a Production/Stable stage, which means that the current main functions are more stable. I would love to get your feedback to make it a better project.
@@ -27,10 +31,6 @@ The project is currently in a Production/Stable stage, which means that the curr
 * [ATT&CK MediaWiki API](https://attack.mitre.org/wiki/Using_the_API)
 * [Invoke-ATTACKAPI](https://github.com/Cyb3rWard0g/Invoke-ATTACKAPI)
 * [Mitre-Attack-API](https://github.com/annamcabee/Mitre-Attack-API)
-
-## Getting Started
-
-[Attackcti Docs](https://attackcti.readthedocs.io/en/latest/)
 
 ### Requirements
 
