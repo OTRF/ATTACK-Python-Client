@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Techniques from Data Sources &#8212; ATTACK Python Client</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://attackcti.com/playground/techniques_by_datasources.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MITRE ATT&amp;CK API BASICS: Python Client" href="Usage_Basics.html" />
+    <link rel="prev" title="Exploring ICS ATT&amp;CK" href="ICS_ATTACK_Exploration.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ATTACK Python Client</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Playground
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ATT%26CK_DataSources.html">
+   <strong>
+    MITRE ATT&amp;CK PYTHON CLIENT
+   </strong>
+   : Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Export_All_Techniques.html">
+   Export All Techniques
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="export_groups_navigator_layers.html">
+   Exporting ATT&amp;CK Group Navigator Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ICS_ATTACK_Exploration.html">
+   Exploring ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Get Techniques from Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Usage_Basics.html">
+   <strong>
+    MITRE ATT&amp;CK API BASICS
+   </strong>
+   : Python Client
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Usage_Filters.html">
+   <strong>
+    MITRE ATT&amp;CK API FILTERS
+   </strong>
+   : Python Client
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/playground/techniques_by_datasources.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client/issues/new?title=Issue%20on%20page%20%2Fplayground/techniques_by_datasources.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OTRF/ATTACK-Python-Client/master?urlpath=tree/docs/playground/techniques_by_datasources.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-library">
+   Import Library
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-client">
+   Initialize Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrieve-techniques">
+   Retrieve Techniques
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="get-techniques-from-data-sources">
+<h1>Get Techniques from Data Sources<a class="headerlink" href="#get-techniques-from-data-sources" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="import-library">
+<h2>Import Library<a class="headerlink" href="#import-library" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initialize-client">
+<h2>Initialize Client<a class="headerlink" href="#initialize-client" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="retrieve-techniques">
+<h2>Retrieve Techniques<a class="headerlink" href="#retrieve-techniques" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques_by_datasources</span><span class="p">(</span>
+    <span class="s2">&quot;Network intrusion detection system&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Network protocol analysis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Netflow/Enclave netflow&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Packet capture&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DNS records&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">techniques</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>45
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
+    &quot;type&quot;: &quot;attack-pattern&quot;,
+    &quot;id&quot;: &quot;attack-pattern--2877063e-1851-48d2-bcc6-bc1d2733157e&quot;,
+    &quot;created_by_ref&quot;: &quot;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&quot;,
+    &quot;created&quot;: &quot;2020-05-21T17:43:26.506Z&quot;,
+    &quot;modified&quot;: &quot;2020-05-21T17:43:26.506Z&quot;,
+    &quot;name&quot;: &quot;Wireless Compromise&quot;,
+    &quot;description&quot;: &quot;Adversaries may perform wireless compromise as a method of gaining communications and unauthorized access to a wireless network. Access to a wireless network may be gained through the compromise of a wireless device. (Citation: ICSCorsair - Bolshev) (Citation: Hart - Bolshev) Adversaries may also utilize radios and other wireless communication devices on the same frequency as the wireless network. Wireless compromise can be done as an initial access vector from a remote distance.  \n\nA joint case study on the Maroochy Shire Water Services event examined the attack from a cyber security perspective.  (Citation: Maroochy - MITRE - 200808) The adversary disrupted Maroochy Shire&#39;s radio-controlled sewage system by driving around with stolen radio equipment and issuing commands with them. Boden used a two-way radio to communicate with and set the frequencies of Maroochy Shire&#39;s repeater stations. \n\nA Polish student used a modified TV remote controller to gain access to and control over the Lodz city tram system in Poland. (Citation: LodzTram-LondonReconnections-2017-12) (Citation: LodzTram-InHomelandSecurity-2008-02) The remote controller device allowed the student to interface with the tram\u2019s network to modify track settings and override operator control. The adversary may have accomplished this by aligning the controller to the frequency and amplitude of IR control protocol signals. (Citation: LodzTram-Schneier-2008-01) The controller then enabled initial access to the network, allowing the capture and replay of tram signals. (Citation: LodzTram-LondonReconnections-2017-12)&quot;,
+    &quot;kill_chain_phases&quot;: [
+        {
+            &quot;kill_chain_name&quot;: &quot;mitre-ics-attack&quot;,
+            &quot;phase_name&quot;: &quot;initial-access-ics&quot;
+        }
+    ],
+    &quot;external_references&quot;: [
+        {
+            &quot;source_name&quot;: &quot;mitre-ics-attack&quot;,
+            &quot;url&quot;: &quot;https://collaborate.mitre.org/attackics/index.php/Technique/T0860&quot;,
+            &quot;external_id&quot;: &quot;T0860&quot;
+        },
+        {
+            &quot;source_name&quot;: &quot;Hart - Bolshev&quot;,
+            &quot;description&quot;: &quot;Alexander Bolshev. (2014, March 11). S4x14: HART As An Attack Vector. Retrieved January 5, 2020.&quot;,
+            &quot;url&quot;: &quot;https://www.slideshare.net/dgpeters/17-bolshev-1-13&quot;
+        },
+        {
+            &quot;source_name&quot;: &quot;ICSCorsair - Bolshev&quot;,
+            &quot;description&quot;: &quot;Alexander Bolshev, Gleb Cherbov. (2014, July 08). ICSCorsair: How I will PWN your ERP through 4-20 mA current loop. Retrieved January 5, 2020.&quot;,
+            &quot;url&quot;: &quot;https://www.blackhat.com/docs/us-14/materials/us-14-Bolshev-ICSCorsair-How-I-Will-PWN-Your-ERP-Through-4-20mA-Current-Loop-WP.pdf&quot;
+        },
+        {
+            &quot;source_name&quot;: &quot;LodzTram-InHomelandSecurity-2008-02&quot;,
+            &quot;description&quot;: &quot;Shelley Smith. (2008, February 12). Teen Hacker in Poland Plays Trains and Derails City Tram System. Retrieved October 17, 2019.&quot;,
+            &quot;url&quot;: &quot;https://inhomelandsecurity.com/teen%20hacker%20in%20poland%20plays%20tr/&quot;
+        },
+        {
+            &quot;source_name&quot;: &quot;LodzTram-LondonReconnections-2017-12&quot;,
+            &quot;description&quot;: &quot;John Bill. (2017, May 12). Hacked Cyber Security Railways. Retrieved October 17, 2019.&quot;,
+            &quot;url&quot;: &quot;https://www.londonreconnections.com/2017/hacked-cyber-security-railways/&quot;
+        },
+        {
+            &quot;source_name&quot;: &quot;LodzTram-Schneier-2008-01&quot;,
+            &quot;description&quot;: &quot;Bruce Schneier. (2008, January 17). Hacking Polish Trams. Retrieved October 17, 2019.&quot;,
+            &quot;url&quot;: &quot;https://www.schneier.com/blog/archives/2008/01/hacking%20the%20pol.html&quot;
+        },
+        {
+            &quot;source_name&quot;: &quot;Maroochy - MITRE - 200808&quot;,
+            &quot;description&quot;: &quot;Marshall Abrams. (2008, July 23). Malicious Control System Cyber Security Attack Case Study\u2013 Maroochy Water Services, Australia. Retrieved March 27, 2018.&quot;,
+            &quot;url&quot;: &quot;https://www.mitre.org/sites/default/files/pdf/08%201145.pdf&quot;
+        }
+    ],
+    &quot;object_marking_refs&quot;: [
+        &quot;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&quot;
+    ],
+    &quot;x_mitre_contributors&quot;: [
+        &quot;Scott Dougherty&quot;
+    ],
+    &quot;x_mitre_data_sources&quot;: [
+        &quot;Network protocol analysis&quot;,
+        &quot;Packet capture&quot;,
+        &quot;Network intrusion detection system&quot;
+    ],
+    &quot;x_mitre_platforms&quot;: [
+        &quot;Windows&quot;
+    ]
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./playground"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="ICS_ATTACK_Exploration.html" title="previous page">Exploring ICS ATT&amp;CK</a>
+    <a class='right-next' id="next-link" href="Usage_Basics.html" title="next page"><strong>MITRE ATT&amp;CK API BASICS</strong>: Python Client</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Roberto Rodriguez @Cyb3rWard0g<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
