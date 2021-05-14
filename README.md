@@ -8,15 +8,15 @@ A Python module to access up to date ATT&CK content available in STIX via public
 
 ## Goals
 
-* Provide an easy way to access and interact with up to date ATT&CK content available in STIX via public TAXII server
-* Allow security analysts to quickly explore ATT&CK content and apply it in their daily operations
-* Allow the integration of ATT&Ck content with other platforms to host up to date information from the framework
-* Help security analysts during the transition from the ATT&CK MediaWiki API to the STIX/TAXII 2.0 API
+* Provide an easy way to access and interact with up to date ATT&CK content available in STIX via public TAXII server.
+* Allow security analysts to quickly explore ATT&CK content and apply it in their daily operations.
+* Allow the integration of ATT&Ck content with other platforms to host up to date information from the framework.
+* Help security analysts during the transition from the ATT&CK MediaWiki API to the STIX/TAXII 2.0 API.
 * Learn STIX2 and TAXII Client Python libraries
 
 ## Documentation
 
-## [https://attackcti.com](https://attackcti.com)
+### [https://attackcti.com](https://attackcti.com)
 
 ## Current Status: Production/Stable
 
@@ -34,11 +34,14 @@ The project is currently in a Production/Stable stage, which means that the curr
 
 ### Requirements
 
-Python 3+
+Python >= 3.0
+stix2 >= 2.1.0
+taxii2-client >= 2.2.2
+six >= 1.15.0
 
 ### Installation
 
-You can install it via PIP:
+You can install it via pip:
 
 ```
 pip install attackcti
@@ -51,6 +54,14 @@ git clone https://github.com/OTRF/ATTACK-Python-Client
 cd ATTACK-Python-Client
 pip install .
 ```
+
+## Contribution
+
+* Now the Project under production, It will great if you will contribute to the project. Feel free to show your interest in to add more features and testing. Also let us know to add more in this project.
+* There are some basic guidlines to contribute is first connect with to know what we are doing and expanding.
+* Start with basic and in little bit part, One small Pr at a time.
+* Good Title and Description about what you are adding or updating.
+* Be Polite and have Patience, We will definetly reach to you, to see you awsome work.
 
 ## Author
 
