@@ -251,7 +251,10 @@ class attack_client(object):
             if 'revoked' in obj.keys() and obj['revoked'] == True:
                 continue
             else:
-                non_revoked.append(obj)
+                if 'x_mitre_deprecated' in obj.keys() and obj['x_mitre_deprecated'] == True:
+                    continue
+                else:
+                    non_revoked.append(obj)
         return non_revoked
     
     def extract_revoked(self, stix_objects):
