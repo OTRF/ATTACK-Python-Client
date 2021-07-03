@@ -234,7 +234,7 @@ class attack_client(object):
                 elif obj['type'] == "marking-definition":
                     stix_mapping = marking_stix_mapping
                 else:
-                    exit
+                    return stix_objects_list
 
                 if key in stix_mapping.keys():
                     if key == "external_references" or key == "kill_chain_phases":
@@ -1215,6 +1215,8 @@ class attack_client(object):
         for relation in relationships:
             if get_type_from_id(relation.target_ref) in ['malware', 'tool']:
                 software_relationships.append(relation)
+        if len(software_relationships) == 0:
+            return software_relationships
         filter_objects = [
             Filter('type', 'in', ['malware', 'tool']),
             Filter('id', '=', [r.target_ref for r in software_relationships])
@@ -1256,6 +1258,8 @@ class attack_client(object):
         for relation in relationships:
             if get_type_from_id(relation.source_ref) in ['malware', 'tool']:
                 software_relationships.append(relation)
+        if len(software_relationships) == 0:
+            return software_relationships
         filter_objects = [
             Filter('type', '=', 'attack-pattern'),
             Filter('id', '=', [r.target_ref for r in software_relationships])
@@ -1299,6 +1303,8 @@ class attack_client(object):
         for relation in relationships:
             if get_type_from_id(relation.target_ref) in ['malware', 'tool']:
                 software_relationships.append(relation)
+        if len(software_relationships) == 0:
+            return software_relationships
         # Get all used by the software that is used by group
         filter_objects = [
             Filter('type', '=', 'relationship'),
@@ -1364,6 +1370,8 @@ class attack_client(object):
         for relation in relationships:
             if get_type_from_id(relation.source_ref) == 'course-of-action':
                 mitigation_relationships.append(relation)
+        if len(mitigation_relationships) == 0:
+            return mitigation_relationships
         filter_objects = [
             Filter('type', '=', 'attack-pattern'),
             Filter('id', '=', [r.target_ref for r in mitigation_relationships])
@@ -1406,6 +1414,8 @@ class attack_client(object):
         for relation in relationships:
             if get_type_from_id(relation.source_ref) in ['course-of-action']:
                 mitigation_relationships.append(relation)
+        if len(mitigation_relationships) == 0:
+            return mitigation_relationships
         # Get all techniques
         techniques = self.get_techniques()
         all_techniques_list = list()
