@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-When contributing to this repository, Please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
+When contributing to this repository, please share your proposal via a GitHub issue and our [discord](https://discord.com/invite/efBGmbQ) server.
 
 This documentation contains a set of guidelines to help you during the contribution process.
 We are happy to welcome all the contributions from anyone willing to improve/add new scripts to this project. Thank you for helping out and remember, **no contribution is too small.**
