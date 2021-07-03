@@ -57,11 +57,14 @@ pip install .
 
 ## Contribution
 
-* Now the Project under production, It will great if you will contribute to the project. Feel free to show your interest in to add more features and testing. Also let us know to add more in this project.
-* There are some basic guidlines to contribute is first connect with to know what we are doing and expanding.
-* Start with basic and in little bit part, One small Pr at a time.
-* Good Title and Description about what you are adding or updating.
-* Be Polite and have Patience, We will definetly reach to you, to see you awsome work.
+* Now that the project is more stable, It would be great to get your feedback and hopefully get more contributions to the project. Let us know if you have any features in mind. We would love to collaborate to make them happen in the project.
+* Check our basic contribution guidelines and submit an issue with your ideas.
+* Be concise but clear when adding a title and description to your feature proposal.
+* One pull request per issue.
+* Select one or more label when you submit an issue.
+* Make sure you are in the correct branch [Master].
+* Try to avoid sizeable changes unless warranted.
+* Be patient and polite as the project is still relatively small, which is why we would appreciate your help where possible and We will definetly reach to you, to see you awsome work.
 
 ## Author
 
