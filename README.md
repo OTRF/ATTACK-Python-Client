@@ -34,10 +34,10 @@ The project is currently in a Production/Stable stage, which means that the curr
 
 ### Requirements
 
-Python >= 3.0
-stix2 >= 2.1.0
-taxii2-client >= 2.2.2
-six >= 1.15.0
+- Python >= 3.0
+- stix2 >= 2.1.0
+- taxii2-client >= 2.3.0
+- six >= 1.16.0
 
 ### Installation
 
@@ -61,10 +61,10 @@ pip install .
 * Check our basic contribution guidelines and submit an issue with your ideas.
 * Be concise but clear when adding a title and description to your feature proposal.
 * One pull request per issue.
-* Select one or more label when you submit an issue.
+* Select one or more labels when you submit an issue.
 * Make sure you are in the correct branch [Master].
 * Try to avoid sizeable changes unless warranted.
-* Be patient and polite as the project is still relatively small, which is why we would appreciate your help where possible and We will definetly reach to you, to see you awsome work.
+* Be patient and polite as the project is still relatively small, which is why we would appreciate your help where possible.
 
 ## Author
 
