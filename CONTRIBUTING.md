@@ -18,7 +18,7 @@ We are happy to welcome all the contributions from anyone willing to improve/add
   * [Pull Request](#step-6--pull-request)
 
 ## Code of Conduct
-This project and everyone participating in it is governed by the Contributor Covenant. Make sure to read it here: [CODE_OF_CONDUCT.md](https://github.com/thegautamkumarjaiswal/ATTACK-Python-Client/blob/master/CODE_OF_CONDUCT.md)
+This project and everyone participating in it is governed by the Contributor Covenant. Make sure to read it here: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 ## Submit Contributions
 Below you will find the process and workflow used to review and merge your changes.
@@ -31,7 +31,7 @@ Below you will find the process and workflow used to review and merge your chang
 ### Step 1 : Fork the Project
 - Fork this Repository. This will create a Local Copy of this Repository on your Github Profile. Keep a reference to the original project in `upstream` remote.
 ```
-$ git clone https://github.com/<your-username>/Hacking-Scripts
+$ git clone https://github.com/<your-username>/ATTACK-Python-Client.git
 # Navigate to the project directory.
 $ cd Hacking-Scripts
 $ git remote add upstream https://github.com/OTRF/ATTACK-Python-Client.git
