@@ -1499,9 +1499,9 @@ class attack_client(object):
         techniques = self.get_techniques()
         all_techniques_list = list()
         # loop through data component relationships to match technique
-        for mr in data_component_relationships:
+        for dcr in data_component_relationships:
             for t in techniques:
-                if t['id'] == mr['target_ref']:
+                if t['id'] == dcr['target_ref']:
                     all_techniques_list.append(t)
         if not stix_format:
             all_techniques_list = self.translate_stix_objects(all_techniques_list)
