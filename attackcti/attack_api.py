@@ -128,6 +128,17 @@ class attack_client(object):
             "x_mitre_contributors": "contributors",
             "x_mitre_old_attack_id": "old_software_id"
         }
+        data_component_stix_mapping = {
+            "type": "type",
+            "id": "id",
+            "created_by_ref": "created_by_ref",
+            "created": "created",
+            "modified": "modified",
+            "name": "data_component",
+            "description": "data_component_description",
+            "labels": "data_component_labels",
+            "x_mitre_data_source_ref": "data_source",
+        }
         relationship_stix_mapping = {
             "type": "type",
             "id": "id",
@@ -238,6 +249,8 @@ class attack_client(object):
                     stix_mapping = group_stix_mapping
                 elif obj['type'] == "malware" or obj['type'] == "tool":
                     stix_mapping = software_stix_mapping
+                elif obj['type'] == "x-mitre-data-component":
+                    stix_mapping = data_component_stix_mapping
                 elif obj['type'] == "relationship":
                     stix_mapping = relationship_stix_mapping
                 elif obj['type'] == "x-mitre-tactic":
@@ -311,6 +324,7 @@ class attack_client(object):
             "groups": Filter("type", "=", "intrusion-set"),
             "malware": Filter("type", "=", "malware"),
             "tools": Filter("type", "=", "tool"),
+            "data-component": Filter("type", "=", "x-mitre-data-component"),
             "relationships": Filter("type", "=", "relationship"),
             "tactics": Filter("type", "=", "x-mitre-tactic"),
             "matrix": Filter("type", "=", "x-mitre-matrix"),
@@ -337,7 +351,21 @@ class attack_client(object):
         if not stix_format:
             enterprise_techniques = self.translate_stix_objects(enterprise_techniques)
         return enterprise_techniques
-    
+
+    def get_enterprise_data_components(self, stix_format=True):
+        """ Extracts all the available data components STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        enterprise_data_components = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "x-mitre-data-component"))
+        if not stix_format:
+            enterprise_data_components = self.translate_stix_objects(enterprise_data_components)
+        return enterprise_data_components
+
     def get_enterprise_mitigations(self, stix_format=True):
         """ Extracts all the available mitigations STIX objects in the Enterprise ATT&CK matrix
 
@@ -872,7 +900,25 @@ class attack_client(object):
         if not stix_format:
             enterprise_mitigations = self.translate_stix_objects(enterprise_mitigations)
         return enterprise_mitigations
-    
+
+    def get_data_components(self, stix_format=True):
+        """ Extracts all the available data components STIX objects across all ATT&CK matrices
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        """
+        enterprise_data_components = self.get_enterprise_data_components()
+        mobile_data_components = self.get_mobile_data_components()
+        ics_data_components = self.get_ics_data_components()
+        for mdc in mobile_data_components:
+            if mdc not in enterprise_data_components:
+                enterprise_data_components.append(mdc)
+        for idc in ics_data_components:
+            if idc not in enterprise_data_components:
+                enterprise_data_components.append(idc)
+        if not stix_format:
+            enterprise_data_components = self.translate_stix_objects(enterprise_data_components)
+        return enterprise_data_components
+
     def get_software(self, stix_format=True):
         """ Extracts all the available software STIX objects across all ATT&CK matrices
 
@@ -1057,7 +1103,7 @@ class attack_client(object):
         """ Extracts STIX object by attack id accross all ATT&CK matrices
 
         Args:
-            object_type (str) : Object type such as 'attack-pattern' or 'course-of-action' or 'intrusion-set' or 'malware' or 'tool
+            object_type (str) : Object type such as 'attack-pattern' or 'course-of-action' or 'intrusion-set' or 'malware' or 'tool or 'x-mitre-data-component'
             attack_id (str) : STIX object ID
             stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
         
@@ -1065,7 +1111,7 @@ class attack_client(object):
             List of STIX objects
         
         """
-        valid_objects = {'attack-pattern','course-of-action','intrusion-set','malware','tool'}
+        valid_objects = {'attack-pattern','course-of-action','intrusion-set','malware','tool','x-mitre-data-component'}
         if object_type not in valid_objects:
             raise ValueError("ERROR: Valid object must be one of %r" % valid_objects)
         else:
@@ -1141,8 +1187,10 @@ class attack_client(object):
         """
         if stix_object['type'] == 'course-of-action':
             relationships = self.COMPOSITE_DS.relationships(stix_object, 'mitigates', source_only=True)
+        elif stix_object['type'] == 'x-mitre-data-component':
+            relationships = self.COMPOSITE_DS.relationships(stix_object, 'detects', source_only=True)
         else:
-            relationships = self.COMPOSITE_DS.relationships(stix_object, 'uses', source_only=True)
+            relationships = self.COMPOSITE_DS.relationships(stix_object, 'uses', source_only=True) + self.COMPOSITE_DS.relationships(stix_object, 'detects', target_only=True)
         if not stix_format:
             relationships = self.translate_stix_objects(relationships)
         return relationships
@@ -1475,6 +1523,123 @@ class attack_client(object):
         if not stix_format:
             all_techniques_list = self.translate_stix_objects(all_techniques_list)
         return all_techniques_list
+
+    def get_techniques_detected_by_all_data_components(self, stix_format=True):
+        """ Extracts technique STIX objects detected by all data components accross all ATT&CK matrices
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        # Get all relationships available
+        relationships = self.get_relationships()
+        # Get all data component relationships
+        data_component_relationships = list()
+        for relation in relationships:
+            if get_type_from_id(relation.source_ref) in ['x-mitre-data-component']:
+                data_component_relationships.append(relation)
+        if len(data_component_relationships) == 0:
+            return data_component_relationships
+        # Get all techniques
+        techniques = self.get_techniques()
+        all_techniques_list = list()
+        # loop through data component relationships to match technique
+        for dcr in data_component_relationships:
+            for t in techniques:
+                if t['id'] == dcr['target_ref']:
+                    all_techniques_list.append(t)
+        if not stix_format:
+            all_techniques_list = self.translate_stix_objects(all_techniques_list)
+        return all_techniques_list
+
+    def get_techniques_detected_by_data_component(self, stix_object, stix_format=True):
+        """ Extracts technique STIX objects detected by data component accross all ATT&CK matrices
+
+        Args:
+            stix_object (stix object) : STIX Object data component to extract techniques from
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        relationships = self.get_relationships_by_object(stix_object)
+        data_component_relationships = list()
+        for relation in relationships:
+            if get_type_from_id(relation.source_ref) in ['x-mitre-data-component']:
+                data_component_relationships.append(relation)
+        if len(data_component_relationships) == 0:
+            return data_component_relationships
+        filter_objects = [
+            Filter('type', '=', 'attack-pattern'),
+            Filter('id', '=', [r.target_ref for r in data_component_relationships])
+        ]
+        try:
+            enterprise_stix_objects = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
+        except:
+            enterprise_stix_objects = []
+        try:
+            pre_stix_objects = self.TC_PRE_SOURCE.query(filter_objects)
+        except:
+            pre_stix_objects = []
+        try:
+            mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
+        except:
+            mobile_stix_objects = []
+        try:
+            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_objects)
+        except:
+            ics_stix_objects = []
+        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
+        if not stix_format:
+            all_techniques_list = self.translate_stix_objects(all_techniques_list)
+        return all_techniques_list
+
+    def get_data_component_by_technique(self, stix_object, stix_format=True):
+        """ Extracts data components STIX objects used by one technique accross all ATT&CK matrices
+
+        Args:
+            stix_object (stix object) : STIX Object technique to extract data component from
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        relationships = self.get_relationships_by_object(stix_object)
+        data_components_relationships = list()
+        for relation in relationships:
+            if get_type_from_id(relation.source_ref) in ['x-mitre-data-component']:
+                data_components_relationships.append(relation)
+        if len(data_components_relationships) == 0:
+            return data_components_relationships
+        filter_objects = [
+            Filter('type', 'in', ['x-mitre-data-component']),
+            Filter('id', '=', [r.source_ref for r in data_components_relationships])
+        ]
+        try:
+            enterprise_stix_objects = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
+        except:
+            enterprise_stix_objects = []
+        try:
+            pre_stix_objects = self.TC_PRE_SOURCE.query(filter_objects)
+        except:
+            pre_stix_objects = []
+        try:
+            mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
+        except:
+            mobile_stix_objects = []
+        try:
+            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_objects)
+        except:
+            ics_stix_objects = []
+        all_data_component_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
+        if not stix_format:
+            all_data_component_list = self.translate_stix_objects(all_data_component_list)
+        return all_data_component_list
 
     def get_data_sources_metadata(self):
         """ Extracts data sources metadata from all technique STIX objects accross all ATT&CK matrices. This function uses the x_mitre_data_sources field from attack-pattern objects. This function does NOT retrieve data sources as objects. Data sources as objects are now retrieved by the get_data_sources() function."""
