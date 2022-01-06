@@ -11,6 +11,7 @@
 
 from stix2 import TAXIICollectionSource, Filter, CompositeDataSource, FileSystemSource
 from stix2.utils import get_type_from_id
+#from stix2.v20.sdo import *
 from taxii2client.v20 import Collection
 import json
 import os
@@ -86,6 +87,7 @@ class attack_client(object):
             "x_mitre_difficulty_for_adversary_explanation": "difficulty_explanation",
             "x_mitre_tactic_type": "tactic_type",
             "x_mitre_impact_type": "impact_type",
+            "x_mitre_is_subtechnique": "is_subtechnique",
             "external_references": "external_references"
         }
         mitigation_stix_mapping = {
@@ -190,6 +192,19 @@ class attack_client(object):
             "name": "identity",
             "identity_class": "identity_class"
         }
+        data_source_stix_mapping = {
+            "type": "type",
+            "id": "id",
+            "created": "created",
+            "modified": "modified",
+            "name": "data_source",
+            "description": "description",
+            "created_by_ref": "created_by_ref",
+            "external_references": "external_references",
+            "x_mitre_platforms": "software_platform",
+            "x_mitre_collection_layers": "collection_layers",
+            "x_mitre_contributors": "contributors"
+        }
 
         # ******** Helper Functions ********
         def handle_list(list_object, object_type):
@@ -246,6 +261,8 @@ class attack_client(object):
                     stix_mapping = identity_stix_mapping
                 elif obj['type'] == "marking-definition":
                     stix_mapping = marking_stix_mapping
+                elif obj['type'] == "x-mitre-data-source":
+                    stix_mapping = data_source_stix_mapping
                 else:
                     return stix_objects_list
 
@@ -438,6 +455,22 @@ class attack_client(object):
         if not stix_format:
             enterprise_tactics = self.translate_stix_objects(enterprise_tactics)
         return enterprise_tactics
+    
+    def get_enterprise_data_sources(self, stix_format=True):
+        """ Extracts all the available data source STIX objects availalbe in the Enterprise ATT&CK matrix. This function filters all STIX objects by the type x-mitre-data-source.
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        enterprise_data_sources = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "x-mitre-data-source"))
+        for ds in enterprise_data_sources:
+            ds['data_components']= self.get_data_components_by_data_source(ds)
+        if not stix_format:
+            enterprise_data_sources = self.translate_stix_objects(enterprise_data_sources)
+        return enterprise_data_sources
 
     # ******** Pre ATT&CK Domain [DEPRECATED] 11/23/2020 *******
     def get_pre(self, stix_format=True):
@@ -944,6 +977,21 @@ class attack_client(object):
         if not stix_format:
             all_tactics = self.translate_stix_objects(all_tactics)
         return all_tactics
+    
+    def get_data_sources(self, stix_format=True):
+        """ Extracts all the available data source STIX objects availalbe in the ATT&CK TAXII collections. This function filters all STIX objects by the type x-mitre-data-source and also retrieves data components for each data source object.
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        data_sources = self.get_enterprise_data_sources()
+        if not stix_format:
+            data_sources = self.translate_stix_objects(data_sources)
+        return data_sources
 
     # ******** Custom Functions ********
     def get_technique_by_name(self, name, case=True, stix_format=True):
@@ -1593,8 +1641,8 @@ class attack_client(object):
             all_data_component_list = self.translate_stix_objects(all_data_component_list)
         return all_data_component_list
 
-    def get_data_sources(self):
-        """ Extracts data sources metadata from all technique STIX objects accross all ATT&CK matrices """
+    def get_data_sources_metadata(self):
+        """ Extracts data sources metadata from all technique STIX objects accross all ATT&CK matrices. This function uses the x_mitre_data_sources field from attack-pattern objects. This function does NOT retrieve data sources as objects. Data sources as objects are now retrieved by the get_data_sources() function."""
         techniques = self.get_techniques()
         data_sources = []
         for t in techniques:
@@ -1602,7 +1650,7 @@ class attack_client(object):
                 data_sources += [d for d in t['x_mitre_data_sources'] if d not in data_sources]
         return data_sources
 
-    def get_techniques_by_datasources(self, *args, stix_format=True):
+    def get_techniques_by_data_sources(self, *args, stix_format=True):
         """ Extracts technique STIX objects by specific data sources accross all ATT&CK matrices
 
         Args:
@@ -1679,3 +1727,24 @@ class attack_client(object):
                     }
                     with open(('{0}_{1}.json'.format(k,v[0]['group_id'])), 'w') as f:
                         f.write(json.dumps(actor_layer))
+    
+    def  get_data_components_by_data_source(self, stix_object, stix_format=True):
+        """ Extracts data component STIX objects referenced by a data source STIX object.
+
+        Args:
+            stix_object (stix object) : STIX Object data source to retrieve data component SITX objects from.
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+
+        filter_objects = [
+            Filter('type', '=', 'x-mitre-data-component'),
+            Filter('x_mitre_data_source_ref', '=', stix_object['id'])
+        ]
+        data_components = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
+        if not stix_format:
+            data_components = self.translate_stix_objects(data_components)
+        return data_components

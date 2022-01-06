@@ -6,21 +6,21 @@
 # Reference:
 # https://packaging.python.org/tutorials/packaging-projects/
 
-import setuptools
+from setuptools import find_packages, setup
 
 with open('README.md')as f:
     long_description = f.read()
 
-setuptools.setup(
+setup(
     name="attackcti",
     version="0.3.4.4",
     author="Roberto Rodriguez",
-    description="ATTACK CTI Libary",
+    description="MITRE ATTACK CTI Python Libary",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/OTRF/ATTACK-Python-Client",
     keywords="threat hunting dfir cti cyber threat intelligence mitre att&ck",
-    packages=setuptools.find_packages(),
+    packages=find_packages(),
     install_requires=[
         'stix2',
         'taxii2-client',
