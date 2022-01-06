@@ -18,9 +18,9 @@ RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
     ${NB_USER} \
-    && python3 -m pip install --upgrade attackcti==0.2.8 pandas==0.25.2 altair vega
+    && python3 -m pip install --upgrade six==1.15.0 attackcti==0.3.4.3 pandas==1.1.4 altair vega
 
-COPY notebooks/ ${HOME}
+COPY docs/playground ${HOME}/notebooks
 
 RUN chown -R ${NB_USER}:${NB_USER} ${HOME} ${JUPYTER_DIR}
 

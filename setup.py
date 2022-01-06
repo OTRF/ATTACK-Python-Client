@@ -1,34 +1,33 @@
 #!/usr/bin/env python
 
-# ATTCK TAXII Client PIP Setup script
-# Author: Roberto Rodriguez (@Cyb3rWard0g)
+# ATTACK TAXII Client PIP Setup script
+# Author: Roberto Rodriguez (@Cyb3rWard0g) Open Threat Research (OTR)
 # License: BSD 3-Clause
 # Reference:
 # https://packaging.python.org/tutorials/packaging-projects/
 
-import setuptools
+from setuptools import find_packages, setup
 
 with open('README.md')as f:
     long_description = f.read()
 
-setuptools.setup(
+setup(
     name="attackcti",
-    version="0.2.8",
+    version="0.3.4.4",
     author="Roberto Rodriguez",
-    author_email="rrodriguezops@gmail.com",
-    description="ATTACK CTI Libary",
+    description="MITRE ATTACK CTI Python Libary",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Cyb3rWard0g/ATTACK-Python-Client",
-    keywords="threat hunting dfir cti cyber threat intelligence",
-    packages=setuptools.find_packages(),
+    url="https://github.com/OTRF/ATTACK-Python-Client",
+    keywords="threat hunting dfir cti cyber threat intelligence mitre att&ck",
+    packages=find_packages(),
     install_requires=[
         'stix2',
         'taxii2-client',
     ],
     license='BSD',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
         'Topic :: Security',
         'License :: OSI Approved :: BSD License',
@@ -38,5 +37,6 @@ setuptools.setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
 )
