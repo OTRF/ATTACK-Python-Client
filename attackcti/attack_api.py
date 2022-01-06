@@ -17,6 +17,9 @@ import json
 import os
 import warnings
 
+# os.environ['http_proxy'] = "http://xxxxxxx"
+# os.environ['https_proxy'] = "https://xxxxxxx"
+
 ATTACK_STIX_COLLECTIONS = "https://cti-taxii.mitre.org/stix/collections/"
 ENTERPRISE_ATTACK = "95ecc380-afe9-11e4-9b6c-751b66dd541e"
 PRE_ATTACK = "062767bd-02d2-4b72-84ba-56caef0f8658"
@@ -27,7 +30,6 @@ ENTERPRISE_ATTACK_LOCAL_DIR = "enterprise-attack"
 PRE_ATTACK_LOCAL_DIR = "pre-attack"
 MOBILE_ATTACK_LOCAL_DIR = "mobile-attack"
 ICS_ATTACK_LOCAL_DIR = "ics-attack"
-
 
 class attack_client(object):
     """A Python Module for ATT&CK"""
@@ -1670,7 +1672,7 @@ class attack_client(object):
         if not stix_format:
             techniques_results = self.translate_stix_objects(techniques_results)
         return techniques_results
-    
+
     def export_groups_navigator_layers(self):
         """ Export group STIX objects metadata in MITRE Navigator Layers format """
         techniques_used = self.get_techniques_used_by_all_groups()
