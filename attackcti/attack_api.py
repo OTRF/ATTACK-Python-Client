@@ -909,14 +909,14 @@ class attack_client(object):
             stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
         """
         enterprise_data_components = self.get_enterprise_data_components()
-        mobile_data_components = self.get_mobile_data_components()
+        '''mobile_data_components = self.get_mobile_data_components()
         ics_data_components = self.get_ics_data_components()
         for mdc in mobile_data_components:
             if mdc not in enterprise_data_components:
                 enterprise_data_components.append(mdc)
         for idc in ics_data_components:
             if idc not in enterprise_data_components:
-                enterprise_data_components.append(idc)
+                enterprise_data_components.append(idc)'''
         if not stix_format:
             enterprise_data_components = self.translate_stix_objects(enterprise_data_components)
         return enterprise_data_components
