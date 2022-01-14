@@ -923,17 +923,29 @@ class attack_client(object):
                 enterprise_objects[enterkey] = self.translate_stix_objects(enterprise_objects[enterkey])
         return enterprise_objects
     
-    def get_techniques(self, stix_format=True):
+    def get_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, stix_format=True):
         """ Extracts all the available techniques STIX objects across all ATT&CK matrices
 
         Args:
+            skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects. 
+            include_subtechniques (bool): default True. Include techniques and sub-techniques STIX objects.
             stix_format (bool):  Returns results in original STIX format or friendly syntax (i.e. 'attack-pattern' or 'technique')
         
         Returns:
             List of STIX objects
-        
         """
-        all_techniques = self.COMPOSITE_DS.query(Filter("type", "=", "attack-pattern"))
+        
+        if include_subtechniques:
+            all_techniques = self.COMPOSITE_DS.query(Filter("type", "=", "attack-pattern"))
+        else:
+            all_techniques = self.COMPOSITE_DS.query([
+                Filter("type", "=", "attack-pattern"),
+                Filter('x_mitre_is_subtechnique', '=', False)
+            ])
+
+        if skip_revoked_deprecated:
+            all_techniques = self.remove_revoked_deprecated(all_techniques)
+
         if not stix_format:
             all_techniques = self.translate_stix_objects(all_techniques)
         return all_techniques
