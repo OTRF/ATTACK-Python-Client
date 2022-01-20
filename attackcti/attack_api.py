@@ -904,29 +904,16 @@ class attack_client(object):
 
     # ******** Get All Functions ********
     def get_stix_objects(self, stix_format=True):
-        enterprise_objects = self.get_enterprise()
-        pre_objects = self.get_pre()
-        mobile_objects = self.get_mobile()
-        ics_objects = self.get_ics()
-        for keypre in pre_objects.keys():
-            for preobj in pre_objects[keypre]:
-                if keypre in enterprise_objects.keys():
-                    if preobj not in enterprise_objects[keypre]:
-                        enterprise_objects[keypre].append(preobj)
-        for keymob in mobile_objects.keys():
-            for mobobj in mobile_objects[keymob]:
-                if keymob in enterprise_objects.keys():
-                    if mobobj not in enterprise_objects[keymob]:
-                        enterprise_objects[keymob].append(mobobj)
-        for keyics in ics_objects.keys():
-            for icsobj in ics_objects[keyics]:
-                if keyics in enterprise_objects.keys():
-                    if icsobj not in enterprise_objects[keyics]:
-                        enterprise_objects[keyics].append(icsobj)
+        attack_stix_objects = dict()
+        attack_stix_objects['enterprise'] = self.get_enterprise()
+        attack_stix_objects['mobile'] = self.get_mobile()
+        attack_stix_objects['ics'] = self.get_ics()
+        
         if not stix_format:
-            for enterkey in enterprise_objects.keys():
-                enterprise_objects[enterkey] = self.translate_stix_objects(enterprise_objects[enterkey])
-        return enterprise_objects
+            for matrix in attack_stix_objects.keys():
+                for resource_type in attack_stix_objects[matrix].keys():
+                    attack_stix_objects[matrix][resource_type] = self.translate_stix_objects(attack_stix_objects[matrix][resource_type])
+        return attack_stix_objects
     
     def get_techniques(self, include_subtechniques=True, skip_revoked_deprecated=True, enrich_data_sources=False, stix_format=True):
         """ Extracts all the available techniques STIX objects across all ATT&CK matrices
