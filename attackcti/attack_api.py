@@ -364,7 +364,7 @@ class attack_client(object):
             enterprise_techniques = self.remove_revoked_deprecated(enterprise_techniques)
 
         if enrich_data_sources:
-            enterprise_techniques = self.enrich_data_sources(enterprise_techniques)
+            enterprise_techniques = self.enrich_techniques_data_sources(enterprise_techniques)
         
         if not stix_format:
             enterprise_techniques = self.translate_stix_objects(enterprise_techniques)
