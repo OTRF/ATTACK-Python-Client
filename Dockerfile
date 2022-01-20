@@ -4,7 +4,7 @@
 
 FROM cyb3rward0g/jupyter-base:0.0.3
 LABEL maintainer="Roberto Rodriguez @Cyb3rWard0g"
-LABEL description="Dockerfile ThreatHunter Playbook Project."
+LABEL description="Dockerfile attackcti Project."
 
 ARG NB_USER
 ARG NB_UID
@@ -18,7 +18,7 @@ RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
     ${NB_USER} \
-    && python3 -m pip install --upgrade six==1.15.0 attackcti==0.3.4.3 pandas==1.1.4 altair vega
+    && python3 -m pip install --upgrade six==1.15.0 attackcti==0.3.5 pandas==1.1.4 altair vega
 
 COPY docs/playground ${HOME}/notebooks
 
