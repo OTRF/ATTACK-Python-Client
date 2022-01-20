@@ -1,0 +1,779 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SANS CTI Summit 2022 - Explorando ATT&amp;CK Fuentes &amp; Componentes de Datos &#8212; ATTACK Python Client</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://attackcti.com/presentations/1-SANS_CTI_Summit_2022_Explorando_Fuentes_Componentes_Datos.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Filtering and Looking Up STIX Objects in ATT&amp;CK" href="../playground/8-Lookup_Functions.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ATTACK Python Client</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Playground
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../playground/1-Collect_All_Functions.html">
+   Collect All Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../playground/2-Collect_Matrix_Specific_Functions.html">
+   Collect Matrix Specific Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../playground/3-Export_All_Techniques_To_CSV.html">
+   Export All Techniques to CSV
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../playground/4-Explore_Data_Sources.html">
+   Explore ATT&amp;CK Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../playground/5-Collect_Techniques_by_Data_Sources.html">
+   Get Techniques from Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../playground/6-Explore_ICS_Attack.html">
+   Exploring ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../playground/7-Export_Groups_Navigator_Layers.html">
+   Exporting ATT&amp;CK Group Navigator Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../playground/8-Lookup_Functions.html">
+   Filtering and Looking Up STIX Objects in ATT&amp;CK
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Presentations
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   SANS CTI Summit 2022 - Explorando ATT&amp;CK Fuentes &amp; Componentes de Datos
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/presentations/1-SANS_CTI_Summit_2022_Explorando_Fuentes_Componentes_Datos.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client/issues/new?title=Issue%20on%20page%20%2Fpresentations/1-SANS_CTI_Summit_2022_Explorando_Fuentes_Componentes_Datos.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/OTRF/ATTACK-Python-Client/edit/master/docs/presentations/1-SANS_CTI_Summit_2022_Explorando_Fuentes_Componentes_Datos.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OTRF/ATTACK-Python-Client/master?urlpath=tree/docs/presentations/1-SANS_CTI_Summit_2022_Explorando_Fuentes_Componentes_Datos.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#instalando-att-ck-python-client">
+   Instalando ATT&amp;CK Python Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#importando-att-ck-api-client">
+   Importando ATT&amp;CK Api Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inicializando-la-clase-att-ck-client">
+   Inicializando la clase ATT&amp;CK Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obteniendo-objetos-fuentes-de-datos">
+   Obteniendo Objetos: Fuentes de Datos
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obteniendo-objetos-componentes-de-datos">
+   Obteniendo Objetos: Componentes de Datos
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obteniendo-objetos-tecnicas-enrich-data-sources-false">
+   Obteniendo Objetos: Técnicas (enrich_data_sources = False)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obteniendo-objetos-tecnicas-enrich-data-sources-true">
+   Obteniendo Objetos: Técnicas (enrich_data_sources = True)
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>SANS CTI Summit 2022 - Explorando ATT&CK Fuentes & Componentes de Datos</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#instalando-att-ck-python-client">
+   Instalando ATT&amp;CK Python Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#importando-att-ck-api-client">
+   Importando ATT&amp;CK Api Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inicializando-la-clase-att-ck-client">
+   Inicializando la clase ATT&amp;CK Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obteniendo-objetos-fuentes-de-datos">
+   Obteniendo Objetos: Fuentes de Datos
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obteniendo-objetos-componentes-de-datos">
+   Obteniendo Objetos: Componentes de Datos
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obteniendo-objetos-tecnicas-enrich-data-sources-false">
+   Obteniendo Objetos: Técnicas (enrich_data_sources = False)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obteniendo-objetos-tecnicas-enrich-data-sources-true">
+   Obteniendo Objetos: Técnicas (enrich_data_sources = True)
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="sans-cti-summit-2022-explorando-att-ck-fuentes-componentes-de-datos">
+<h1>SANS CTI Summit 2022 - Explorando ATT&amp;CK Fuentes &amp; Componentes de Datos<a class="headerlink" href="#sans-cti-summit-2022-explorando-att-ck-fuentes-componentes-de-datos" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<div class="section" id="instalando-att-ck-python-client">
+<h2>Instalando ATT&amp;CK Python Client<a class="headerlink" href="#instalando-att-ck-python-client" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install --upgrade attackcti
+
+<span class="c1"># If attackcti is already installed, you can upgrade it by adding the --upgrade option</span>
+<span class="c1"># !pip install --upgrade attackcti</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: attackcti in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (0.3.5)
+Requirement already satisfied: stix2 in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from attackcti) (3.0.1)
+Requirement already satisfied: taxii2-client in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from attackcti) (2.3.0)
+Requirement already satisfied: simplejson in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from stix2-&gt;attackcti) (3.17.2)
+Requirement already satisfied: stix2-patterns&gt;=1.2.0 in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from stix2-&gt;attackcti) (1.3.2)
+Requirement already satisfied: requests in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from stix2-&gt;attackcti) (2.25.1)
+Requirement already satisfied: pytz in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from stix2-&gt;attackcti) (2021.1)
+Requirement already satisfied: six in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from taxii2-client-&gt;attackcti) (1.16.0)
+Requirement already satisfied: antlr4-python3-runtime~=4.8.0 in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from stix2-patterns&gt;=1.2.0-&gt;stix2-&gt;attackcti) (4.8)
+Requirement already satisfied: urllib3&lt;1.27,&gt;=1.21.1 in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from requests-&gt;stix2-&gt;attackcti) (1.26.4)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from requests-&gt;stix2-&gt;attackcti) (2.10)
+Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from requests-&gt;stix2-&gt;attackcti) (2020.12.5)
+Requirement already satisfied: chardet&lt;5,&gt;=3.0.2 in c:\users\rorodri\appdata\local\programs\python\python39\lib\site-packages (from requests-&gt;stix2-&gt;attackcti) (4.0.0)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="importando-att-ck-api-client">
+<h2>Importando ATT&amp;CK Api Client<a class="headerlink" href="#importando-att-ck-api-client" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;taxii2client&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="inicializando-la-clase-att-ck-client">
+<h2>Inicializando la clase ATT&amp;CK Client<a class="headerlink" href="#inicializando-la-clase-att-ck-client" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="obteniendo-objetos-fuentes-de-datos">
+<h2>Obteniendo Objetos: Fuentes de Datos<a class="headerlink" href="#obteniendo-objetos-fuentes-de-datos" title="Permalink to this headline">¶</a></h2>
+<p>La función <strong>get_data_sources</strong> accesa la metadata de los nuevos objetos <strong>x-mitre-data-source</strong>.</p>
+<p>Actualmente, los objetos <code class="docutils literal notranslate"><span class="pre">x-mitre-data-source</span></code> agregan contexto en la sección <strong>Detección</strong> para cada técnica de la matriz <code class="docutils literal notranslate"><span class="pre">Enterprise</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_sources</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_data_sources</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cantidad the objetos x-mitre-data-source</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Existen&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data_sources</span><span class="p">),</span><span class="s1">&#39;fuentes de datos&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Existen 38 fuentes de datos
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ejemplo de objeto x-mitre-data-source</span>
+<span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+ &#39;modified&#39;: &#39;2021-10-20T15:05:19.275Z&#39;,
+ &#39;name&#39;: &#39;Internet Scan&#39;,
+ &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+ &#39;type&#39;: &#39;x-mitre-data-source&#39;,
+ &#39;id&#39;: &#39;x-mitre-data-source--38fe306c-bdec-4f3d-8521-b72dd32dbd17&#39;,
+ &#39;description&#39;: &#39;Information obtained (commonly via active network traffic probes or web crawling) regarding various types of resources and servers connected to the public Internet&#39;,
+ &#39;created&#39;: &#39;2021-10-20T15:05:19.275Z&#39;,
+ &#39;external_references&#39;: [{&#39;url&#39;: &#39;https://attack.mitre.org/datasources/DS0035&#39;,
+   &#39;external_id&#39;: &#39;DS0035&#39;,
+   &#39;source_name&#39;: &#39;mitre-attack&#39;}],
+ &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+ &#39;x_mitre_platforms&#39;: [&#39;PRE&#39;],
+ &#39;x_mitre_collection_layers&#39;: [&#39;OSINT&#39;],
+ &#39;x_mitre_contributors&#39;: []}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="obteniendo-objetos-componentes-de-datos">
+<h2>Obteniendo Objetos: Componentes de Datos<a class="headerlink" href="#obteniendo-objetos-componentes-de-datos" title="Permalink to this headline">¶</a></h2>
+<p>La función <strong>get_data_components</strong> accesa la metadata de los nuevos objetos <strong>x-mitre-data-component</strong>.</p>
+<p>Actualmente, los objetos <code class="docutils literal notranslate"><span class="pre">x-mitre-data-component</span></code> solo agregan contexto en la sección <strong>Detección</strong> para cada técnica de la matriz <code class="docutils literal notranslate"><span class="pre">Enterprise</span></code>.</p>
+<p>Por ello, la función <code class="docutils literal notranslate"><span class="pre">get_data_components</span></code> retorna el mismo resultado que la función <strong>get_enterprise_data_components</strong>.</p>
+<p>En el futuro, cuando se complete el mapeo de <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">components</span></code> a técnicas de las matrices ICS y Mobile, existirá una diferencia entre estas funciones.</p>
+<p>Además, podremos introducir nuevas funciones como <strong>get_ics_data_components</strong> y <strong>get_mobile_data_components</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_components</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_data_components</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cantidad the objetos x-mitre-data-component</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Existen&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data_components</span><span class="p">),</span><span class="s1">&#39;componentes de datos&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Existen 109 componentes de datos
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ejemplo de objeto x-mitre-data-component</span>
+<span class="n">data_components</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+ &#39;modified&#39;: &#39;2021-10-20T15:05:19.275Z&#39;,
+ &#39;id&#39;: &#39;x-mitre-data-component--cc150ad8-ecfa-4340-9aaa-d21165873bd4&#39;,
+ &#39;description&#39;: &#39;Logged domain name system (DNS) data highlighting timelines of domain to IP address resolutions (ex: passive DNS)&#39;,
+ &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+ &#39;name&#39;: &#39;Passive DNS&#39;,
+ &#39;created&#39;: &#39;2021-10-20T15:05:19.275Z&#39;,
+ &#39;type&#39;: &#39;x-mitre-data-component&#39;,
+ &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+ &#39;x_mitre_data_source_ref&#39;: &#39;x-mitre-data-source--dd75f457-8dc0-4a24-9ae5-4b61c33af866&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="obteniendo-objetos-tecnicas-enrich-data-sources-false">
+<h2>Obteniendo Objetos: Técnicas (enrich_data_sources = False)<a class="headerlink" href="#obteniendo-objetos-tecnicas-enrich-data-sources-false" title="Permalink to this headline">¶</a></h2>
+<p>La función <strong>get_techniques</strong> accesa la metadata de objetos <strong>attack-pattern</strong> de las matrices <code class="docutils literal notranslate"><span class="pre">Enterprise</span></code>, <code class="docutils literal notranslate"><span class="pre">ICS</span></code>, y <code class="docutils literal notranslate"><span class="pre">Mobile</span></code>.</p>
+<p>Para obtener los objetos <code class="docutils literal notranslate"><span class="pre">attack-pattern</span></code> de cada matriz, se puede usar las siguientes funciones:</p>
+<ul class="simple">
+<li><p>Enterprise –&gt;: <strong>get_enterprise_techniques</strong></p></li>
+<li><p>ICS ———&gt;: <strong>get_ics_techniques</strong></p></li>
+<li><p>Mobile ——&gt;: <strong>get_mobile_techniques</strong></p></li>
+</ul>
+<p>Todos los objetos <code class="docutils literal notranslate"><span class="pre">attack-pattern</span></code> contienen, como parte de su metadata, el campo <strong>x_mitre_data_sources</strong>.</p>
+<p>El campo <code class="docutils literal notranslate"><span class="pre">x_mitre_data_sources</span></code> brinda contexto de <strong>data sources</strong> y <strong>data components</strong> como una lista de nombres, pero no como objetos. Aquí tenemos un ejemplo:</p>
+<p><em>x_mitre_data_sources=[‘File: File Creation’, ‘Process: Process Creation’, ‘File: File Metadata’, ‘Command: Command Execution’]</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cantidad the objetos attack-pattern</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Existen&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">techniques</span><span class="p">),</span><span class="s1">&#39;técnicas (Enterprise, ICS, Mobile)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Existen 736 técnicas (Enterprise, ICS, Mobile)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ejemplo de objeto attack-pattern</span>
+<span class="n">techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--b22e5153-ac28-4cc6-865c-2054e36285cb&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-12T20:02:31.866Z&#39;, modified=&#39;2021-10-16T01:50:40.276Z&#39;, name=&#39;Resource Forking&#39;, description=&#39;Adversaries may abuse resource forks to hide malicious code or executables to evade detection and bypass security applications. A resource fork provides applications a structured way to store resources such as thumbnail images, menu definitions, icons, dialog boxes, and code.(Citation: macOS Hierarchical File System Overview) Usage of a resource fork is identifiable when displaying a file’s extended attributes, using &lt;code&gt;ls -l@&lt;/code&gt; or &lt;code&gt;xattr -l&lt;/code&gt; commands. Resource forks have been deprecated and replaced with the application bundle structure. Non-localized resources are placed at the top level directory of an application bundle, while localized resources are placed in the &lt;code&gt;/Resources&lt;/code&gt; folder.(Citation: Resource and Data Forks)(Citation: ELC Extended Attributes)\n\nAdversaries can use resource forks to hide malicious data that may otherwise be stored directly in files. Adversaries can execute content with an attached resource fork, at a specified offset, that is moved to an executable location then invoked. Resource fork content may also be obfuscated/encrypted until execution.(Citation: sentinellabs resource named fork 2020)(Citation: tau bundlore erika noerenberg 2020)&#39;, kill_chain_phases=[KillChainPhase(kill_chain_name=&#39;mitre-attack&#39;, phase_name=&#39;defense-evasion&#39;)], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/techniques/T1564/009&#39;, external_id=&#39;T1564.009&#39;), ExternalReference(source_name=&#39;macOS Hierarchical File System Overview&#39;, description=&#39;Tenon. (n.d.). Retrieved October 12, 2021.&#39;, url=&#39;http://tenon.com/products/codebuilder/User_Guide/6_File_Systems.html#anchor520553&#39;), ExternalReference(source_name=&#39;Resource and Data Forks&#39;, description=&#39;Flylib. (n.d.). Identifying Resource and Data Forks. Retrieved October 12, 2021.&#39;, url=&#39;https://flylib.com/books/en/4.395.1.192/1/&#39;), ExternalReference(source_name=&#39;ELC Extended Attributes&#39;, description=&quot;Howard Oakley. (2020, October 24). There&#39;s more to files than data: Extended Attributes. Retrieved October 12, 2021.&quot;, url=&#39;https://eclecticlight.co/2020/10/24/theres-more-to-files-than-data-extended-attributes/&#39;), ExternalReference(source_name=&#39;sentinellabs resource named fork 2020&#39;, description=&#39;Phil Stokes. (2020, November 5). Resourceful macOS Malware Hides in Named Fork. Retrieved October 12, 2021.&#39;, url=&#39;https://www.sentinelone.com/labs/resourceful-macos-malware-hides-in-named-fork/&#39;), ExternalReference(source_name=&#39;tau bundlore erika noerenberg 2020&#39;, description=&#39;Erika Noerenberg. (2020, June 29). TAU Threat Analysis: Bundlore (macOS) mm-install-macos. Retrieved October 12, 2021.&#39;, url=&#39;https://blogs.vmware.com/security/2020/06/tau-threat-analysis-bundlore-macos-mm-install-macos.html&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_contributors=[&#39;Jaron Bradley @jbradley89&#39;, &#39;Ivan Sinyakov&#39;], x_mitre_data_sources=[&#39;File: File Creation&#39;, &#39;Process: Process Creation&#39;, &#39;File: File Metadata&#39;, &#39;Command: Command Execution&#39;], x_mitre_defense_bypassed=[&#39;Notarization; Gatekeeper&#39;], x_mitre_detection=&#39;Identify files with the &lt;code&gt;com.apple.ResourceFork&lt;/code&gt; extended attribute and large data amounts stored in resource forks. \n\nMonitor command-line activity leveraging the use of resource forks, especially those immediately followed by potentially malicious activity such as creating network connections. &#39;, x_mitre_is_subtechnique=True, x_mitre_permissions_required=[&#39;User&#39;], x_mitre_platforms=[&#39;macOS&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ejemplo de contexto (Data Sources y Data Components) para objeto attack-pattern</span>
+<span class="n">techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;x_mitre_data_sources&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;File: File Creation&#39;,
+ &#39;Process: Process Creation&#39;,
+ &#39;File: File Metadata&#39;,
+ &#39;Command: Command Execution&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="obteniendo-objetos-tecnicas-enrich-data-sources-true">
+<h2>Obteniendo Objetos: Técnicas (enrich_data_sources = True)<a class="headerlink" href="#obteniendo-objetos-tecnicas-enrich-data-sources-true" title="Permalink to this headline">¶</a></h2>
+<p>Como se mencionó anteriormente, los objetos <code class="docutils literal notranslate"><span class="pre">x-mitre-data-component</span></code> solo agregan contexto en la sección <strong>Detección</strong> para cada técnica de la matriz <code class="docutils literal notranslate"><span class="pre">Enterprise</span></code>.</p>
+<p>Por lo tanto, hemos considerado el parámetro <strong>enrich_data_sources</strong> en las funciones <strong>get_enterprise_techniques</strong> y <strong>get_techniques</strong> para agregar el contexto de los objetos <strong>x-mitre-data-source</strong> and <strong>x-mitre-data-component</strong>.</p>
+<p>En el futuro, cuando se complete el mapeo de <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">components</span></code> a técnicas de las matrices ICS y Mobile, agregaremos el parámetro <code class="docutils literal notranslate"><span class="pre">enrich_data_sources</span></code> a las funciones <strong>get_ics_techniques</strong> y <strong>get_mobile_techniques</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques_enriched</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques</span><span class="p">(</span><span class="n">enrich_data_sources</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cantidad the objetos attack-pattern</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Existen&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">techniques_enriched</span><span class="p">),</span><span class="s1">&#39;técnicas (Enterprise, ICS, Mobile)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Existen 736 técnicas (Enterprise, ICS, Mobile)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ejemplo de objeto attack-pattern</span>
+<span class="n">techniques_enriched</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--b22e5153-ac28-4cc6-865c-2054e36285cb&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-12T20:02:31.866Z&#39;, modified=&#39;2022-01-20T19:26:43.291Z&#39;, name=&#39;Resource Forking&#39;, description=&#39;Adversaries may abuse resource forks to hide malicious code or executables to evade detection and bypass security applications. A resource fork provides applications a structured way to store resources such as thumbnail images, menu definitions, icons, dialog boxes, and code.(Citation: macOS Hierarchical File System Overview) Usage of a resource fork is identifiable when displaying a file’s extended attributes, using &lt;code&gt;ls -l@&lt;/code&gt; or &lt;code&gt;xattr -l&lt;/code&gt; commands. Resource forks have been deprecated and replaced with the application bundle structure. Non-localized resources are placed at the top level directory of an application bundle, while localized resources are placed in the &lt;code&gt;/Resources&lt;/code&gt; folder.(Citation: Resource and Data Forks)(Citation: ELC Extended Attributes)\n\nAdversaries can use resource forks to hide malicious data that may otherwise be stored directly in files. Adversaries can execute content with an attached resource fork, at a specified offset, that is moved to an executable location then invoked. Resource fork content may also be obfuscated/encrypted until execution.(Citation: sentinellabs resource named fork 2020)(Citation: tau bundlore erika noerenberg 2020)&#39;, kill_chain_phases=[KillChainPhase(kill_chain_name=&#39;mitre-attack&#39;, phase_name=&#39;defense-evasion&#39;)], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/techniques/T1564/009&#39;, external_id=&#39;T1564.009&#39;), ExternalReference(source_name=&#39;macOS Hierarchical File System Overview&#39;, description=&#39;Tenon. (n.d.). Retrieved October 12, 2021.&#39;, url=&#39;http://tenon.com/products/codebuilder/User_Guide/6_File_Systems.html#anchor520553&#39;), ExternalReference(source_name=&#39;Resource and Data Forks&#39;, description=&#39;Flylib. (n.d.). Identifying Resource and Data Forks. Retrieved October 12, 2021.&#39;, url=&#39;https://flylib.com/books/en/4.395.1.192/1/&#39;), ExternalReference(source_name=&#39;ELC Extended Attributes&#39;, description=&quot;Howard Oakley. (2020, October 24). There&#39;s more to files than data: Extended Attributes. Retrieved October 12, 2021.&quot;, url=&#39;https://eclecticlight.co/2020/10/24/theres-more-to-files-than-data-extended-attributes/&#39;), ExternalReference(source_name=&#39;sentinellabs resource named fork 2020&#39;, description=&#39;Phil Stokes. (2020, November 5). Resourceful macOS Malware Hides in Named Fork. Retrieved October 12, 2021.&#39;, url=&#39;https://www.sentinelone.com/labs/resourceful-macos-malware-hides-in-named-fork/&#39;), ExternalReference(source_name=&#39;tau bundlore erika noerenberg 2020&#39;, description=&#39;Erika Noerenberg. (2020, June 29). TAU Threat Analysis: Bundlore (macOS) mm-install-macos. Retrieved October 12, 2021.&#39;, url=&#39;https://blogs.vmware.com/security/2020/06/tau-threat-analysis-bundlore-macos-mm-install-macos.html&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_contributors=[&#39;Jaron Bradley @jbradley89&#39;, &#39;Ivan Sinyakov&#39;], x_mitre_data_sources=[{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], &#39;modified&#39;: &#39;2021-11-10T09:30:48.694Z&#39;, &#39;name&#39;: &#39;Command&#39;, &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, &#39;type&#39;: &#39;x-mitre-data-source&#39;, &#39;id&#39;: &#39;x-mitre-data-source--73691708-ffb5-4e29-906d-f485f6fa7089&#39;, &#39;description&#39;: &#39;A directive given to a computer program, acting as an interpreter of some kind, in order to perform a specific task(Citation: Confluence Linux Command  Line)(Citation: Audit OSX)&#39;, &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;, &#39;external_references&#39;: [{&#39;url&#39;: &#39;https://attack.mitre.org/datasources/DS0017&#39;, &#39;external_id&#39;: &#39;DS0017&#39;, &#39;source_name&#39;: &#39;mitre-attack&#39;}, {&#39;url&#39;: &#39;https://confluence.atlassian.com/confkb/how-to-enable-command-line-audit-logging-in-linux-956166545.html&#39;, &#39;description&#39;: &#39;Confluence Support. (2021, September 8). How to enable command line audit logging in linux. Retrieved September 23, 2021.&#39;, &#39;source_name&#39;: &#39;Confluence Linux Command  Line&#39;}, {&#39;url&#39;: &#39;https://www.scip.ch/en/?labs.20150108&#39;, &#39;description&#39;: &#39;Gagliardi, R. (n.d.). Audit in a OS X System. Retrieved September 23, 2021.&#39;, &#39;source_name&#39;: &#39;Audit OSX&#39;}], &#39;x_mitre_version&#39;: &#39;1.0&#39;, &#39;x_mitre_platforms&#39;: [&#39;Windows&#39;, &#39;Linux&#39;, &#39;macOS&#39;, &#39;Network&#39;, &#39;Containers&#39;], &#39;x_mitre_collection_layers&#39;: [&#39;Host&#39;, &#39;Container&#39;], &#39;x_mitre_contributors&#39;: [&#39;Austin Clark&#39;, &#39;Center for Threat-Informed Defense (CTID)&#39;], &#39;data_components&#39;: [{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], &#39;modified&#39;: &#39;2021-10-20T15:05:19.273Z&#39;, &#39;id&#39;: &#39;x-mitre-data-component--685f917a-e95e-4ba0-ade1-c7d354dae6e0&#39;, &#39;description&#39;: &#39;Invoking a computer program directive to perform a specific task (ex: Windows EID 4688 of cmd.exe showing command-line parameters, ~/.bash_history, or ~/.zsh_history)&#39;, &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, &#39;name&#39;: &#39;Command Execution&#39;, &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;, &#39;type&#39;: &#39;x-mitre-data-component&#39;, &#39;x_mitre_version&#39;: &#39;1.0&#39;, &#39;x_mitre_data_source_ref&#39;: &#39;x-mitre-data-source--73691708-ffb5-4e29-906d-f485f6fa7089&#39;}]}, {&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], &#39;modified&#39;: &#39;2021-11-10T09:30:48.695Z&#39;, &#39;name&#39;: &#39;File&#39;, &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, &#39;type&#39;: &#39;x-mitre-data-source&#39;, &#39;id&#39;: &#39;x-mitre-data-source--509ed41e-ca42-461e-9058-24602256daf9&#39;, &#39;description&#39;: &#39;A computer resource object, managed by the I/O system, for storing data (such as images, text, videos, computer programs, or any wide variety of other media)(Citation: Microsoft File Mgmt)&#39;, &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;, &#39;external_references&#39;: [{&#39;url&#39;: &#39;https://attack.mitre.org/datasources/DS0022&#39;, &#39;external_id&#39;: &#39;DS0022&#39;, &#39;source_name&#39;: &#39;mitre-attack&#39;}, {&#39;url&#39;: &#39;https://docs.microsoft.com/en-us/windows/win32/fileio/file-management&#39;, &#39;description&#39;: &#39;Microsoft. (2018, May 31). File Management (Local File Systems). Retrieved September 28, 2021.&#39;, &#39;source_name&#39;: &#39;Microsoft File Mgmt&#39;}], &#39;x_mitre_version&#39;: &#39;1.0&#39;, &#39;x_mitre_platforms&#39;: [&#39;Windows&#39;, &#39;Linux&#39;, &#39;macOS&#39;, &#39;Network&#39;], &#39;x_mitre_collection_layers&#39;: [&#39;Host&#39;], &#39;x_mitre_contributors&#39;: [&#39;Center for Threat-Informed Defense (CTID)&#39;], &#39;data_components&#39;: [{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], &#39;modified&#39;: &#39;2021-10-20T15:05:19.273Z&#39;, &#39;id&#39;: &#39;x-mitre-data-component--639e87f3-acb6-448a-9645-258f20da4bc5&#39;, &#39;description&#39;: &#39;Contextual data about a file, which may include information such as name, the content (ex: signature, headers, or data/media), user/ower, permissions, etc.&#39;, &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, &#39;name&#39;: &#39;File Metadata&#39;, &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;, &#39;type&#39;: &#39;x-mitre-data-component&#39;, &#39;x_mitre_version&#39;: &#39;1.0&#39;, &#39;x_mitre_data_source_ref&#39;: &#39;x-mitre-data-source--509ed41e-ca42-461e-9058-24602256daf9&#39;}, {&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], &#39;modified&#39;: &#39;2021-10-20T15:05:19.273Z&#39;, &#39;id&#39;: &#39;x-mitre-data-component--2b3bfe19-d59a-460d-93bb-2f546adc2d2c&#39;, &#39;description&#39;: &#39;Initial construction of a new file (ex: Sysmon EID 11)&#39;, &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, &#39;name&#39;: &#39;File Creation&#39;, &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;, &#39;type&#39;: &#39;x-mitre-data-component&#39;, &#39;x_mitre_version&#39;: &#39;1.0&#39;, &#39;x_mitre_data_source_ref&#39;: &#39;x-mitre-data-source--509ed41e-ca42-461e-9058-24602256daf9&#39;}]}, {&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], &#39;modified&#39;: &#39;2021-11-10T09:30:48.697Z&#39;, &#39;name&#39;: &#39;Process&#39;, &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, &#39;type&#39;: &#39;x-mitre-data-source&#39;, &#39;id&#39;: &#39;x-mitre-data-source--e8b8ede7-337b-4c0c-8c32-5c7872c1ee22&#39;, &#39;description&#39;: &#39;Instances of computer programs that are being executed by at least one thread. Processes have memory space for process executables, loaded modules (DLLs or shared libraries), and allocated memory regions containing everything from user input to application-specific data structures(Citation: Microsoft Processes and Threads)&#39;, &#39;created&#39;: &#39;2021-10-20T15:05:19.272Z&#39;, &#39;external_references&#39;: [{&#39;url&#39;: &#39;https://attack.mitre.org/datasources/DS0009&#39;, &#39;external_id&#39;: &#39;DS0009&#39;, &#39;source_name&#39;: &#39;mitre-attack&#39;}, {&#39;url&#39;: &#39;https://docs.microsoft.com/en-us/windows/win32/procthread/processes-and-threads&#39;, &#39;description&#39;: &#39;Microsoft. (2018, May 31). Processes and Threads. Retrieved September 28, 2021.&#39;, &#39;source_name&#39;: &#39;Microsoft Processes and Threads&#39;}], &#39;x_mitre_version&#39;: &#39;1.0&#39;, &#39;x_mitre_platforms&#39;: [&#39;Windows&#39;, &#39;Linux&#39;, &#39;macOS&#39;], &#39;x_mitre_collection_layers&#39;: [&#39;Host&#39;], &#39;x_mitre_contributors&#39;: [&#39;Center for Threat-Informed Defense (CTID)&#39;], &#39;data_components&#39;: [{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], &#39;modified&#39;: &#39;2021-10-20T15:05:19.272Z&#39;, &#39;id&#39;: &#39;x-mitre-data-component--3d20385b-24ef-40e1-9f56-f39750379077&#39;, &#39;description&#39;: &#39;Birth of a new running process (ex: Sysmon EID 1 or Windows EID 4688)&#39;, &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, &#39;name&#39;: &#39;Process Creation&#39;, &#39;created&#39;: &#39;2021-10-20T15:05:19.272Z&#39;, &#39;type&#39;: &#39;x-mitre-data-component&#39;, &#39;x_mitre_version&#39;: &#39;1.0&#39;, &#39;x_mitre_data_source_ref&#39;: &#39;x-mitre-data-source--e8b8ede7-337b-4c0c-8c32-5c7872c1ee22&#39;}]}], x_mitre_defense_bypassed=[&#39;Notarization; Gatekeeper&#39;], x_mitre_detection=&#39;Identify files with the &lt;code&gt;com.apple.ResourceFork&lt;/code&gt; extended attribute and large data amounts stored in resource forks. \n\nMonitor command-line activity leveraging the use of resource forks, especially those immediately followed by potentially malicious activity such as creating network connections. &#39;, x_mitre_is_subtechnique=True, x_mitre_permissions_required=[&#39;User&#39;], x_mitre_platforms=[&#39;macOS&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ejemplo de contexto (Data Sources y Data Components) para objeto attack-pattern</span>
+<span class="n">techniques_enriched</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;x_mitre_data_sources&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+  &#39;modified&#39;: &#39;2021-11-10T09:30:48.694Z&#39;,
+  &#39;name&#39;: &#39;Command&#39;,
+  &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+  &#39;type&#39;: &#39;x-mitre-data-source&#39;,
+  &#39;id&#39;: &#39;x-mitre-data-source--73691708-ffb5-4e29-906d-f485f6fa7089&#39;,
+  &#39;description&#39;: &#39;A directive given to a computer program, acting as an interpreter of some kind, in order to perform a specific task(Citation: Confluence Linux Command  Line)(Citation: Audit OSX)&#39;,
+  &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;,
+  &#39;external_references&#39;: [{&#39;url&#39;: &#39;https://attack.mitre.org/datasources/DS0017&#39;,
+    &#39;external_id&#39;: &#39;DS0017&#39;,
+    &#39;source_name&#39;: &#39;mitre-attack&#39;},
+   {&#39;url&#39;: &#39;https://confluence.atlassian.com/confkb/how-to-enable-command-line-audit-logging-in-linux-956166545.html&#39;,
+    &#39;description&#39;: &#39;Confluence Support. (2021, September 8). How to enable command line audit logging in linux. Retrieved September 23, 2021.&#39;,
+    &#39;source_name&#39;: &#39;Confluence Linux Command  Line&#39;},
+   {&#39;url&#39;: &#39;https://www.scip.ch/en/?labs.20150108&#39;,
+    &#39;description&#39;: &#39;Gagliardi, R. (n.d.). Audit in a OS X System. Retrieved September 23, 2021.&#39;,
+    &#39;source_name&#39;: &#39;Audit OSX&#39;}],
+  &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+  &#39;x_mitre_platforms&#39;: [&#39;Windows&#39;, &#39;Linux&#39;, &#39;macOS&#39;, &#39;Network&#39;, &#39;Containers&#39;],
+  &#39;x_mitre_collection_layers&#39;: [&#39;Host&#39;, &#39;Container&#39;],
+  &#39;x_mitre_contributors&#39;: [&#39;Austin Clark&#39;,
+   &#39;Center for Threat-Informed Defense (CTID)&#39;],
+  &#39;data_components&#39;: [{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+    &#39;modified&#39;: &#39;2021-10-20T15:05:19.273Z&#39;,
+    &#39;id&#39;: &#39;x-mitre-data-component--685f917a-e95e-4ba0-ade1-c7d354dae6e0&#39;,
+    &#39;description&#39;: &#39;Invoking a computer program directive to perform a specific task (ex: Windows EID 4688 of cmd.exe showing command-line parameters, ~/.bash_history, or ~/.zsh_history)&#39;,
+    &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+    &#39;name&#39;: &#39;Command Execution&#39;,
+    &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;,
+    &#39;type&#39;: &#39;x-mitre-data-component&#39;,
+    &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+    &#39;x_mitre_data_source_ref&#39;: &#39;x-mitre-data-source--73691708-ffb5-4e29-906d-f485f6fa7089&#39;}]},
+ {&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+  &#39;modified&#39;: &#39;2021-11-10T09:30:48.695Z&#39;,
+  &#39;name&#39;: &#39;File&#39;,
+  &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+  &#39;type&#39;: &#39;x-mitre-data-source&#39;,
+  &#39;id&#39;: &#39;x-mitre-data-source--509ed41e-ca42-461e-9058-24602256daf9&#39;,
+  &#39;description&#39;: &#39;A computer resource object, managed by the I/O system, for storing data (such as images, text, videos, computer programs, or any wide variety of other media)(Citation: Microsoft File Mgmt)&#39;,
+  &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;,
+  &#39;external_references&#39;: [{&#39;url&#39;: &#39;https://attack.mitre.org/datasources/DS0022&#39;,
+    &#39;external_id&#39;: &#39;DS0022&#39;,
+    &#39;source_name&#39;: &#39;mitre-attack&#39;},
+   {&#39;url&#39;: &#39;https://docs.microsoft.com/en-us/windows/win32/fileio/file-management&#39;,
+    &#39;description&#39;: &#39;Microsoft. (2018, May 31). File Management (Local File Systems). Retrieved September 28, 2021.&#39;,
+    &#39;source_name&#39;: &#39;Microsoft File Mgmt&#39;}],
+  &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+  &#39;x_mitre_platforms&#39;: [&#39;Windows&#39;, &#39;Linux&#39;, &#39;macOS&#39;, &#39;Network&#39;],
+  &#39;x_mitre_collection_layers&#39;: [&#39;Host&#39;],
+  &#39;x_mitre_contributors&#39;: [&#39;Center for Threat-Informed Defense (CTID)&#39;],
+  &#39;data_components&#39;: [{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+    &#39;modified&#39;: &#39;2021-10-20T15:05:19.273Z&#39;,
+    &#39;id&#39;: &#39;x-mitre-data-component--639e87f3-acb6-448a-9645-258f20da4bc5&#39;,
+    &#39;description&#39;: &#39;Contextual data about a file, which may include information such as name, the content (ex: signature, headers, or data/media), user/ower, permissions, etc.&#39;,
+    &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+    &#39;name&#39;: &#39;File Metadata&#39;,
+    &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;,
+    &#39;type&#39;: &#39;x-mitre-data-component&#39;,
+    &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+    &#39;x_mitre_data_source_ref&#39;: &#39;x-mitre-data-source--509ed41e-ca42-461e-9058-24602256daf9&#39;},
+   {&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+    &#39;modified&#39;: &#39;2021-10-20T15:05:19.273Z&#39;,
+    &#39;id&#39;: &#39;x-mitre-data-component--2b3bfe19-d59a-460d-93bb-2f546adc2d2c&#39;,
+    &#39;description&#39;: &#39;Initial construction of a new file (ex: Sysmon EID 11)&#39;,
+    &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+    &#39;name&#39;: &#39;File Creation&#39;,
+    &#39;created&#39;: &#39;2021-10-20T15:05:19.273Z&#39;,
+    &#39;type&#39;: &#39;x-mitre-data-component&#39;,
+    &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+    &#39;x_mitre_data_source_ref&#39;: &#39;x-mitre-data-source--509ed41e-ca42-461e-9058-24602256daf9&#39;}]},
+ {&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+  &#39;modified&#39;: &#39;2021-11-10T09:30:48.697Z&#39;,
+  &#39;name&#39;: &#39;Process&#39;,
+  &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+  &#39;type&#39;: &#39;x-mitre-data-source&#39;,
+  &#39;id&#39;: &#39;x-mitre-data-source--e8b8ede7-337b-4c0c-8c32-5c7872c1ee22&#39;,
+  &#39;description&#39;: &#39;Instances of computer programs that are being executed by at least one thread. Processes have memory space for process executables, loaded modules (DLLs or shared libraries), and allocated memory regions containing everything from user input to application-specific data structures(Citation: Microsoft Processes and Threads)&#39;,
+  &#39;created&#39;: &#39;2021-10-20T15:05:19.272Z&#39;,
+  &#39;external_references&#39;: [{&#39;url&#39;: &#39;https://attack.mitre.org/datasources/DS0009&#39;,
+    &#39;external_id&#39;: &#39;DS0009&#39;,
+    &#39;source_name&#39;: &#39;mitre-attack&#39;},
+   {&#39;url&#39;: &#39;https://docs.microsoft.com/en-us/windows/win32/procthread/processes-and-threads&#39;,
+    &#39;description&#39;: &#39;Microsoft. (2018, May 31). Processes and Threads. Retrieved September 28, 2021.&#39;,
+    &#39;source_name&#39;: &#39;Microsoft Processes and Threads&#39;}],
+  &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+  &#39;x_mitre_platforms&#39;: [&#39;Windows&#39;, &#39;Linux&#39;, &#39;macOS&#39;],
+  &#39;x_mitre_collection_layers&#39;: [&#39;Host&#39;],
+  &#39;x_mitre_contributors&#39;: [&#39;Center for Threat-Informed Defense (CTID)&#39;],
+  &#39;data_components&#39;: [{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+    &#39;modified&#39;: &#39;2021-10-20T15:05:19.272Z&#39;,
+    &#39;id&#39;: &#39;x-mitre-data-component--3d20385b-24ef-40e1-9f56-f39750379077&#39;,
+    &#39;description&#39;: &#39;Birth of a new running process (ex: Sysmon EID 1 or Windows EID 4688)&#39;,
+    &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+    &#39;name&#39;: &#39;Process Creation&#39;,
+    &#39;created&#39;: &#39;2021-10-20T15:05:19.272Z&#39;,
+    &#39;type&#39;: &#39;x-mitre-data-component&#39;,
+    &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+    &#39;x_mitre_data_source_ref&#39;: &#39;x-mitre-data-source--e8b8ede7-337b-4c0c-8c32-5c7872c1ee22&#39;}]}]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./presentations"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../playground/8-Lookup_Functions.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Filtering and Looking Up STIX Objects in ATT&amp;CK</p>
+        </div>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Roberto Rodriguez @Cyb3rWard0g<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
