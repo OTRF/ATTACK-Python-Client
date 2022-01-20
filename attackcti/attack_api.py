@@ -1416,7 +1416,6 @@ class attack_client(object):
         
         """
         groups = self.get_groups()
-        groups = self.remove_revoked(groups)
         techniques = self.get_techniques()
         group_relationships = list()
         group_techniques_ref = list()
@@ -1674,7 +1673,6 @@ class attack_client(object):
         """ Export group STIX objects metadata in MITRE Navigator Layers format """
         techniques_used = self.get_techniques_used_by_all_groups()
         groups = self.get_groups()
-        groups = self.remove_revoked(groups)
         groups_list = []
         for g in groups:
             group_dict = dict()
