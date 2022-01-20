@@ -1,13 +1,16 @@
 # Table of content
 # Learn more at https://jupyterbook.org/customize/toc.html
-#
-- file: intro
-- part: Playground
+
+format: jb-book
+root: intro
+parts:
+- caption: Playground
   chapters:
-  - file: playground/ATT&CK_DataSources
-  - file: playground/Export_All_Techniques
-  - file: playground/export_groups_navigator_layers
-  - file: playground/ICS_ATTACK_Exploration
-  - file: playground/techniques_by_datasources
-  - file: playground/Usage_Basics
-  - file: playground/Usage_Filters
+  - file: playground/1-Collect_All_Functions
+  - file: playground/2-Collect_Matrix_Specific_Functions
+  - file: playground/3-Export_All_Techniques_To_CSV
+  - file: playground/4-Explore_Data_Sources
+  - file: playground/5-Collect_Techniques_by_Data_Sources
+  - file: playground/6-Explore_ICS_Attack
+  - file: playground/7-Export_Groups_Navigator_Layers
+  - file: playground/8-Lookup_Functions

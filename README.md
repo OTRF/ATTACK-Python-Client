@@ -5,14 +5,14 @@
 [![Open Source Love svg1](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 [![Downloads](https://pepy.tech/badge/attackcti)](https://pepy.tech/project/attackcti)
 
-A Python module to access up to date ATT&CK content available in STIX via public TAXII server. This project leverages the python classes and functions of the [cti-python-stix2](https://github.com/oasis-open/cti-python-stix2) and [cti-taxii-client](https://github.com/oasis-open/cti-taxii-client) libraries developed by MITRE.
+A Python module to access up-to-date ATT&CK content available in [STIX](https://oasis-open.github.io/cti-documentation/stix/intro) via a public [TAXII](https://oasis-open.github.io/cti-documentation/taxii/intro) server. This project leverages python classes and functions from the [cti-python-stix2](https://github.com/oasis-open/cti-python-stix2) and [cti-taxii-client](https://github.com/oasis-open/cti-taxii-client) libraries developed by MITRE.
 
 ## Goals
 
-* Provide an easy way to access and interact with up to date ATT&CK content available in STIX via public TAXII server.
+* Provide an easy way to access and interact with up-to-date ATT&CK content available in STIX via public TAXII server.
 * Allow security analysts to quickly explore ATT&CK content and apply it in their daily operations.
-* Allow the integration of ATT&Ck content with other platforms to host up to date information from the framework.
-* Help security analysts during the transition from the ATT&CK MediaWiki API to the STIX/TAXII 2.0 API.
+* Allow the integration of ATT&CK content with other platforms to host up to date information from the framework.
+* Help security analysts during the transition from the old ATT&CK MediaWiki API to the STIX/TAXII 2.0 API.
 * Learn STIX2 and TAXII Client Python libraries
 
 ## Documentation

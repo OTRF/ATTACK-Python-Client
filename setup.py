@@ -13,12 +13,17 @@ with open('README.md')as f:
 
 setup(
     name="attackcti",
-    version="0.3.4.4",
+    version="0.3.5",
     author="Roberto Rodriguez",
     description="MITRE ATTACK CTI Python Libary",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/OTRF/ATTACK-Python-Client",
+    project_urls={
+        "Documentation": "https://attackcti.com",
+        "Code": "https://github.com/OTRF/ATTACK-Python-Client",
+        "Issue tracker": "https://github.com/OTRF/ATTACK-Python-Client/issues",
+    },
     keywords="threat hunting dfir cti cyber threat intelligence mitre att&ck",
     packages=find_packages(),
     install_requires=[
@@ -38,5 +43,6 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9'
     ],
 )
