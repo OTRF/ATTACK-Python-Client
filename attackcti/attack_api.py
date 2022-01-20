@@ -1796,6 +1796,7 @@ class attack_client(object):
                             technique_ds[dc_ds_ref]['data_components'] = list()
                         if dc not in technique_ds[dc_ds_ref]['data_components']:
                             technique_ds[dc_ds_ref]['data_components'].append(dc)
-                new_data_sources = [ v for v in technique_ds.values()]
-                stix_object[i] = stix_object[i].new_version(x_mitre_data_sources = new_data_sources)
+                if technique_ds:
+                    new_data_sources = [ v for v in technique_ds.values()]
+                    stix_object[i] = stix_object[i].new_version(x_mitre_data_sources = new_data_sources)
         return stix_object
