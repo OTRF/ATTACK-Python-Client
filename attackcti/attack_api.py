@@ -1523,45 +1523,13 @@ class attack_client(object):
             Filter('relationship_type', '=', 'uses'),
             Filter('source_ref', 'in', [r.target_ref for r in software_relationships])
         ]
-        try:
-            enterprise_stix_objects = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
-        except:
-            enterprise_stix_objects = []
-        try:
-            pre_stix_objects = self.TC_PRE_SOURCE.query(filter_objects)
-        except:
-            pre_stix_objects = []
-        try:
-            mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_objects)
-        except:
-            mobile_stix_objects = []
-        try:
-            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_objects)
-        except:
-            ics_stix_objects = []
-        software_uses = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
+        software_uses = self.COMPOSITE_DS.query.query(filter_objects)
         # Get all techniques used by the software that is used by group
         filter_techniques = [
             Filter('type', '=', 'attack-pattern'),
             Filter('id', 'in', [s.target_ref for s in software_uses])
         ]
-        try:
-            enterprise_stix_objects = self.TC_ENTERPRISE_SOURCE.query(filter_techniques)
-        except:
-            enterprise_stix_objects = []
-        try:
-            pre_stix_objects = self.TC_PRE_SOURCE.query(filter_techniques)
-        except:
-            pre_stix_objects = []
-        try:
-            mobile_stix_objects = self.TC_MOBILE_SOURCE.query(filter_techniques)
-        except:
-            mobile_stix_objects = []
-        try:
-            ics_stix_objects = self.TC_ICS_SOURCE.query(filter_techniques)
-        except:
-            ics_stix_objects = []
-        all_techniques_list = enterprise_stix_objects + pre_stix_objects + mobile_stix_objects + ics_stix_objects
+        all_techniques_list = self.COMPOSITE_DS.query(filter_techniques)
         if not stix_format:
             all_techniques_list = self.translate_stix_objects(all_techniques_list)
         return all_techniques_list
