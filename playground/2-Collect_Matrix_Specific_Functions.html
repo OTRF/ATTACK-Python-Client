@@ -1,0 +1,1884 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collect Matrix Specific Functions &#8212; ATTACK Python Client</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://attackcti.com/playground/2-Collect_Matrix_Specific_Functions.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Export All Techniques to CSV" href="3-Export_All_Techniques_To_CSV.html" />
+    <link rel="prev" title="Collect All Functions" href="1-Collect_All_Functions.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ATTACK Python Client</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Playground
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-Collect_All_Functions.html">
+   Collect All Functions
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Collect Matrix Specific Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3-Export_All_Techniques_To_CSV.html">
+   Export All Techniques to CSV
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4-Explore_Data_Sources.html">
+   Explore ATT&amp;CK Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="5-Collect_Techniques_by_Data_Sources.html">
+   Get Techniques from Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="6-Explore_ICS_Attack.html">
+   Exploring ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="7-Export_Groups_Navigator_Layers.html">
+   Exporting ATT&amp;CK Group Navigator Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="8-Lookup_Functions.html">
+   Filtering and Looking Up STIX Objects in ATT&amp;CK
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/playground/2-Collect_Matrix_Specific_Functions.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client/issues/new?title=Issue%20on%20page%20%2Fplayground/2-Collect_Matrix_Specific_Functions.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/OTRF/ATTACK-Python-Client/edit/master/docs/playground/2-Collect_Matrix_Specific_Functions.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OTRF/ATTACK-Python-Client/master?urlpath=tree/docs/playground/2-Collect_Matrix_Specific_Functions.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-attack-api-client">
+   Import ATTACK API Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-extra-libraries">
+   Import Extra Libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-att-ck-client-variable">
+   Initialize ATT&amp;CK Client Variable
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-att-ck">
+   Collect Enterprise ATT&amp;CK
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#access-all-enterprise-techniques">
+     Access All Enterprise Techniques
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-techniques">
+   Collect Enterprise Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-mitigations">
+   Collect Enterprise Mitigations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-groups">
+   Collect Enterprise Groups
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-malware">
+   Collect Enterprise Malware
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-tools">
+   Collect Enterprise Tools
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-relationships">
+   Collect Enterprise Relationships
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-tactics">
+   Collect Enterprise Tactics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-data-sources">
+   Collect Enterprise Data Sources
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-att-ck">
+   Collect Mobile ATT&amp;CK
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-techniques">
+   Collect Mobile Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-mitigations">
+   Collect Mobile Mitigations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-groups">
+   Collect Mobile Groups
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-malware">
+   Collect Mobile Malware
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-tools">
+   Collect Mobile Tools
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-relationships">
+   Collect Mobile Relationships
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-tactics">
+   Collect Mobile Tactics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-att-ck">
+   Collect ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-techniques">
+   Collect ICS Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-mitigations">
+   Collect ICS Mitigations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collectics-groups">
+   CollectICS Groups
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-malware">
+   Collect ICS Malware
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-relationships">
+   Collect ICS Relationships
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-tactics">
+   Collect ICS Tactics
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Collect Matrix Specific Functions</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-attack-api-client">
+   Import ATTACK API Client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-extra-libraries">
+   Import Extra Libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-att-ck-client-variable">
+   Initialize ATT&amp;CK Client Variable
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-att-ck">
+   Collect Enterprise ATT&amp;CK
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#access-all-enterprise-techniques">
+     Access All Enterprise Techniques
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-techniques">
+   Collect Enterprise Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-mitigations">
+   Collect Enterprise Mitigations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-groups">
+   Collect Enterprise Groups
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-malware">
+   Collect Enterprise Malware
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-tools">
+   Collect Enterprise Tools
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-relationships">
+   Collect Enterprise Relationships
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-tactics">
+   Collect Enterprise Tactics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-enterprise-data-sources">
+   Collect Enterprise Data Sources
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-att-ck">
+   Collect Mobile ATT&amp;CK
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-techniques">
+   Collect Mobile Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-mitigations">
+   Collect Mobile Mitigations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-groups">
+   Collect Mobile Groups
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-malware">
+   Collect Mobile Malware
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-tools">
+   Collect Mobile Tools
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-relationships">
+   Collect Mobile Relationships
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-mobile-tactics">
+   Collect Mobile Tactics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-att-ck">
+   Collect ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-techniques">
+   Collect ICS Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-mitigations">
+   Collect ICS Mitigations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collectics-groups">
+   CollectICS Groups
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-malware">
+   Collect ICS Malware
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-relationships">
+   Collect ICS Relationships
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collect-ics-tactics">
+   Collect ICS Tactics
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="collect-matrix-specific-functions">
+<h1>Collect Matrix Specific Functions<a class="headerlink" href="#collect-matrix-specific-functions" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>This project also comes with functions that collect several STIX objects from specific ATT&amp;CK matrices. These functions help to collect more with less API call requests one matrix at the time.</p>
+<div class="section" id="import-attack-api-client">
+<h2>Import ATTACK API Client<a class="headerlink" href="#import-attack-api-client" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="import-extra-libraries">
+<h2>Import Extra Libraries<a class="headerlink" href="#import-extra-libraries" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;taxii2client&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pandas</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;1.3.5&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initialize-att-ck-client-variable">
+<h2>Initialize ATT&amp;CK Client Variable<a class="headerlink" href="#initialize-att-ck-client-variable" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-enterprise-att-ck">
+<h2>Collect Enterprise ATT&amp;CK<a class="headerlink" href="#collect-enterprise-att-ck" title="Permalink to this headline">¶</a></h2>
+<p>We can start by collecting everything from Enterprise ATT&amp;CK such as ‘techniques’, ‘data-component’, ‘mitigations’, ‘groups’, ‘malware’, ‘tools’, ‘data-source’, ‘relationships’, ‘tactics’, ‘matrix’, ‘identity’, ‘marking-definition’. This function returns a dictionary where keys are mapped to each type of object available in the matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> enterprise = lift.get_enterprise()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 9.6 s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;techniques&#39;, &#39;data-component&#39;, &#39;mitigations&#39;, &#39;groups&#39;, &#39;malware&#39;, &#39;tools&#39;, &#39;data-source&#39;, &#39;relationships&#39;, &#39;tactics&#39;, &#39;matrix&#39;, &#39;identity&#39;, &#39;marking-definition&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="access-all-enterprise-techniques">
+<h3>Access All Enterprise Techniques<a class="headerlink" href="#access-all-enterprise-techniques" title="Permalink to this headline">¶</a></h3>
+<p>We can then access information such as <code class="docutils literal notranslate"><span class="pre">techniques</span></code> from the all the data collected from <code class="docutils literal notranslate"><span class="pre">enterprise</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Techniques in Enterprise ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">enterprise</span><span class="p">[</span><span class="s1">&#39;techniques&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Techniques in Enterprise ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>566
+</pre></div>
+</div>
+</div>
+</div>
+<p>By default, the data returned by the available functions in the attackcti library is of type <strong>stix2</strong>. However, if you want to interact with libraries such as <strong>Pandas</strong>, it needs to be of type <strong>dict</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">enterprise</span><span class="p">[</span><span class="s1">&#39;techniques&#39;</span><span class="p">]:</span>
+    <span class="n">techniques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">serialize</span><span class="p">()))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">techniques</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">([</span><span class="s1">&#39;created&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;x_mitre_data_sources&#39;</span><span class="p">,</span> <span class="s1">&#39;x_mitre_platforms&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>created</th>
+      <th>name</th>
+      <th>x_mitre_data_sources</th>
+      <th>x_mitre_platforms</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-10-12T20:02:31.866Z</td>
+      <td>Resource Forking</td>
+      <td>[File: File Creation, Process: Process Creatio...</td>
+      <td>[macOS]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-10-08T14:06:28.212Z</td>
+      <td>Downgrade Attack</td>
+      <td>[Command: Command Execution, Process: Process ...</td>
+      <td>[Windows, Linux, macOS]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-10-05T21:26:15.081Z</td>
+      <td>Login Items</td>
+      <td>[Process: Process Creation, File: File Modific...</td>
+      <td>[macOS]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-10-05T01:15:06.293Z</td>
+      <td>Reflective Code Loading</td>
+      <td>[Script: Script Execution, Process: OS API Exe...</td>
+      <td>[macOS, Linux, Windows]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-10-01T17:58:26.445Z</td>
+      <td>Cloud Storage Object Discovery</td>
+      <td>[Cloud Storage: Cloud Storage Enumeration, Clo...</td>
+      <td>[IaaS]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-enterprise-techniques">
+<h2>Collect Enterprise Techniques<a class="headerlink" href="#collect-enterprise-techniques" title="Permalink to this headline">¶</a></h2>
+<p>Rather than collecting all STIX objects from <code class="docutils literal notranslate"><span class="pre">enterprise</span></code> and filtering on only <code class="docutils literal notranslate"><span class="pre">techniques</span></code>, we can use the following function to retrieve only techniques from ATT&amp;CK TAXII server.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_techniques</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Techniques in Enterprise ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">enterprise_techniques</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Techniques in Enterprise ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>566
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--b22e5153-ac28-4cc6-865c-2054e36285cb&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-12T20:02:31.866Z&#39;, modified=&#39;2021-10-16T01:50:40.276Z&#39;, name=&#39;Resource Forking&#39;, description=&#39;Adversaries may abuse resource forks to hide malicious code or executables to evade detection and bypass security applications. A resource fork provides applications a structured way to store resources such as thumbnail images, menu definitions, icons, dialog boxes, and code.(Citation: macOS Hierarchical File System Overview) Usage of a resource fork is identifiable when displaying a file’s extended attributes, using &lt;code&gt;ls -l@&lt;/code&gt; or &lt;code&gt;xattr -l&lt;/code&gt; commands. Resource forks have been deprecated and replaced with the application bundle structure. Non-localized resources are placed at the top level directory of an application bundle, while localized resources are placed in the &lt;code&gt;/Resources&lt;/code&gt; folder.(Citation: Resource and Data Forks)(Citation: ELC Extended Attributes)\n\nAdversaries can use resource forks to hide malicious data that may otherwise be stored directly in files. Adversaries can execute content with an attached resource fork, at a specified offset, that is moved to an executable location then invoked. Resource fork content may also be obfuscated/encrypted until execution.(Citation: sentinellabs resource named fork 2020)(Citation: tau bundlore erika noerenberg 2020)&#39;, kill_chain_phases=[KillChainPhase(kill_chain_name=&#39;mitre-attack&#39;, phase_name=&#39;defense-evasion&#39;)], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/techniques/T1564/009&#39;, external_id=&#39;T1564.009&#39;), ExternalReference(source_name=&#39;macOS Hierarchical File System Overview&#39;, description=&#39;Tenon. (n.d.). Retrieved October 12, 2021.&#39;, url=&#39;http://tenon.com/products/codebuilder/User_Guide/6_File_Systems.html#anchor520553&#39;), ExternalReference(source_name=&#39;Resource and Data Forks&#39;, description=&#39;Flylib. (n.d.). Identifying Resource and Data Forks. Retrieved October 12, 2021.&#39;, url=&#39;https://flylib.com/books/en/4.395.1.192/1/&#39;), ExternalReference(source_name=&#39;ELC Extended Attributes&#39;, description=&quot;Howard Oakley. (2020, October 24). There&#39;s more to files than data: Extended Attributes. Retrieved October 12, 2021.&quot;, url=&#39;https://eclecticlight.co/2020/10/24/theres-more-to-files-than-data-extended-attributes/&#39;), ExternalReference(source_name=&#39;sentinellabs resource named fork 2020&#39;, description=&#39;Phil Stokes. (2020, November 5). Resourceful macOS Malware Hides in Named Fork. Retrieved October 12, 2021.&#39;, url=&#39;https://www.sentinelone.com/labs/resourceful-macos-malware-hides-in-named-fork/&#39;), ExternalReference(source_name=&#39;tau bundlore erika noerenberg 2020&#39;, description=&#39;Erika Noerenberg. (2020, June 29). TAU Threat Analysis: Bundlore (macOS) mm-install-macos. Retrieved October 12, 2021.&#39;, url=&#39;https://blogs.vmware.com/security/2020/06/tau-threat-analysis-bundlore-macos-mm-install-macos.html&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_contributors=[&#39;Jaron Bradley @jbradley89&#39;, &#39;Ivan Sinyakov&#39;], x_mitre_data_sources=[&#39;File: File Creation&#39;, &#39;Process: Process Creation&#39;, &#39;File: File Metadata&#39;, &#39;Command: Command Execution&#39;], x_mitre_defense_bypassed=[&#39;Notarization; Gatekeeper&#39;], x_mitre_detection=&#39;Identify files with the &lt;code&gt;com.apple.ResourceFork&lt;/code&gt; extended attribute and large data amounts stored in resource forks. \n\nMonitor command-line activity leveraging the use of resource forks, especially those immediately followed by potentially malicious activity such as creating network connections. &#39;, x_mitre_is_subtechnique=True, x_mitre_permissions_required=[&#39;User&#39;], x_mitre_platforms=[&#39;macOS&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">enterprise_techniques</span><span class="p">:</span>
+    <span class="n">techniques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">serialize</span><span class="p">()))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">techniques</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">([</span><span class="s1">&#39;created&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;x_mitre_data_sources&#39;</span><span class="p">,</span> <span class="s1">&#39;x_mitre_platforms&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>created</th>
+      <th>name</th>
+      <th>x_mitre_data_sources</th>
+      <th>x_mitre_platforms</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-10-12T20:02:31.866Z</td>
+      <td>Resource Forking</td>
+      <td>[File: File Creation, Process: Process Creatio...</td>
+      <td>[macOS]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-10-08T14:06:28.212Z</td>
+      <td>Downgrade Attack</td>
+      <td>[Command: Command Execution, Process: Process ...</td>
+      <td>[Windows, Linux, macOS]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-10-05T21:26:15.081Z</td>
+      <td>Login Items</td>
+      <td>[Process: Process Creation, File: File Modific...</td>
+      <td>[macOS]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-10-05T01:15:06.293Z</td>
+      <td>Reflective Code Loading</td>
+      <td>[Script: Script Execution, Process: OS API Exe...</td>
+      <td>[macOS, Linux, Windows]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-10-01T17:58:26.445Z</td>
+      <td>Cloud Storage Object Discovery</td>
+      <td>[Cloud Storage: Cloud Storage Enumeration, Clo...</td>
+      <td>[IaaS]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="collect-enterprise-mitigations">
+<h2>Collect Enterprise Mitigations<a class="headerlink" href="#collect-enterprise-mitigations" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_mitigations</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_mitigations</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Mitigations in Enterprise ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">enterprise_mitigations</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Mitigations in Enterprise ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>267
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_mitigations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CourseOfAction(type=&#39;course-of-action&#39;, id=&#39;course-of-action--65401701-019d-44ff-b223-08d520bb0e7b&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-08-04T21:22:11.612Z&#39;, modified=&#39;2021-08-30T15:00:10.680Z&#39;, name=&#39;Data Loss Prevention&#39;, description=&#39;Use a data loss prevention (DLP) strategy to categorize sensitive data, identify data formats indicative of personal identifiable information (PII), and restrict exfiltration of sensitive data.(Citation: PurpleSec Data Loss Prevention)&#39;, revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/mitigations/M1057&#39;, external_id=&#39;M1057&#39;), ExternalReference(source_name=&#39;PurpleSec Data Loss Prevention&#39;, description=&#39;Michael Swanagan. (2020, October 24). 7 Data Loss Prevention Best Practices &amp; Strategies. Retrieved August 30, 2021.&#39;, url=&#39;https://purplesec.us/data-loss-prevention/&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-enterprise-groups">
+<h2>Collect Enterprise Groups<a class="headerlink" href="#collect-enterprise-groups" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_groups</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Groups in Enterprise ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">enterprise_groups</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Groups in Enterprise ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>128
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IntrusionSet(type=&#39;intrusion-set&#39;, id=&#39;intrusion-set--35d1b3be-49d4-42f1-aaa6-ef159c880bca&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-01T01:57:31.229Z&#39;, modified=&#39;2021-10-15T18:47:18.824Z&#39;, name=&#39;TeamTNT&#39;, description=&#39;[TeamTNT](https://attack.mitre.org/groups/G0139) is a threat group that has primarily targeted cloud and containerized environments. The group as been active since at least October 2019 and has mainly focused its efforts on leveraging cloud and container resources to deploy cryptocurrency miners in victim environments. (Citation: Palo Alto Black-T October 2020)(Citation: Lacework TeamTNT May 2021)(Citation: Intezer TeamTNT September 2020)(Citation: Cado Security TeamTNT Worm August 2020)(Citation: Unit 42 Hildegard Malware)(Citation: Trend Micro TeamTNT)(Citation: ATT TeamTNT Chimaera September 2020)(Citation: Aqua TeamTNT August 2020)(Citation: Intezer TeamTNT Explosion September 2021)&#39;, aliases=[&#39;TeamTNT&#39;], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/groups/G0139&#39;, external_id=&#39;G0139&#39;), ExternalReference(source_name=&#39;Palo Alto Black-T October 2020&#39;, description=&#39;Quist, N. (2020, October 5). Black-T: New Cryptojacking Variant from TeamTNT. Retrieved September 22, 2021.&#39;, url=&#39;https://unit42.paloaltonetworks.com/black-t-cryptojacking-variant/&#39;), ExternalReference(source_name=&#39;Lacework TeamTNT May 2021&#39;, description=&quot;Stroud, J. (2021, May 25). Taking TeamTNT&#39;s Docker Images Offline. Retrieved September 22, 2021.&quot;, url=&#39;https://www.lacework.com/blog/taking-teamtnt-docker-images-offline/&#39;), ExternalReference(source_name=&#39;Intezer TeamTNT September 2020&#39;, description=&#39;Fishbein, N. (2020, September 8). Attackers Abusing Legitimate Cloud Monitoring Tools to Conduct Cyber Attacks. Retrieved September 22, 2021.&#39;, url=&#39;https://www.intezer.com/blog/cloud-security/attackers-abusing-legitimate-cloud-monitoring-tools-to-conduct-cyber-attacks/&#39;), ExternalReference(source_name=&#39;Cado Security TeamTNT Worm August 2020&#39;, description=&#39;Cado Security. (2020, August 16). Team TNT – The First Crypto-Mining Worm to Steal AWS Credentials. Retrieved September 22, 2021.&#39;, url=&#39;https://www.cadosecurity.com/team-tnt-the-first-crypto-mining-worm-to-steal-aws-credentials/&#39;), ExternalReference(source_name=&#39;Unit 42 Hildegard Malware&#39;, description=&#39;Chen, J. et al. (2021, February 3). Hildegard: New TeamTNT Cryptojacking Malware Targeting Kubernetes. Retrieved April 5, 2021.&#39;, url=&#39;https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/&#39;), ExternalReference(source_name=&#39;Trend Micro TeamTNT&#39;, description=&#39;Fiser, D. Oliveira, A. (n.d.). Tracking the Activities of TeamTNT A Closer Look at a Cloud-Focused Malicious Actor Group. Retrieved September 22, 2021.&#39;, url=&#39;https://documents.trendmicro.com/assets/white_papers/wp-tracking-the-activities-of-teamTNT.pdf&#39;), ExternalReference(source_name=&#39;ATT TeamTNT Chimaera September 2020&#39;, description=&#39;AT&amp;T Alien Labs. (2021, September 8). TeamTNT with new campaign aka Chimaera. Retrieved September 22, 2021.&#39;, url=&#39;https://cybersecurity.att.com/blogs/labs-research/teamtnt-with-new-campaign-aka-chimaera&#39;), ExternalReference(source_name=&#39;Aqua TeamTNT August 2020&#39;, description=&#39;Kol, Roi. Morag, A. (2020, August 25). Deep Analysis of TeamTNT Techniques Using Container Images to Attack. Retrieved September 22, 2021.&#39;, url=&#39;https://blog.aquasec.com/container-security-tnt-container-attack&#39;), ExternalReference(source_name=&#39;Intezer TeamTNT Explosion September 2021&#39;, description=&#39;Intezer. (2021, September 1). TeamTNT Cryptomining Explosion. Retrieved October 15, 2021.&#39;, url=&#39;https://www.intezer.com/wp-content/uploads/2021/09/TeamTNT-Cryptomining-Explosion.pdf&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_contributors=[&#39;Will Thomas, Cyjax&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-enterprise-malware">
+<h2>Collect Enterprise Malware<a class="headerlink" href="#collect-enterprise-malware" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_malware</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_malware</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Malware in Enterprise ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">enterprise_malware</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Malware in Enterprise ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>474
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_malware</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Malware(type=&#39;malware&#39;, id=&#39;malware--e14085cb-0e8d-4be6-92ba-e3b93ee5978f&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-05T21:58:51.161Z&#39;, modified=&#39;2021-10-19T00:43:30.036Z&#39;, name=&#39;XCSSET&#39;, description=&#39;[XCSSET](https://attack.mitre.org/software/S0658) is a macOS modular backdoor that targets Xcode application developers. [XCSSET](https://attack.mitre.org/software/S0658) was first observed in August 2020 and has been used to install a backdoor component, modify browser applications, conduct collection, and provide ransomware-like encryption capabilities.(Citation: trendmicro xcsset xcode project 2020)&#39;, revoked=False, labels=[&#39;malware&#39;], external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/software/S0658&#39;, external_id=&#39;S0658&#39;), ExternalReference(source_name=&#39;XCSSET&#39;, description=&#39;(Citation: trendmicro xcsset xcode project 2020)&#39;), ExternalReference(source_name=&#39;OSX.DubRobber&#39;, description=&#39;(Citation: malwarebyteslabs xcsset dubrobber)&#39;), ExternalReference(source_name=&#39;trendmicro xcsset xcode project 2020&#39;, description=&#39;Mac Threat Response, Mobile Research Team. (2020, August 13). The XCSSET Malware: Inserts Malicious Code Into Xcode Projects, Performs UXSS Backdoor Planting in Safari, and Leverages Two Zero-day Exploits. Retrieved October 5, 2021.&#39;, url=&#39;https://documents.trendmicro.com/assets/pdf/XCSSET_Technical_Brief.pdf&#39;), ExternalReference(source_name=&#39;malwarebyteslabs xcsset dubrobber&#39;, description=&#39;Thomas Reed. (2020, April 21). OSX.DubRobber. Retrieved October 5, 2021.&#39;, url=&#39;https://blog.malwarebytes.com/detections/osx-dubrobber/&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_aliases=[&#39;XCSSET&#39;, &#39;OSX.DubRobber&#39;], x_mitre_platforms=[&#39;macOS&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-enterprise-tools">
+<h2>Collect Enterprise Tools<a class="headerlink" href="#collect-enterprise-tools" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_tools</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_tools</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Tools in Enterprise ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">enterprise_tools</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Tools in Enterprise ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>72
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_tools</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tool(type=&#39;tool&#39;, id=&#39;tool--f91162cc-1686-4ff8-8115-bf3f61a4cc7a&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-09-14T21:45:30.280Z&#39;, modified=&#39;2021-09-21T18:03:13.205Z&#39;, name=&#39;Wevtutil&#39;, description=&#39;[Wevtutil](https://attack.mitre.org/software/S0645) is a Windows command-line utility that enables administrators to retrieve information about event logs and publishers.(Citation: Wevtutil Microsoft Documentation)&#39;, revoked=False, labels=[&#39;tool&#39;], external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/software/S0645&#39;, external_id=&#39;S0645&#39;), ExternalReference(source_name=&#39;Wevtutil Microsoft Documentation&#39;, description=&#39;Microsoft. (n.d.). wevtutil. Retrieved September 14, 2021.&#39;, url=&#39;https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_aliases=[&#39;Wevtutil&#39;], x_mitre_contributors=[&#39;Viren Chaudhari, Qualys&#39;, &#39;Harshal Tupsamudre, Qualys&#39;], x_mitre_platforms=[&#39;Windows&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-enterprise-relationships">
+<h2>Collect Enterprise Relationships<a class="headerlink" href="#collect-enterprise-relationships" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_relationships</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_relationships</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Relationships in Enterprise ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">enterprise_relationships</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Relationships in Enterprise ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14069
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_relationships</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Relationship(type=&#39;relationship&#39;, id=&#39;relationship--9567076b-2a77-43e4-befd-19556def9d47&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-11-10T09:30:48.753Z&#39;, modified=&#39;2021-11-10T09:30:48.753Z&#39;, relationship_type=&#39;detects&#39;, source_ref=&#39;x-mitre-data-component--3d20385b-24ef-40e1-9f56-f39750379077&#39;, target_ref=&#39;attack-pattern--910906dd-8c0a-475a-9cc1-5e029e2fad58&#39;, revoked=False, object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-enterprise-tactics">
+<h2>Collect Enterprise Tactics<a class="headerlink" href="#collect-enterprise-tactics" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_tactics</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_tactics</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Tactics in Enterprise ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">enterprise_tactics</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Tactics in Enterprise ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_tactics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+ &#39;type&#39;: &#39;x-mitre-tactic&#39;,
+ &#39;name&#39;: &#39;Reconnaissance&#39;,
+ &#39;description&#39;: &#39;The adversary is trying to gather information they can use to plan future operations.\n\nReconnaissance consists of techniques that involve adversaries actively or passively gathering information that can be used to support targeting. Such information may include details of the victim organization, infrastructure, or staff/personnel. This information can be leveraged by the adversary to aid in other phases of the adversary lifecycle, such as using gathered information to plan and execute Initial Access, to scope and prioritize post-compromise objectives, or to drive and lead further Reconnaissance efforts.&#39;,
+ &#39;modified&#39;: &#39;2020-10-18T02:04:50.842Z&#39;,
+ &#39;id&#39;: &#39;x-mitre-tactic--daa4cbb1-b4f4-4723-a824-7f1efd6e0592&#39;,
+ &#39;created&#39;: &#39;2020-10-02T14:48:41.809Z&#39;,
+ &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+ &#39;external_references&#39;: [{&#39;url&#39;: &#39;https://attack.mitre.org/tactics/TA0043&#39;,
+   &#39;external_id&#39;: &#39;TA0043&#39;,
+   &#39;source_name&#39;: &#39;mitre-attack&#39;}],
+ &#39;x_mitre_shortname&#39;: &#39;reconnaissance&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-enterprise-data-sources">
+<h2>Collect Enterprise Data Sources<a class="headerlink" href="#collect-enterprise-data-sources" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_data_sources</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_enterprise_data_sources</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Mitigations in Data Sources ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">enterprise_data_sources</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Mitigations in Data Sources ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>38
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enterprise_data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+ &#39;modified&#39;: &#39;2021-10-20T15:05:19.275Z&#39;,
+ &#39;name&#39;: &#39;Internet Scan&#39;,
+ &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+ &#39;type&#39;: &#39;x-mitre-data-source&#39;,
+ &#39;id&#39;: &#39;x-mitre-data-source--38fe306c-bdec-4f3d-8521-b72dd32dbd17&#39;,
+ &#39;description&#39;: &#39;Information obtained (commonly via active network traffic probes or web crawling) regarding various types of resources and servers connected to the public Internet&#39;,
+ &#39;created&#39;: &#39;2021-10-20T15:05:19.275Z&#39;,
+ &#39;external_references&#39;: [{&#39;url&#39;: &#39;https://attack.mitre.org/datasources/DS0035&#39;,
+   &#39;external_id&#39;: &#39;DS0035&#39;,
+   &#39;source_name&#39;: &#39;mitre-attack&#39;}],
+ &#39;x_mitre_version&#39;: &#39;1.0&#39;,
+ &#39;x_mitre_platforms&#39;: [&#39;PRE&#39;],
+ &#39;x_mitre_collection_layers&#39;: [&#39;OSINT&#39;],
+ &#39;x_mitre_contributors&#39;: []}
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can do the same with other matrices such as <code class="docutils literal notranslate"><span class="pre">Mobile</span></code> and <code class="docutils literal notranslate"><span class="pre">ICS</span></code></p>
+</div>
+<div class="section" id="collect-mobile-att-ck">
+<h2>Collect Mobile ATT&amp;CK<a class="headerlink" href="#collect-mobile-att-ck" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> all_mobile = lift.get_mobile()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 1.55 s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_mobile</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;techniques&#39;, &#39;mitigations&#39;, &#39;groups&#39;, &#39;malware&#39;, &#39;tools&#39;, &#39;relationships&#39;, &#39;tactics&#39;, &#39;matrix&#39;, &#39;identity&#39;, &#39;marking-definition&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-mobile-techniques">
+<h2>Collect Mobile Techniques<a class="headerlink" href="#collect-mobile-techniques" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_mobile_techniques</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Techniques in Mobile ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">mobile_techniques</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Techniques in Mobile ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>92
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mobile_techniques</span><span class="p">:</span>
+    <span class="n">techniques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">serialize</span><span class="p">()))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">techniques</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">([</span><span class="s1">&#39;created&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;x_mitre_platforms&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>created</th>
+      <th>name</th>
+      <th>x_mitre_platforms</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-09-30T18:18:52.285Z</td>
+      <td>User Evasion</td>
+      <td>[Android]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-09-24T14:47:34.182Z</td>
+      <td>Hooking</td>
+      <td>[Android]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-09-20T13:42:20.824Z</td>
+      <td>Call Control</td>
+      <td>[Android]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-12-16T20:16:07.673Z</td>
+      <td>Command-Line Interface</td>
+      <td>[Android, iOS]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020-11-30T14:26:07.728Z</td>
+      <td>Proxy Through Victim</td>
+      <td>[Android]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="collect-mobile-mitigations">
+<h2>Collect Mobile Mitigations<a class="headerlink" href="#collect-mobile-mitigations" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_mitigations</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_mobile_mitigations</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Mitigations in Mobile ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">mobile_mitigations</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Mitigations in Mobile ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>13
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_mitigations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CourseOfAction(type=&#39;course-of-action&#39;, id=&#39;course-of-action--653492e3-27be-4a0e-b08c-938dd2b7e0e1&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2019-10-18T12:53:03.508Z&#39;, modified=&#39;2019-10-18T15:51:48.318Z&#39;, name=&#39;User Guidance&#39;, description=&#39;Describes any guidance or training given to users to set particular configuration settings or avoid specific potentially risky behaviors.&#39;, revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/mitigations/M1011&#39;, external_id=&#39;M1011&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-mobile-groups">
+<h2>Collect Mobile Groups<a class="headerlink" href="#collect-mobile-groups" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_mobile_groups</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Groups in Mobile ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">mobile_groups</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Groups in Mobile ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IntrusionSet(type=&#39;intrusion-set&#39;, id=&#39;intrusion-set--afec6dc3-a18e-4b62-b1a4-5510e1a498d1&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2020-06-25T17:16:39.168Z&#39;, modified=&#39;2021-04-26T14:37:33.234Z&#39;, name=&#39;Windshift&#39;, description=&#39;[Windshift](https://attack.mitre.org/groups/G0112) is a threat group that has been active since at least 2017, targeting specific individuals for surveillance in government departments and critical infrastructure across the Middle East.(Citation: SANS Windshift August 2018)(Citation: objective-see windtail1 dec 2018)(Citation: objective-see windtail2 jan 2019)&#39;, aliases=[&#39;Windshift&#39;, &#39;Bahamut&#39;], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/groups/G0112&#39;, external_id=&#39;G0112&#39;), ExternalReference(source_name=&#39;Bahamut&#39;, description=&#39;(Citation: SANS Windshift August 2018)&#39;), ExternalReference(source_name=&#39;SANS Windshift August 2018&#39;, description=&#39;Karim, T. (2018, August). TRAILS OF WINDSHIFT. Retrieved June 25, 2020.&#39;, url=&#39;https://www.sans.org/cyber-security-summit/archives/file/summit-archive-1554718868.pdf&#39;), ExternalReference(source_name=&#39;objective-see windtail1 dec 2018&#39;, description=&quot;Wardle, Patrick. (2018, December 20). Middle East Cyber-Espionage analyzing WindShift&#39;s implant: OSX.WindTail (part 1). Retrieved October 3, 2019.&quot;, url=&#39;https://objective-see.com/blog/blog_0x3B.html&#39;), ExternalReference(source_name=&#39;objective-see windtail2 jan 2019&#39;, description=&quot;Wardle, Patrick. (2019, January 15). Middle East Cyber-Espionage analyzing WindShift&#39;s implant: OSX.WindTail (part 2). Retrieved October 3, 2019.&quot;, url=&#39;https://objective-see.com/blog/blog_0x3D.html&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_version=&#39;1.1&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-mobile-malware">
+<h2>Collect Mobile Malware<a class="headerlink" href="#collect-mobile-malware" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_malware</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_mobile_malware</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Malware in Mobile ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">mobile_malware</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Malware in Mobile ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>92
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_malware</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Malware(type=&#39;malware&#39;, id=&#39;malware--e110f94a-e2c5-4f5f-ba78-9c2ab6d2d9e4&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-01T14:42:48.234Z&#39;, modified=&#39;2021-10-14T15:38:53.014Z&#39;, name=&#39;BusyGasper&#39;, description=&#39;[BusyGasper](https://attack.mitre.org/software/S0655) is Android spyware that has been in use since May 2016. There have been less than 10 victims, all who appear to be located in Russia, that were all infected via physical access to the device.(Citation: SecureList BusyGasper)&#39;, revoked=False, labels=[&#39;malware&#39;], external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/software/S0655&#39;, external_id=&#39;S0655&#39;), ExternalReference(source_name=&#39;SecureList BusyGasper&#39;, description=&#39;Alexey Firsh. (2018, August 29). BusyGasper – the unfriendly spy. Retrieved October 1, 2021.&#39;, url=&#39;https://securelist.com/busygasper-the-unfriendly-spy/87627/&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_aliases=[&#39;BusyGasper&#39;], x_mitre_platforms=[&#39;Android&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-mobile-tools">
+<h2>Collect Mobile Tools<a class="headerlink" href="#collect-mobile-tools" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_tools</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_mobile_tools</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Tools in Mobile ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">mobile_tools</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Tools in Mobile ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_tools</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tool(type=&#39;tool&#39;, id=&#39;tool--1622fd3d-fcfc-4d02-ac49-f2d786f79b81&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2019-09-04T15:38:56.070Z&#39;, modified=&#39;2019-10-14T18:08:28.349Z&#39;, name=&#39;FlexiSpy&#39;, description=&#39;[FlexiSpy](https://attack.mitre.org/software/S0408) is sophisticated surveillanceware for iOS and Android. Publicly-available, comprehensive analysis has only been found for the Android version.(Citation: FortiGuard-FlexiSpy)(Citation: CyberMerchants-FlexiSpy)\n\n[FlexiSpy](https://attack.mitre.org/software/S0408) markets itself as a parental control and employee monitoring application.(Citation: FlexiSpy-Website)&#39;, revoked=False, labels=[&#39;tool&#39;], external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/software/S0408&#39;, external_id=&#39;S0408&#39;), ExternalReference(source_name=&#39;FortiGuard-FlexiSpy&#39;, description=&#39;K. Lu. (n.d.). Deep Technical Analysis of the Spyware FlexiSpy for Android. Retrieved September 10, 2019.&#39;, url=&#39;https://d3gpjj9d20n0p3.cloudfront.net/fortiguard/research/Dig%20Deep%20into%20FlexiSpy%20for%20Android%28white%20paper%29_KaiLu.pdf&#39;), ExternalReference(source_name=&#39;CyberMerchants-FlexiSpy&#39;, description=&#39;Actis B. (2017, April 22). FlexSpy Application Analysis. Retrieved September 4, 2019.&#39;, url=&#39;http://www.cybermerchantsofdeath.com/blog/2017/04/22/FlexiSpy.html&#39;), ExternalReference(source_name=&#39;FlexiSpy-Website&#39;, description=&#39;FlexiSpy. (n.d.). FlexiSpy. Retrieved September 4, 2019.&#39;, url=&#39;https://www.flexispy.com/&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_aliases=[&#39;FlexiSpy&#39;], x_mitre_contributors=[&#39;Emily Ratliff, IBM&#39;], x_mitre_platforms=[&#39;Android&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-mobile-relationships">
+<h2>Collect Mobile Relationships<a class="headerlink" href="#collect-mobile-relationships" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_relationships</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_mobile_relationships</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Relationships in Mobile ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">mobile_relationships</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Relationships in Mobile ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1079
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_relationships</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Relationship(type=&#39;relationship&#39;, id=&#39;relationship--fcc42341-ec3a-4e24-a374-46bed72d061f&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-01T14:42:49.191Z&#39;, modified=&#39;2021-10-01T14:42:49.191Z&#39;, relationship_type=&#39;uses&#39;, description=&#39;[BusyGasper](https://attack.mitre.org/software/S0655) can collect data from messaging applications, including WhatsApp, Viber, and Facebook.(Citation: SecureList BusyGasper)&#39;, source_ref=&#39;malware--e110f94a-e2c5-4f5f-ba78-9c2ab6d2d9e4&#39;, target_ref=&#39;attack-pattern--702055ac-4e54-4ae9-9527-e23a38e0b160&#39;, revoked=False, external_references=[ExternalReference(source_name=&#39;SecureList BusyGasper&#39;, description=&#39;Alexey Firsh. (2018, August 29). BusyGasper – the unfriendly spy. Retrieved October 1, 2021.&#39;, url=&#39;https://securelist.com/busygasper-the-unfriendly-spy/87627/&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-mobile-tactics">
+<h2>Collect Mobile Tactics<a class="headerlink" href="#collect-mobile-tactics" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_tactics</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_mobile_tactics</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Tactics in Mobile ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">mobile_tactics</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Tactics in Mobile ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_tactics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;name&#39;: &#39;Execution&#39;,
+ &#39;id&#39;: &#39;x-mitre-tactic--4a800987-a3a8-4d56-a1bd-0d7171431756&#39;,
+ &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+ &#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+ &#39;description&#39;: &#39;The adversary is trying to run malicious code.\n\nExecution consists of techniques that result in adversary-controlled code running on a mobile device. Techniques that run malicious code are often paired with techniques from all other tactics to achieve broader goals, like exploring a network or stealing data.&#39;,
+ &#39;external_references&#39;: [{&#39;source_name&#39;: &#39;mitre-attack&#39;,
+   &#39;url&#39;: &#39;https://attack.mitre.org/tactics/TA0041&#39;,
+   &#39;external_id&#39;: &#39;TA0041&#39;}],
+ &#39;modified&#39;: &#39;2020-01-27T14:00:49.089Z&#39;,
+ &#39;type&#39;: &#39;x-mitre-tactic&#39;,
+ &#39;created&#39;: &#39;2020-01-27T14:00:49.089Z&#39;,
+ &#39;x_mitre_shortname&#39;: &#39;execution&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-ics-att-ck">
+<h2>Collect ICS ATT&amp;CK<a class="headerlink" href="#collect-ics-att-ck" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> all_ics = lift.get_ics()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 996 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_ics</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;techniques&#39;, &#39;mitigations&#39;, &#39;groups&#39;, &#39;malware&#39;, &#39;relationships&#39;, &#39;tactics&#39;, &#39;matrix&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-ics-techniques">
+<h2>Collect ICS Techniques<a class="headerlink" href="#collect-ics-techniques" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_ics_techniques</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Techniques in ICS ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">mobile_techniques</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Techniques in ICS ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>92
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ics_techniques</span><span class="p">:</span>
+    <span class="n">techniques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">serialize</span><span class="p">()))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">techniques</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">([</span><span class="s1">&#39;created&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;x_mitre_platforms&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>created</th>
+      <th>name</th>
+      <th>x_mitre_platforms</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-10-14T15:25:32.143Z</td>
+      <td>Transient Cyber Asset</td>
+      <td>[Engineering Workstation]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-04-13T12:45:26.506Z</td>
+      <td>Remote System Information Discovery</td>
+      <td>[Safety Instrumented System/Protection Relay, ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-04-13T12:36:26.506Z</td>
+      <td>Native API</td>
+      <td>[Control Server, Data Historian, Field Control...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-04-13T12:08:26.506Z</td>
+      <td>Exploitation for Privilege Escalation</td>
+      <td>[Human-Machine Interface, Safety Instrumented ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-04-13T11:15:26.506Z</td>
+      <td>Modify Program</td>
+      <td>[Field Controller/RTU/PLC/IED]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="collect-ics-mitigations">
+<h2>Collect ICS Mitigations<a class="headerlink" href="#collect-ics-mitigations" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_mitigations</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_ics_mitigations</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Mitigations in ICS ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">ics_mitigations</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Mitigations in ICS ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>51
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_mitigations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CourseOfAction(type=&#39;course-of-action&#39;, id=&#39;course-of-action--ac8f3492-7fbb-4a0a-b0b4-b75ec676136c&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-04-12T17:00:21.233Z&#39;, modified=&#39;2021-04-12T17:00:21.233Z&#39;, name=&#39;Supply Chain Management&#39;, description=&#39;Implement a supply chain management program, including policies and procedures to ensure all devices and components originate from a trusted supplier and are tested to verify their integrity.&#39;, revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-ics-attack&#39;, url=&#39;https://collaborate.mitre.org/attackics/index.php/Mitigation/M0817&#39;, external_id=&#39;M0817&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collectics-groups">
+<h2>CollectICS Groups<a class="headerlink" href="#collectics-groups" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_ics_groups</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Groups in ICS ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">ics_groups</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Groups in ICS ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IntrusionSet(type=&#39;intrusion-set&#39;, id=&#39;intrusion-set--9538b1a4-4120-4e2d-bf59-3b11fcab05a4&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2019-04-16T15:14:38.533Z&#39;, modified=&#39;2021-10-17T14:49:09.631Z&#39;, name=&#39;TEMP.Veles&#39;, description=&#39;[TEMP.Veles](https://attack.mitre.org/groups/G0088) is a Russia-based threat group that has targeted critical infrastructure. The group has been observed utilizing [TRITON](https://attack.mitre.org/software/S0609), a malware framework designed to manipulate industrial safety systems.(Citation: FireEye TRITON 2019)(Citation: FireEye TEMP.Veles 2018)(Citation: FireEye TEMP.Veles JSON April 2019)&#39;, aliases=[&#39;TEMP.Veles&#39;, &#39;XENOTIME&#39;], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/groups/G0088&#39;, external_id=&#39;G0088&#39;), ExternalReference(source_name=&#39;TEMP.Veles&#39;, description=&#39;(Citation: FireEye TRITON 2019)&#39;), ExternalReference(source_name=&#39;XENOTIME&#39;, description=&#39;The activity group XENOTIME, as defined by Dragos, has overlaps with activity reported upon by FireEye about TEMP.Veles as well as the actors behind TRITON .(Citation: Dragos Xenotime 2018)(Citation: Pylos Xenotime 2019)(Citation: FireEye TRITON 2019)(Citation: FireEye TEMP.Veles 2018 )&#39;), ExternalReference(source_name=&#39;FireEye TRITON 2019&#39;, description=&#39;Miller, S, et al. (2019, April 10). TRITON Actor TTP Profile, Custom Attack Tools, Detections, and ATT&amp;CK Mapping. Retrieved April 16, 2019.&#39;, url=&#39;https://www.fireeye.com/blog/threat-research/2019/04/triton-actor-ttp-profile-custom-attack-tools-detections.html&#39;), ExternalReference(source_name=&#39;FireEye TEMP.Veles 2018&#39;, description=&#39;FireEye Intelligence . (2018, October 23). TRITON Attribution: Russian Government-Owned Lab Most Likely Built Custom Intrusion Tools for TRITON Attackers. Retrieved April 16, 2019.&#39;, url=&#39;https://www.fireeye.com/blog/threat-research/2018/10/triton-attribution-russian-government-owned-lab-most-likely-built-tools.html &#39;), ExternalReference(source_name=&#39;FireEye TEMP.Veles JSON April 2019&#39;, description=&#39;Miller, S., et al. (2019, April 10). TRITON Appendix C. Retrieved April 29, 2019.&#39;, url=&#39;https://www.fireeye.com/content/dam/fireeye-www/blog/files/TRITON_Appendix_C.html&#39;), ExternalReference(source_name=&#39;Dragos Xenotime 2018&#39;, description=&#39;Dragos, Inc.. (n.d.). Xenotime. Retrieved April 16, 2019.&#39;, url=&#39;https://dragos.com/resource/xenotime/&#39;), ExternalReference(source_name=&#39;Pylos Xenotime 2019&#39;, description=&#39;Slowik, J.. (2019, April 12). A XENOTIME to Remember: Veles in the Wild. Retrieved April 16, 2019.&#39;, url=&#39;https://pylos.co/2019/04/12/a-xenotime-to-remember-veles-in-the-wild/&#39;), ExternalReference(source_name=&#39;FireEye TEMP.Veles 2018 &#39;, description=&#39;FireEye Intelligence . (2018, October 23). TRITON Attribution: Russian Government-Owned Lab Most Likely Built Custom Intrusion Tools for TRITON Attackers. Retrieved April 16, 2019.&#39;, url=&#39;https://www.fireeye.com/blog/threat-research/2018/10/triton-attribution-russian-government-owned-lab-most-likely-built-tools.html &#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_version=&#39;1.3&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-ics-malware">
+<h2>Collect ICS Malware<a class="headerlink" href="#collect-ics-malware" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_malware</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_ics_malware</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Malware in ICS ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">ics_malware</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Malware in ICS ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>19
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_malware</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Malware(type=&#39;malware&#39;, id=&#39;malware--58eddbaf-7416-419a-ad7b-e65b9d4c3b55&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-02-23T20:50:32.845Z&#39;, modified=&#39;2021-10-14T19:41:44.167Z&#39;, name=&#39;Conficker&#39;, description=&#39;[Conficker](https://attack.mitre.org/software/S0608) is a computer worm first detected in October 2008 that targeted Microsoft Windows using the MS08-067 Windows vulnerability to spread.(Citation: SANS Conficker) In 2016, a variant of [Conficker](https://attack.mitre.org/software/S0608) made its way on computers and removable disk drives belonging to a nuclear power plant.(Citation: Conficker Nuclear Power Plant)&#39;, revoked=False, labels=[&#39;malware&#39;], external_references=[ExternalReference(source_name=&#39;mitre-attack&#39;, url=&#39;https://attack.mitre.org/software/S0608&#39;, external_id=&#39;S0608&#39;), ExternalReference(source_name=&#39;Kido&#39;, description=&#39;(Citation: SANS Conficker) &#39;), ExternalReference(source_name=&#39;Downadup&#39;, description=&#39;(Citation: SANS Conficker) &#39;), ExternalReference(source_name=&#39;SANS Conficker&#39;, description=&#39;Burton, K. (n.d.). The Conficker Worm. Retrieved February 18, 2021.&#39;, url=&#39;https://web.archive.org/web/20200125132645/https://www.sans.org/security-resources/malwarefaq/conficker-worm&#39;), ExternalReference(source_name=&#39;Conficker Nuclear Power Plant&#39;, description=&quot;Cimpanu, C. (2016, April 26). Malware Shuts Down German Nuclear Power Plant on Chernobyl&#39;s 30th Anniversary. Retrieved February 18, 2021.&quot;, url=&#39;https://news.softpedia.com/news/on-chernobyl-s-30th-anniversary-malware-shuts-down-german-nuclear-power-plant-503429.shtml&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_aliases=[&#39;Conficker&#39;, &#39;Kido&#39;, &#39;Downadup&#39;], x_mitre_platforms=[&#39;Windows&#39;], x_mitre_version=&#39;1.0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-ics-relationships">
+<h2>Collect ICS Relationships<a class="headerlink" href="#collect-ics-relationships" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_relationships</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_ics_relationships</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Relationships in ICS ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">ics_relationships</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Relationships in ICS ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>536
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_relationships</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Relationship(type=&#39;relationship&#39;, id=&#39;relationship--95b12e1a-7f21-4fa0-9b2a-c96c7c270625&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-14T21:33:27.046Z&#39;, modified=&#39;2021-10-14T22:06:54.109Z&#39;, relationship_type=&#39;uses&#39;, description=&#39;[Sandworm Team](https://collaborate.mitre.org/attackics/index.php/Group/G0007) used valid accounts to laterally move through VPN connections and dual-homed systems.(Citation: Dragos Electrum)(Citation: Dragos CRASHOVERRIDE) In the Ukraine 2015 Incident, Sandworm Team blocked command messages by using malicious firmware to render communication devices inoperable.(Citation: ICS SANS Ukraine March 2018)&#39;, source_ref=&#39;intrusion-set--381fcf73-60f6-4ab2-9991-6af3cbc35192&#39;, target_ref=&#39;attack-pattern--cd2c76a4-5e23-4ca5-9c40-d5e0604f7101&#39;, revoked=False, external_references=[ExternalReference(source_name=&#39;Dragos Electrum&#39;, description=&#39;Dragos. (n.d.). Electrum. Retrieved October 27, 2019.&#39;, url=&#39;https://dragos.com/resource/electrum/&#39;), ExternalReference(source_name=&#39;Dragos CRASHOVERRIDE&#39;, description=&#39;Dragos. (2018, October 12). Anatomy of an Attack: Detecting and Defeating CRASHOVERRIDE. Retrieved October 14, 2019.&#39;, url=&#39;https://dragos.com/wp-content/uploads/CRASHOVERRIDE2018.pdf&#39;), ExternalReference(source_name=&#39;ICS SANS Ukraine March 2018&#39;, description=&#39;Electricity Information Sharing and Analysis Center; SANS Industrial Control Systems. (2016, March 18). Analysis of the Cyber Attack on the Ukranian Power Grid: Defense Use Case. Retrieved March 27, 2018.&#39;, url=&#39;https://ics.sans.org/media/E-ISAC_SANS_Ukraine_DUC_5.pdf&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="collect-ics-tactics">
+<h2>Collect ICS Tactics<a class="headerlink" href="#collect-ics-tactics" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_tactics</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_ics_tactics</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Tactics in ICS ATT&amp;CK&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">ics_tactics</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Tactics in ICS ATT&amp;CK
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ics_tactics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;type&#39;: &#39;x-mitre-tactic&#39;,
+ &#39;name&#39;: &#39;Privilege Escalation&#39;,
+ &#39;description&#39;: &#39;The adversary is trying to gain higher-level permissions. Privilege Escalation consists of techniques that adversaries use to gain higher-level permissions on a system or network. Adversaries can often enter and explore a network with unprivileged access but require elevated permissions to follow through on their objectives. Common approaches are to take advantage of system weaknesses, misconfigurations, and vulnerabilities.&#39;,
+ &#39;created_by_ref&#39;: &#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;,
+ &#39;created&#39;: &#39;2021-04-10T17:32:33.899Z&#39;,
+ &#39;id&#39;: &#39;x-mitre-tactic--33752ae7-f875-4f43-bdb6-d8d02d341046&#39;,
+ &#39;modified&#39;: &#39;2021-04-10T17:32:33.899Z&#39;,
+ &#39;object_marking_refs&#39;: [&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;],
+ &#39;external_references&#39;: [{&#39;source_name&#39;: &#39;mitre-ics-attack&#39;,
+   &#39;url&#39;: &#39;https://collaborate.mitre.org/attackics/index.php/Privilege_Escalation&#39;,
+   &#39;external_id&#39;: &#39;TA0111&#39;}],
+ &#39;x_mitre_shortname&#39;: &#39;privilege-escalation-ics&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./playground"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="1-Collect_All_Functions.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Collect All Functions</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="3-Export_All_Techniques_To_CSV.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Export All Techniques to CSV</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Roberto Rodriguez @Cyb3rWard0g<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

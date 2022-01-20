@@ -1,0 +1,1021 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exporting ATT&amp;CK Group Navigator Layers &#8212; ATTACK Python Client</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://attackcti.com/playground/7-Export_Groups_Navigator_Layers.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Filtering and Looking Up STIX Objects in ATT&amp;CK" href="8-Lookup_Functions.html" />
+    <link rel="prev" title="Exploring ICS ATT&amp;CK" href="6-Explore_ICS_Attack.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ATTACK Python Client</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Playground
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-Collect_All_Functions.html">
+   Collect All Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-Collect_Matrix_Specific_Functions.html">
+   Collect Matrix Specific Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3-Export_All_Techniques_To_CSV.html">
+   Export All Techniques to CSV
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4-Explore_Data_Sources.html">
+   Explore ATT&amp;CK Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="5-Collect_Techniques_by_Data_Sources.html">
+   Get Techniques from Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="6-Explore_ICS_Attack.html">
+   Exploring ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Exporting ATT&amp;CK Group Navigator Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="8-Lookup_Functions.html">
+   Filtering and Looking Up STIX Objects in ATT&amp;CK
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/playground/7-Export_Groups_Navigator_Layers.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client/issues/new?title=Issue%20on%20page%20%2Fplayground/7-Export_Groups_Navigator_Layers.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/OTRF/ATTACK-Python-Client/edit/master/docs/playground/7-Export_Groups_Navigator_Layers.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OTRF/ATTACK-Python-Client/master?urlpath=tree/docs/playground/7-Export_Groups_Navigator_Layers.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Exporting ATT&amp;CK Group Navigator Layers
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-relationship-stix-objects-manual">
+     Get Relationship STIX Objects - (Manual)
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#import-stix-and-taxii-libraries">
+     Import STIX and TAXII Libraries
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-att-ck-taxii-collection-id-variables">
+     Set ATT&amp;CK TAXII Collection ID Variables
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initialize-taxii-collection-sources">
+     Initialize TAXII Collection Sources
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initialize-a-composite-data-source">
+     Initialize a Composite Data Source
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#retrieve-all-relationships">
+     Retrieve all relationships
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#retrieve-all-relationships-from-an-specific-stix-object">
+     Retrieve all relationships from an specific STIX object
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-relationship-stix-objects-automatic">
+   Get Relationship STIX Objects - (Automatic)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Retrieve all relationships
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Retrieve all relationships from an specific STIX object
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrive-techniques-used-by-one-group-manual">
+   Retrive Techniques used by one Group - (Manual)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrive-techniques-used-by-one-group-automatic">
+   Retrive Techniques used by one Group - (Automatic)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrive-all-techniques-used-by-all-groups-manual">
+   Retrive all Techniques used by all Groups - (Manual)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-all-groups-and-techniques">
+     Get all groups and techniques
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filter-group-objects-using-techniques">
+     Filter Group objects using techniques
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#match-group-relationships-intrusion-set-id">
+     Match Group -&gt; Relationships Intrusion-set ID
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#match-attack-patterns-intrusion-set-object-id">
+     Match Attack-patterns -&gt; Intrusion-set object ID
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrive-all-techniques-used-by-all-groups-automatic">
+   Retrive all Techniques used by all Groups - (Automatic)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-navigator-group-layer-files-manual">
+   Create Navigator Group Layer Files - (Manual)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-a-list-of-group-dictionaries">
+     Create a list of group dictionaries
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#group-techniques-by-group">
+     Group techniques by group
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#run-dynamic-navigator-layer-template">
+     Run dynamic navigator layer template
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-navigator-group-layer-files-automatic">
+   Create Navigator Group Layer Files - (Automatic)
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Exporting ATT&CK Group Navigator Layers</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Exporting ATT&amp;CK Group Navigator Layers
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-relationship-stix-objects-manual">
+     Get Relationship STIX Objects - (Manual)
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#import-stix-and-taxii-libraries">
+     Import STIX and TAXII Libraries
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-att-ck-taxii-collection-id-variables">
+     Set ATT&amp;CK TAXII Collection ID Variables
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initialize-taxii-collection-sources">
+     Initialize TAXII Collection Sources
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initialize-a-composite-data-source">
+     Initialize a Composite Data Source
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#retrieve-all-relationships">
+     Retrieve all relationships
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#retrieve-all-relationships-from-an-specific-stix-object">
+     Retrieve all relationships from an specific STIX object
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-relationship-stix-objects-automatic">
+   Get Relationship STIX Objects - (Automatic)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Retrieve all relationships
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Retrieve all relationships from an specific STIX object
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrive-techniques-used-by-one-group-manual">
+   Retrive Techniques used by one Group - (Manual)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrive-techniques-used-by-one-group-automatic">
+   Retrive Techniques used by one Group - (Automatic)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrive-all-techniques-used-by-all-groups-manual">
+   Retrive all Techniques used by all Groups - (Manual)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-all-groups-and-techniques">
+     Get all groups and techniques
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filter-group-objects-using-techniques">
+     Filter Group objects using techniques
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#match-group-relationships-intrusion-set-id">
+     Match Group -&gt; Relationships Intrusion-set ID
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#match-attack-patterns-intrusion-set-object-id">
+     Match Attack-patterns -&gt; Intrusion-set object ID
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrive-all-techniques-used-by-all-groups-automatic">
+   Retrive all Techniques used by all Groups - (Automatic)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-navigator-group-layer-files-manual">
+   Create Navigator Group Layer Files - (Manual)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-a-list-of-group-dictionaries">
+     Create a list of group dictionaries
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#group-techniques-by-group">
+     Group techniques by group
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#run-dynamic-navigator-layer-template">
+     Run dynamic navigator layer template
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-navigator-group-layer-files-automatic">
+   Create Navigator Group Layer Files - (Automatic)
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="exporting-att-ck-group-navigator-layers">
+<h1>Exporting ATT&amp;CK Group Navigator Layers<a class="headerlink" href="#exporting-att-ck-group-navigator-layers" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="get-relationship-stix-objects-manual">
+<h2>Get Relationship STIX Objects - (Manual)<a class="headerlink" href="#get-relationship-stix-objects-manual" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p>I believe it is important to understand the code behind the main functions available in the Python library <a class="reference external" href="https://attackcti.readthedocs.io/en/latest/index.html">attackcti</a>. I highly recommend to first read the docs I put together about <a class="reference external" href="https://attackcti.readthedocs.io/en/latest/taxii_client.html">cti-taxii-client</a> and <a class="reference external" href="https://attackcti.readthedocs.io/en/latest/stix.html">cti-python-stix2</a> libraries.
+Those two summarize several of the concepts that I had to read to understand how to perform a simple query against ATT&amp;CK’s TAXII server</p>
+</div>
+<div class="section" id="import-stix-and-taxii-libraries">
+<h2>Import STIX and TAXII Libraries<a class="headerlink" href="#import-stix-and-taxii-libraries" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">stix2</span> <span class="kn">import</span> <span class="n">TAXIICollectionSource</span><span class="p">,</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">CompositeDataSource</span>
+<span class="kn">from</span> <span class="nn">taxii2client.v20</span> <span class="kn">import</span> <span class="n">Collection</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;taxii2client&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="set-att-ck-taxii-collection-id-variables">
+<h2>Set ATT&amp;CK TAXII Collection ID Variables<a class="headerlink" href="#set-att-ck-taxii-collection-id-variables" title="Permalink to this headline">¶</a></h2>
+<p>The public ATT&amp;CK TAXII instance has three main collections (Enterprise, Pre and Mobile). Every collection has an ID which attackcti uses to retrieve ATT&amp;CK STIX objects from all those matrices.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ATTACK_STIX_COLLECTIONS</span> <span class="o">=</span> <span class="s2">&quot;https://cti-taxii.mitre.org/stix/collections/&quot;</span>
+<span class="n">ENTERPRISE_ATTACK</span> <span class="o">=</span> <span class="s2">&quot;95ecc380-afe9-11e4-9b6c-751b66dd541e&quot;</span>
+<span class="n">PRE_ATTACK</span> <span class="o">=</span> <span class="s2">&quot;062767bd-02d2-4b72-84ba-56caef0f8658&quot;</span>
+<span class="n">MOBILE_ATTACK</span> <span class="o">=</span> <span class="s2">&quot;2f669986-b40b-4423-b720-4396ca6a462b&quot;</span>
+<span class="n">ICS_ATTACK</span> <span class="o">=</span> <span class="s2">&quot;02c3ef24-9cd4-48f3-a99f-b74ce24f1d34&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initialize-taxii-collection-sources">
+<h2>Initialize TAXII Collection Sources<a class="headerlink" href="#initialize-taxii-collection-sources" title="Permalink to this headline">¶</a></h2>
+<p>According to <a class="reference external" href="https://stix2.readthedocs.io/en/latest/index.html">STIX2 docs</a>, the <a class="reference external" href="https://stix2.readthedocs.io/en/latest/api/datastore/stix2.datastore.taxii.html#stix2.datastore.taxii.TAXIICollectionSource">TAXIICollectionSource API</a> provides an interface for searching/retrieving STIX objects from a local/remote TAXII Collection endpoint. In our case, we are pointing to our ATT&amp;CK TAXII Collection instances (<a class="reference external" href="https://cti-taxii.mitre.org/stix/collections/">https://cti-taxii.mitre.org/stix/collections/</a><Collection ID>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ENTERPRISE_COLLECTION</span> <span class="o">=</span> <span class="n">Collection</span><span class="p">(</span><span class="n">ATTACK_STIX_COLLECTIONS</span> <span class="o">+</span> <span class="n">ENTERPRISE_ATTACK</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="n">TC_ENTERPRISE_SOURCE</span> <span class="o">=</span> <span class="n">TAXIICollectionSource</span><span class="p">(</span><span class="n">ENTERPRISE_COLLECTION</span><span class="p">)</span>
+<span class="n">PRE_COLLECTION</span> <span class="o">=</span> <span class="n">Collection</span><span class="p">(</span><span class="n">ATTACK_STIX_COLLECTIONS</span> <span class="o">+</span> <span class="n">PRE_ATTACK</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="n">TC_PRE_SOURCE</span> <span class="o">=</span> <span class="n">TAXIICollectionSource</span><span class="p">(</span><span class="n">PRE_COLLECTION</span><span class="p">)</span>
+<span class="n">MOBILE_COLLECTION</span> <span class="o">=</span> <span class="n">Collection</span><span class="p">(</span><span class="n">ATTACK_STIX_COLLECTIONS</span> <span class="o">+</span> <span class="n">MOBILE_ATTACK</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="n">TC_MOBILE_SOURCE</span> <span class="o">=</span> <span class="n">TAXIICollectionSource</span><span class="p">(</span><span class="n">MOBILE_COLLECTION</span><span class="p">)</span>
+<span class="n">ICS_COLLECTION</span> <span class="o">=</span> <span class="n">Collection</span><span class="p">(</span><span class="n">ATTACK_STIX_COLLECTIONS</span> <span class="o">+</span> <span class="n">ICS_ATTACK</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="n">TC_ICS_SOURCE</span> <span class="o">=</span> <span class="n">TAXIICollectionSource</span><span class="p">(</span><span class="n">ICS_COLLECTION</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initialize-a-composite-data-source">
+<h2>Initialize a Composite Data Source<a class="headerlink" href="#initialize-a-composite-data-source" title="Permalink to this headline">¶</a></h2>
+<p>According to <a class="reference external" href="https://stix2.readthedocs.io/en/latest/index.html">STIX2 docs</a>, a user can have a single <a class="reference external" href="https://stix2.readthedocs.io/en/latest/api/stix2.datastore.html#stix2.datastore.CompositeDataSource">CompositeDataSource</a> as an interface to a set of DataSources. When an API call is made to the CompositeDataSource, it is delegated to each of the (real) DataSources that are attached to it. In our case, we have three TAXIICollection sources (Enterprise, PRE and Mobile) as defined in our previous step. Therefore, we can use the CompositeDataSource class and the add_data_sources method to attach every ATT&amp;CK TAXIICollection source and be able to query all of them at the same time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">COMPOSITE_DS</span> <span class="o">=</span> <span class="n">CompositeDataSource</span><span class="p">()</span>
+<span class="n">COMPOSITE_DS</span><span class="o">.</span><span class="n">add_data_sources</span><span class="p">([</span><span class="n">TC_ENTERPRISE_SOURCE</span><span class="p">,</span> <span class="n">TC_PRE_SOURCE</span><span class="p">,</span> <span class="n">TC_MOBILE_SOURCE</span><span class="p">,</span> <span class="n">TC_ICS_SOURCE</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="retrieve-all-relationships">
+<h2>Retrieve all relationships<a class="headerlink" href="#retrieve-all-relationships" title="Permalink to this headline">¶</a></h2>
+<p>Now that we can query all the ATT&amp;CK TAXIICollection sources at once, we can use the query method and a set of filters to retrieve STIX objects of type relationship</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">COMPOSITE_DS</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Filter</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="s2">&quot;relationship&quot;</span><span class="p">))</span>
+<span class="n">rels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="retrieve-all-relationships-from-an-specific-stix-object">
+<h2>Retrieve all relationships from an specific STIX object<a class="headerlink" href="#retrieve-all-relationships-from-an-specific-stix-object" title="Permalink to this headline">¶</a></h2>
+<p>What if you want to be very specific and get relationships from a specific STIX objects? You can use the <a class="reference external" href="https://stix2.readthedocs.io/en/latest/api/stix2.datastore.html#stix2.datastore.CompositeDataSource.relationships">relationships</a> method from the <a class="reference external" href="https://stix2.readthedocs.io/en/latest/api/stix2.datastore.html#stix2.datastore.CompositeDataSource">CompositeDataSource</a> class to retrieve relationships involving a given STIX object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+<span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+
+<span class="n">groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()</span>
+
+<span class="n">rels</span> <span class="o">=</span> <span class="n">COMPOSITE_DS</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;uses&#39;</span><span class="p">,</span> <span class="n">source_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">rels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="get-relationship-stix-objects-automatic">
+<h1>Get Relationship STIX Objects - (Automatic)<a class="headerlink" href="#get-relationship-stix-objects-automatic" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<div class="section" id="id1">
+<h2>Retrieve all relationships<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+<span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> all_relationships = lift.get_relationships()
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_relationships</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Retrieve all relationships from an specific STIX object<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> group_relationships = lift.get_relationships_by_object(groups[0])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_relationships</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="retrive-techniques-used-by-one-group-manual">
+<h1>Retrive Techniques used by one Group - (Manual)<a class="headerlink" href="#retrive-techniques-used-by-one-group-manual" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>In this case we want relationship objects that have target_ref values of type attack-pattern. Following the manual code I shared above, and the results from the <code class="docutils literal notranslate"><span class="pre">get_relationships_by_object()</span></code> function, you can simply query the ATT&amp;CK Enterprise TAXIICollection source with the filter below</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filter_objects</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;attack-pattern&#39;</span><span class="p">),</span>
+  <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">target_ref</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">group_relationships</span><span class="p">])</span>
+<span class="p">]</span>
+<span class="n">techniques_used</span> <span class="o">=</span> <span class="n">TC_ENTERPRISE_SOURCE</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">filter_objects</span><span class="p">)</span>
+<span class="n">techniques_used</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="retrive-techniques-used-by-one-group-automatic">
+<h1>Retrive Techniques used by one Group - (Automatic)<a class="headerlink" href="#retrive-techniques-used-by-one-group-automatic" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+<span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()</span>
+<span class="n">group_techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques_used_by_group</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">group_techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="retrive-all-techniques-used-by-all-groups-manual">
+<h1>Retrive all Techniques used by all Groups - (Manual)<a class="headerlink" href="#retrive-all-techniques-used-by-all-groups-manual" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>You can apply the same get_techniques_used_by_group() function, but against all the groups STIX objects that the get_groups() function retrieves. You can do a simple for loop over more than 90 groups. However, it takes longer than what I would like it to take. Therefore, I decided to go a different route and started testing some code.</p>
+<div class="section" id="get-all-groups-and-techniques">
+<h2>Get all groups and techniques<a class="headerlink" href="#get-all-groups-and-techniques" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+<span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()</span>
+<span class="n">techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="filter-group-objects-using-techniques">
+<h2>Filter Group objects using techniques<a class="headerlink" href="#filter-group-objects-using-techniques" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">stix2.utils</span> <span class="kn">import</span> <span class="n">get_type_from_id</span>
+
+<span class="n">group_relationships</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">all_relationships</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">get_type_from_id</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">source_ref</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;intrusion-set&#39;</span>\
+    <span class="ow">and</span> <span class="n">get_type_from_id</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">target_ref</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;attack-pattern&#39;</span><span class="p">:</span>
+        <span class="n">group_relationships</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">group_relationships</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">group_relationships</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="match-group-relationships-intrusion-set-id">
+<h2>Match Group -&gt; Relationships Intrusion-set ID<a class="headerlink" href="#match-group-relationships-intrusion-set-id" title="Permalink to this headline">¶</a></h2>
+<p>Then, I just take all the group_relationships I got, and look for the specific <code class="docutils literal notranslate"><span class="pre">intrusion-set</span> <span class="pre">(Group)</span></code> id in the groups STIX objects. Once there is a match, I create new fields on the <code class="docutils literal notranslate"><span class="pre">intrusion-set</span> <span class="pre">(Group)</span></code> STIX object to add additional information about the <code class="docutils literal notranslate"><span class="pre">attack-pattern</span> <span class="pre">(Technique)</span></code> in the relationship object. The most important additional metadata is the target_ref field which points to the specific <code class="docutils literal notranslate"><span class="pre">attack-pattern</span> <span class="pre">(Technique)</span></code> id involving the <code class="docutils literal notranslate"><span class="pre">group</span></code>. The results are then added to a new list named <code class="docutils literal notranslate"><span class="pre">group_techniques_ref</span></code> .</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="n">group_techniques_ref</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">group_relationships</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">rel</span><span class="p">[</span><span class="s1">&#39;source_ref&#39;</span><span class="p">]:</span>
+            <span class="n">gs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">serialize</span><span class="p">())</span>
+            <span class="n">gs</span>
+            <span class="n">gs</span><span class="p">[</span><span class="s1">&#39;technique_ref&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rel</span><span class="p">[</span><span class="s1">&#39;target_ref&#39;</span><span class="p">]</span>
+            <span class="n">gs</span><span class="p">[</span><span class="s1">&#39;relationship_description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rel</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+            <span class="n">gs</span><span class="p">[</span><span class="s1">&#39;relationship_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rel</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+            <span class="n">group_techniques_ref</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="match-attack-patterns-intrusion-set-object-id">
+<h2>Match Attack-patterns -&gt; Intrusion-set object ID<a class="headerlink" href="#match-attack-patterns-intrusion-set-object-id" title="Permalink to this headline">¶</a></h2>
+<p>I apply the same concept as before, and just loop through all the attack-pattern objects and look for the specific attack-pattern id in the initial relationships STIX objects. Once there is a match, I add additional information from the attack-pattern itself to the python dictionaries in the <code class="docutils literal notranslate"><span class="pre">group_techniques_ref</span></code> list. The results then get added to a new list named <code class="docutils literal notranslate"><span class="pre">groups_use_techniques</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups_use_techniques</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">gt</span> <span class="ow">in</span> <span class="n">group_techniques_ref</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">techniques</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;technique_ref&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]:</span>
+            <span class="n">tactic_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;kill_chain_phases&#39;</span><span class="p">]:</span>
+                <span class="n">tactic_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase</span><span class="p">[</span><span class="s1">&#39;phase_name&#39;</span><span class="p">])</span>
+                <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;technique&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;technique_description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+                <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;tactic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tactic_list</span>
+                <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;technique_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;external_references&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;external_id&#39;</span><span class="p">]</span>
+                <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;matrix&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">t</span><span class="p">[</span><span class="s1">&#39;external_references&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;source_name&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;x_mitre_platforms&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;platform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;x_mitre_platforms&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;x_mitre_data_sources&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;data_sources&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;x_mitre_data_sources&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;x_mitre_permissions_required&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;permissions_required&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;x_mitre_permissions_required&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;x_mitre_effective_permissions&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">gt</span><span class="p">[</span><span class="s1">&#39;effective_permissions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;x_mitre_effective_permissions&#39;</span><span class="p">]</span>
+                <span class="n">groups_use_techniques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gt</span><span class="p">)</span>
+<span class="n">groups_use_techniques</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="retrive-all-techniques-used-by-all-groups-automatic">
+<h1>Retrive all Techniques used by all Groups - (Automatic)<a class="headerlink" href="#retrive-all-techniques-used-by-all-groups-automatic" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+<span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+
+<span class="o">%</span><span class="k">time</span> techniques_used = lift.get_techniques_used_by_all_groups()
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">techniques_used</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques_used</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="create-navigator-group-layer-files-manual">
+<h1>Create Navigator Group Layer Files - (Manual)<a class="headerlink" href="#create-navigator-group-layer-files-manual" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<div class="section" id="create-a-list-of-group-dictionaries">
+<h2>Create a list of group dictionaries<a class="headerlink" href="#create-a-list-of-group-dictionaries" title="Permalink to this headline">¶</a></h2>
+<p>To make things easier, I create a list of dictionaries where each group name is the main key and the value is a list where I append every single technique involving that group. I get that information from the <code class="docutils literal notranslate"><span class="pre">get_techniques_used_by_all_groups()</span></code> results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">remove_revoked</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">groups_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+    <span class="n">group_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">group_dict</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">groups_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">group_dict</span><span class="p">)</span>
+<span class="n">groups_list</span><span class="p">[</span><span class="mi">89</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="group-techniques-by-group">
+<h2>Group techniques by group<a class="headerlink" href="#group-techniques-by-group" title="Permalink to this headline">¶</a></h2>
+<p>We can then use the output of the <code class="docutils literal notranslate"><span class="pre">get_techniques_used_by_all_groups()</span></code> function and start appending techniques to the dictionaries with the key name that matches the group name being involved with each technique.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups_list</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">group_name</span><span class="p">,</span><span class="n">techniques_list</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">gut</span> <span class="ow">in</span> <span class="n">techniques_used</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">group_name</span> <span class="o">==</span> <span class="n">gut</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]:</span>
+                <span class="n">technique_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="n">technique_dict</span><span class="p">[</span><span class="s1">&#39;techniqueId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gut</span><span class="p">[</span><span class="s1">&#39;technique_id&#39;</span><span class="p">]</span>
+                <span class="n">technique_dict</span><span class="p">[</span><span class="s1">&#39;techniqueName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gut</span><span class="p">[</span><span class="s1">&#39;technique&#39;</span><span class="p">]</span>
+                <span class="n">technique_dict</span><span class="p">[</span><span class="s1">&#39;comment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gut</span><span class="p">[</span><span class="s1">&#39;relationship_description&#39;</span><span class="p">]</span>
+                <span class="n">technique_dict</span><span class="p">[</span><span class="s1">&#39;tactic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gut</span><span class="p">[</span><span class="s1">&#39;tactic&#39;</span><span class="p">]</span>
+                <span class="n">technique_dict</span><span class="p">[</span><span class="s1">&#39;group_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gut</span><span class="p">[</span><span class="s1">&#39;external_references&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;external_id&#39;</span><span class="p">]</span>
+                <span class="n">techniques_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">technique_dict</span><span class="p">)</span>
+<span class="n">groups_list</span><span class="p">[</span><span class="mi">89</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="run-dynamic-navigator-layer-template">
+<h2>Run dynamic navigator layer template<a class="headerlink" href="#run-dynamic-navigator-layer-template" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups_list</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">actor_layer</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Enterprise techniques used by </span><span class="si">{0}</span><span class="s2">, ATT&amp;CK group </span><span class="si">{1}</span><span class="s2"> v1.0&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;group_id&#39;</span><span class="p">])),</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> (</span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;group_id&#39;</span><span class="p">])),</span>
+                <span class="s2">&quot;domain&quot;</span><span class="p">:</span> <span class="s2">&quot;mitre-enterprise&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;techniques&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="s2">&quot;techniqueID&quot;</span> <span class="p">:</span> <span class="n">technique</span><span class="p">[</span><span class="s1">&#39;techniqueId&#39;</span><span class="p">],</span>
+                        <span class="s2">&quot;techniqueName&quot;</span> <span class="p">:</span> <span class="n">technique</span><span class="p">[</span><span class="s1">&#39;techniqueName&#39;</span><span class="p">],</span>
+                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">technique</span><span class="p">[</span><span class="s1">&#39;comment&#39;</span><span class="p">]</span>
+                    <span class="p">}</span> <span class="k">for</span> <span class="n">technique</span> <span class="ow">in</span> <span class="n">v</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;gradient&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;colors&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="s2">&quot;#ffffff&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;#ff6666&quot;</span>
+                    <span class="p">],</span>
+                    <span class="s2">&quot;minValue&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s2">&quot;maxValue&quot;</span><span class="p">:</span> <span class="mi">1</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;legendItems&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;used by </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">)),</span>
+                        <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;#ff6666&quot;</span>
+                    <span class="p">}</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">((</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_</span><span class="si">{1}</span><span class="s1">.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;group_id&#39;</span><span class="p">])),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">actor_layer</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span> ls *.json
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can delete all the files with the following command.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span> rm *.json
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="create-navigator-group-layer-files-automatic">
+<h1>Create Navigator Group Layer Files - (Automatic)<a class="headerlink" href="#create-navigator-group-layer-files-automatic" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+<span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+
+<span class="o">%</span><span class="k">time</span> lift.export_groups_navigator_layers()
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span> ls *.json
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can delete all the files with the following command.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span> rm *.json
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./playground"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="6-Explore_ICS_Attack.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Exploring ICS ATT&amp;CK</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="8-Lookup_Functions.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Filtering and Looking Up STIX Objects in ATT&amp;CK</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Roberto Rodriguez @Cyb3rWard0g<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

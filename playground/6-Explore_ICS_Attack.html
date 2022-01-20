@@ -1,0 +1,843 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exploring ICS ATT&amp;CK &#8212; ATTACK Python Client</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://attackcti.com/playground/6-Explore_ICS_Attack.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exporting ATT&amp;CK Group Navigator Layers" href="7-Export_Groups_Navigator_Layers.html" />
+    <link rel="prev" title="Get Techniques from Data Sources" href="5-Collect_Techniques_by_Data_Sources.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ATTACK Python Client</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Playground
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-Collect_All_Functions.html">
+   Collect All Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-Collect_Matrix_Specific_Functions.html">
+   Collect Matrix Specific Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3-Export_All_Techniques_To_CSV.html">
+   Export All Techniques to CSV
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4-Explore_Data_Sources.html">
+   Explore ATT&amp;CK Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="5-Collect_Techniques_by_Data_Sources.html">
+   Get Techniques from Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Exploring ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="7-Export_Groups_Navigator_Layers.html">
+   Exporting ATT&amp;CK Group Navigator Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="8-Lookup_Functions.html">
+   Filtering and Looking Up STIX Objects in ATT&amp;CK
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/playground/6-Explore_ICS_Attack.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client/issues/new?title=Issue%20on%20page%20%2Fplayground/6-Explore_ICS_Attack.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/OTRF/ATTACK-Python-Client/edit/master/docs/playground/6-Explore_ICS_Attack.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OTRF/ATTACK-Python-Client/master?urlpath=tree/docs/playground/6-Explore_ICS_Attack.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#query-att-ck">
+   Query ATT&amp;CK
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#import-taxii-libraries">
+     Import TAXII Libraries
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#explore-att-ck-taxii-collections">
+     Explore ATT&amp;CK TAXII Collections
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-ics-att-ck-taxii-collection-id-variable">
+   Set ICS ATT&amp;CK TAXII Collection ID Variable
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-taxii-collection-sources">
+   Initialize TAXII Collection Sources
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrieve-all-ics-techniques">
+   Retrieve all ICS Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ics-att-ck-available-since-attackcti-0-3-4-3">
+   ICS ATT&amp;CK Available since attackcti 0.3.4.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-data-sources-mapped-to-ics-att-ck-techniques">
+   Get All Data Sources Mapped to ICS ATT&amp;CK Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-groups-from-ics-att-ck">
+   Get All Groups from ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-malware-from-ics-att-ck">
+   Get All Malware from ICS ATT&amp;CK
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Exploring ICS ATT&CK</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#query-att-ck">
+   Query ATT&amp;CK
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#import-taxii-libraries">
+     Import TAXII Libraries
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#explore-att-ck-taxii-collections">
+     Explore ATT&amp;CK TAXII Collections
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-ics-att-ck-taxii-collection-id-variable">
+   Set ICS ATT&amp;CK TAXII Collection ID Variable
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-taxii-collection-sources">
+   Initialize TAXII Collection Sources
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrieve-all-ics-techniques">
+   Retrieve all ICS Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ics-att-ck-available-since-attackcti-0-3-4-3">
+   ICS ATT&amp;CK Available since attackcti 0.3.4.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-data-sources-mapped-to-ics-att-ck-techniques">
+   Get All Data Sources Mapped to ICS ATT&amp;CK Techniques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-groups-from-ics-att-ck">
+   Get All Groups from ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-malware-from-ics-att-ck">
+   Get All Malware from ICS ATT&amp;CK
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="exploring-ics-att-ck">
+<h1>Exploring ICS ATT&amp;CK<a class="headerlink" href="#exploring-ics-att-ck" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="query-att-ck">
+<h2>Query ATT&amp;CK<a class="headerlink" href="#query-att-ck" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="import-taxii-libraries">
+<h3>Import TAXII Libraries<a class="headerlink" href="#import-taxii-libraries" title="Permalink to this headline">¶</a></h3>
+<p>ATT&amp;CK users can use the initial Server class to instantiate a server object pointing to the framework’s public TAXII server URL <a class="reference external" href="https://cti-taxii.mitre.org/taxii/">https://cti-taxii.mitre.org/taxii/</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">taxii2client.v20</span> <span class="kn">import</span> <span class="n">Server</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;taxii2client&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="s2">&quot;https://cti-taxii.mitre.org/taxii/&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Available API Roots can be referenced from the server object. API Roots are logical groupings of TAXII Channels and Collections and can be thought of as instances of the TAXII API available at different URLs, where each API Root is the “root” URL of that particular instance of the TAXII API:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">server</span><span class="o">.</span><span class="n">api_roots</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;taxii2client.v20.ApiRoot at 0x20994e51670&gt;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api_root</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">api_roots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="explore-att-ck-taxii-collections">
+<h3>Explore ATT&amp;CK TAXII Collections<a class="headerlink" href="#explore-att-ck-taxii-collections" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>collections</strong> attribute can then be used and get more information about them via their respective available properties:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api_root</span><span class="o">.</span><span class="n">collections</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;taxii2client.v20.Collection at 0x20994e54190&gt;,
+ &lt;taxii2client.v20.Collection at 0x20994e62430&gt;,
+ &lt;taxii2client.v20.Collection at 0x20994e62ca0&gt;,
+ &lt;taxii2client.v20.Collection at 0x20994e62100&gt;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">collection</span> <span class="ow">in</span> <span class="n">api_root</span><span class="o">.</span><span class="n">collections</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">collection</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="n">collection</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Enterprise ATT&amp;CK -&gt; This data collection holds STIX objects from Enterprise ATT&amp;CK
+PRE-ATT&amp;CK -&gt; This data collection holds STIX objects from PRE-ATT&amp;CK
+Mobile ATT&amp;CK -&gt; This data collection holds STIX objects from Mobile ATT&amp;CK
+ICS ATT&amp;CK -&gt; This data collection holds STIX objects from ICS ATT&amp;CK
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api_root</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">title</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;ICS ATT&amp;CK&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api_root</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;02c3ef24-9cd4-48f3-a99f-b74ce24f1d34&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="set-ics-att-ck-taxii-collection-id-variable">
+<h2>Set ICS ATT&amp;CK TAXII Collection ID Variable<a class="headerlink" href="#set-ics-att-ck-taxii-collection-id-variable" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ICS_ATTACK</span> <span class="o">=</span> <span class="s2">&quot;02c3ef24-9cd4-48f3-a99f-b74ce24f1d34&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initialize-taxii-collection-sources">
+<h2>Initialize TAXII Collection Sources<a class="headerlink" href="#initialize-taxii-collection-sources" title="Permalink to this headline">¶</a></h2>
+<p>According to <a class="reference external" href="https://stix2.readthedocs.io/en/latest/index.html">STIX2 docs</a>, the <a class="reference external" href="https://stix2.readthedocs.io/en/latest/api/datastore/stix2.datastore.taxii.html#stix2.datastore.taxii.TAXIICollectionSource">TAXIICollectionSource API</a> provides an interface for searching/retrieving STIX objects from a local/remote TAXII Collection endpoint. In our case, we are pointing to our ATT&amp;CK TAXII Collection instances (<a class="reference external" href="https://cti-taxii.mitre.org/stix/collections/">https://cti-taxii.mitre.org/stix/collections/</a><Collection ID>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">stix2</span> <span class="kn">import</span> <span class="n">TAXIICollectionSource</span><span class="p">,</span> <span class="n">Filter</span>
+<span class="kn">from</span> <span class="nn">taxii2client.v20</span> <span class="kn">import</span> <span class="n">Collection</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ATTACK_STIX_COLLECTIONS</span> <span class="o">=</span> <span class="s2">&quot;https://cti-taxii.mitre.org/stix/collections/&quot;</span>
+<span class="n">ICS_COLLECTION</span> <span class="o">=</span> <span class="n">Collection</span><span class="p">(</span><span class="n">ATTACK_STIX_COLLECTIONS</span> <span class="o">+</span> <span class="n">ICS_ATTACK</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="n">TC_ICS_SOURCE</span> <span class="o">=</span> <span class="n">TAXIICollectionSource</span><span class="p">(</span><span class="n">ICS_COLLECTION</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="retrieve-all-ics-techniques">
+<h2>Retrieve all ICS Techniques<a class="headerlink" href="#retrieve-all-ics-techniques" title="Permalink to this headline">¶</a></h2>
+<p>Now that we can query the ICS ATT&amp;CK TAXIICollection. We can use the query method and a set of filter to retrieve STIX objects of type “attack-pattern” -&gt; “Techniques”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ICS_TECHNIQUES</span> <span class="o">=</span> <span class="n">TC_ICS_SOURCE</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Filter</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="s2">&quot;attack-pattern&quot;</span><span class="p">))</span>
+<span class="n">ICS_TECHNIQUES</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--35392fb4-a31d-4c6a-b9f2-1c65b7f5e6b9&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-14T15:25:32.143Z&#39;, modified=&#39;2021-10-14T15:25:32.143Z&#39;, name=&#39;Transient Cyber Asset&#39;, description=&#39;Adversaries may target devices that are transient across ICS networks and external networks. Normally, transient assets are brought into an environment by authorized personnel and do not remain in that environment on a permanent basis. (Citation: NERC June 2021) Transient assets are commonly needed to support management functions and may be more common in systems where a remotely managed asset is not feasible, external connections for remote access do not exist, or 3rd party contractor/vendor access is required.\n\nAdversaries may take advantage of transient assets in different ways. For instance, adversaries may target a transient asset when it is connected to an external network and then leverage its trusted access in another environment to launch an attack. They may also take advantage of installed applications and libraries that are used by legitimate end-users to interact with control system devices.\n\nTransient assets, in some cases, may not be deployed with a secure configuration leading to weaknesses that could allow an adversary to propagate malicious executable code, e.g., the transient asset may be infected by malware and when connected to an ICS environment the malware propagates onto other systems.\n\nIn the Maroochy attack, the adversary utilized a computer, possibly stolen, with proprietary engineering software to communicate with a wastewater system. (Citation: Maroochy - MITRE - 200808)&#39;, kill_chain_phases=[KillChainPhase(kill_chain_name=&#39;mitre-ics-attack&#39;, phase_name=&#39;initial-access-ics&#39;)], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-ics-attack&#39;, url=&#39;https://collaborate.mitre.org/attackics/index.php/Technique/T0864&#39;, external_id=&#39;T0864&#39;), ExternalReference(source_name=&#39;NERC June 2021&#39;, description=&#39; North American Electric Reliability Corporation. (2021, June 28). Glossary of Terms Used in NERC Reliability Standards. Retrieved October 11, 2021.&#39;, url=&#39;https://www.nerc.com/files/glossary_of_terms.pdf&#39;), ExternalReference(source_name=&#39;Maroochy - MITRE - 200808&#39;, description=&#39;Marshall Abrams. (2008, July 23). Malicious Control System Cyber Security Attack Case Study– Maroochy Water Services, Australia. Retrieved March 27, 2018.&#39;, url=&#39;https://www.mitre.org/sites/default/files/pdf/08%201145.pdf&#39;), ExternalReference(source_name=&#39;NIST Apr 2013&#39;, description=&#39;National Institute of Standards and Technology. (2013, April). Security and Privacy Controls for Federal Information Systems and Organizations. Retrieved September 17, 2020.&#39;, url=&#39;https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r4.pdf&#39;), ExternalReference(source_name=&#39;NAFT Dec 2019&#39;, description=&#39;North America Transmission Forum. (2019, December). NATF Transient Cyber Asset Guidance. Retrieved September 25, 2020.&#39;, url=&#39;https://www.natf.net/docs/natf/documents/resources/security/natf-transient-cyber-asset-guidance.pdf&#39;), ExternalReference(source_name=&#39;Emerson Exchange&#39;, description=&#39;Emerson Exchange. (n.d.). Increase Security with TPM, Secure Boot, and Trusted Boot. Retrieved September 25, 2020.&#39;, url=&#39;https://emersonexchange365.com/products/control-safety-systems/f/plc-pac-systems-industrial-computing-forum/8383/increase-security-with-tpm-secure-boot-and-trusted-boot&#39;), ExternalReference(source_name=&#39;National Security Agency Feb 2016&#39;, description=&#39;National Security Agency. (2016, February). Position Zero: Integrity Checking Windows-Based ICS/SCADA Systems. Retrieved September 25, 2020.&#39;, url=&#39;https://apps.nsa.gov/iaarchive/library/ia-guidance/security-configuration/industrial-control-systems/position-zero-integrity-checking-windows-based-ics-scada-systems.cfm&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_data_sources=[&#39;Network Traffic: Network Flows&#39;, &#39;Network Traffic: Network Connections&#39;, &#39;Assets: Asset Inventory&#39;], x_mitre_platforms=[&#39;Engineering Workstation&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">TECHNIQUE</span> <span class="ow">in</span> <span class="n">ICS_TECHNIQUES</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">TECHNIQUE</span><span class="p">[</span><span class="s1">&#39;external_references&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;external_id&#39;</span><span class="p">],</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">TECHNIQUE</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>T0864 -- Transient Cyber Asset
+T0888 -- Remote System Information Discovery
+T0834 -- Native API
+T0890 -- Exploitation for Privilege Escalation
+T0889 -- Modify Program
+T0821 -- Modify Controller Tasking
+T0886 -- Remote Services
+T0837 -- Loss of Protection
+T0878 -- Alarm Suppression
+T0806 -- Brute Force I/O
+T0885 -- Commonly Used Port
+T0810 -- Data Historian Compromise
+T0815 -- Denial of View
+T0818 -- Engineering Workstation Compromise
+T0866 -- Exploitation of Remote Services
+T0824 -- I/O Module Discovery
+T0826 -- Loss of Availability
+T0829 -- Loss of View
+T0849 -- Masquerading
+T0836 -- Modify Parameter
+T0840 -- Network Connection Enumeration
+T0844 -- Program Organization Units
+T0850 -- Role Identification
+T0851 -- Rootkit
+T0865 -- Spearphishing Attachment
+T0882 -- Theft of Operational Information
+T0860 -- Wireless Compromise
+T0802 -- Automated Collection
+T0875 -- Change Program State
+T0884 -- Connection Proxy
+T0811 -- Data from Information Repositories
+T0868 -- Detect Operating Mode
+T0871 -- Execution through API
+T0822 -- External Remote Services
+T0872 -- Indicator Removal on Host
+T0827 -- Loss of Control
+T0830 -- Man in the Middle
+T0841 -- Network Service Scanning
+T0845 -- Program Upload
+T0846 -- Remote System Discovery
+T0852 -- Screen Capture
+T0856 -- Spoof Reporting Message
+T0855 -- Unauthorized Command Message
+T0887 -- Wireless Sniffing
+T0800 -- Activate Firmware Update Mode
+T0805 -- Block Serial COM
+T0809 -- Data Destruction
+T0814 -- Denial of Service
+T0817 -- Drive-by Compromise
+T0877 -- I/O Image
+T0867 -- Lateral Tool Transfer
+T0880 -- Loss of Safety
+T0832 -- Manipulation of View
+T0833 -- Modify Control Logic
+T0843 -- Program Download
+T0848 -- Rogue Master
+T0881 -- Service Stop
+T0857 -- System Firmware
+T0859 -- Valid Accounts
+T0803 -- Block Command Message
+T0858 -- Change Operating Mode
+T0808 -- Control Device Identification
+T0812 -- Default Credentials
+T0870 -- Detect Program State
+T0819 -- Exploit Public-Facing Application
+T0823 -- Graphical User Interface
+T0883 -- Internet Accessible Device
+T0828 -- Loss of Productivity and Revenue
+T0835 -- Manipulate I/O Image
+T0838 -- Modify Alarm Settings
+T0839 -- Module Firmware
+T0842 -- Network Sniffing
+T0873 -- Project File Infection
+T0853 -- Scripting
+T0869 -- Standard Application Layer Protocol
+T0804 -- Block Reporting Message
+T0807 -- Command-Line Interface
+T0879 -- Damage to Property
+T0813 -- Denial of Control
+T0816 -- Device Restart/Shutdown
+T0820 -- Exploitation for Evasion
+T0874 -- Hooking
+T0825 -- Location Identification
+T0831 -- Manipulation of Control
+T0801 -- Monitor Process State
+T0861 -- Point &amp; Tag Identification
+T0847 -- Replication Through Removable Media
+T0854 -- Serial Connection Enumeration
+T0862 -- Supply Chain Compromise
+T0863 -- User Execution
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="ics-att-ck-available-since-attackcti-0-3-4-3">
+<h2>ICS ATT&amp;CK Available since attackcti 0.3.4.3<a class="headerlink" href="#ics-att-ck-available-since-attackcti-0-3-4-3" title="Permalink to this headline">¶</a></h2>
+<p>Reference: <a class="reference external" href="https://pypi.org/project/attackcti/">https://pypi.org/project/attackcti/</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+<span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+
+<span class="n">ICS_TECHNIQUES</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_ics_techniques</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Techniques Count:&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ICS_TECHNIQUES</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Techniques Count: 78
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ICS_TECHNIQUES</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AttackPattern(type=&#39;attack-pattern&#39;, id=&#39;attack-pattern--35392fb4-a31d-4c6a-b9f2-1c65b7f5e6b9&#39;, created_by_ref=&#39;identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5&#39;, created=&#39;2021-10-14T15:25:32.143Z&#39;, modified=&#39;2021-10-14T15:25:32.143Z&#39;, name=&#39;Transient Cyber Asset&#39;, description=&#39;Adversaries may target devices that are transient across ICS networks and external networks. Normally, transient assets are brought into an environment by authorized personnel and do not remain in that environment on a permanent basis. (Citation: NERC June 2021) Transient assets are commonly needed to support management functions and may be more common in systems where a remotely managed asset is not feasible, external connections for remote access do not exist, or 3rd party contractor/vendor access is required.\n\nAdversaries may take advantage of transient assets in different ways. For instance, adversaries may target a transient asset when it is connected to an external network and then leverage its trusted access in another environment to launch an attack. They may also take advantage of installed applications and libraries that are used by legitimate end-users to interact with control system devices.\n\nTransient assets, in some cases, may not be deployed with a secure configuration leading to weaknesses that could allow an adversary to propagate malicious executable code, e.g., the transient asset may be infected by malware and when connected to an ICS environment the malware propagates onto other systems.\n\nIn the Maroochy attack, the adversary utilized a computer, possibly stolen, with proprietary engineering software to communicate with a wastewater system. (Citation: Maroochy - MITRE - 200808)&#39;, kill_chain_phases=[KillChainPhase(kill_chain_name=&#39;mitre-ics-attack&#39;, phase_name=&#39;initial-access-ics&#39;)], revoked=False, external_references=[ExternalReference(source_name=&#39;mitre-ics-attack&#39;, url=&#39;https://collaborate.mitre.org/attackics/index.php/Technique/T0864&#39;, external_id=&#39;T0864&#39;), ExternalReference(source_name=&#39;NERC June 2021&#39;, description=&#39; North American Electric Reliability Corporation. (2021, June 28). Glossary of Terms Used in NERC Reliability Standards. Retrieved October 11, 2021.&#39;, url=&#39;https://www.nerc.com/files/glossary_of_terms.pdf&#39;), ExternalReference(source_name=&#39;Maroochy - MITRE - 200808&#39;, description=&#39;Marshall Abrams. (2008, July 23). Malicious Control System Cyber Security Attack Case Study– Maroochy Water Services, Australia. Retrieved March 27, 2018.&#39;, url=&#39;https://www.mitre.org/sites/default/files/pdf/08%201145.pdf&#39;), ExternalReference(source_name=&#39;NIST Apr 2013&#39;, description=&#39;National Institute of Standards and Technology. (2013, April). Security and Privacy Controls for Federal Information Systems and Organizations. Retrieved September 17, 2020.&#39;, url=&#39;https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r4.pdf&#39;), ExternalReference(source_name=&#39;NAFT Dec 2019&#39;, description=&#39;North America Transmission Forum. (2019, December). NATF Transient Cyber Asset Guidance. Retrieved September 25, 2020.&#39;, url=&#39;https://www.natf.net/docs/natf/documents/resources/security/natf-transient-cyber-asset-guidance.pdf&#39;), ExternalReference(source_name=&#39;Emerson Exchange&#39;, description=&#39;Emerson Exchange. (n.d.). Increase Security with TPM, Secure Boot, and Trusted Boot. Retrieved September 25, 2020.&#39;, url=&#39;https://emersonexchange365.com/products/control-safety-systems/f/plc-pac-systems-industrial-computing-forum/8383/increase-security-with-tpm-secure-boot-and-trusted-boot&#39;), ExternalReference(source_name=&#39;National Security Agency Feb 2016&#39;, description=&#39;National Security Agency. (2016, February). Position Zero: Integrity Checking Windows-Based ICS/SCADA Systems. Retrieved September 25, 2020.&#39;, url=&#39;https://apps.nsa.gov/iaarchive/library/ia-guidance/security-configuration/industrial-control-systems/position-zero-integrity-checking-windows-based-ics-scada-systems.cfm&#39;)], object_marking_refs=[&#39;marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168&#39;], x_mitre_data_sources=[&#39;Network Traffic: Network Flows&#39;, &#39;Network Traffic: Network Connections&#39;, &#39;Assets: Asset Inventory&#39;], x_mitre_platforms=[&#39;Engineering Workstation&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-all-data-sources-mapped-to-ics-att-ck-techniques">
+<h2>Get All Data Sources Mapped to ICS ATT&amp;CK Techniques<a class="headerlink" href="#get-all-data-sources-mapped-to-ics-att-ck-techniques" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ICS_DATA_SOURCES</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">TECHNIQUE</span> <span class="ow">in</span> <span class="n">ICS_TECHNIQUES</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;x_mitre_data_sources&#39;</span> <span class="ow">in</span> <span class="n">TECHNIQUE</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">DS</span> <span class="ow">in</span> <span class="n">TECHNIQUE</span><span class="p">[</span><span class="s1">&#39;x_mitre_data_sources&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">DS</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ICS_DATA_SOURCES</span><span class="p">:</span>
+                <span class="n">ICS_DATA_SOURCES</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DS</span><span class="p">)</span>
+<span class="n">ICS_DATA_SOURCES</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Network Traffic: Network Flows&#39;,
+ &#39;Network Traffic: Network Connections&#39;,
+ &#39;Assets: Asset Inventory&#39;,
+ &#39;Network Traffic: Network Traffic Content&#39;,
+ &#39;Application Log: Application Log Content&#39;,
+ &#39;Process: OS API Execution&#39;,
+ &#39;File: File Modification&#39;,
+ &#39;Asset: Software/Firmware&#39;,
+ &#39;Command: Command Execution&#39;,
+ &#39;Logon Session: Logon Session Creation&#39;,
+ &#39;Network Share: Network Share Access&#39;,
+ &#39;Network Traffic: Network Connection Creation&#39;,
+ &#39;Network Traffic: Network Traffic Flow&#39;,
+ &#39;Process: Process Creation&#39;,
+ &#39;Operational Databases: Process History/Live Data&#39;,
+ &#39;Operational Databases: Process/Event Alarm&#39;,
+ &#39;File: File Metadata&#39;,
+ &#39;Scheduled Job: Scheduled Job Metadata&#39;,
+ &#39;Scheduled Job: Scheduled Job Modification&#39;,
+ &#39;Service: Service Creation&#39;,
+ &#39;Service: Service Metadata&#39;,
+ &#39;Operational Databases: Device Alarm&#39;,
+ &#39;Asset: Device Configuration/Parameters&#39;,
+ &#39;Drive: Drive Modification&#39;,
+ &#39;Firmware: Firmware Modification&#39;,
+ &#39;Module: Module Load&#39;,
+ &#39;File: File Access&#39;,
+ &#39;Script: Script Execution&#39;,
+ &#39;Logon Session: Logon Session Metadata&#39;,
+ &#39;File: File Deletion&#39;,
+ &#39;User Account: User Account Authentication&#39;,
+ &#39;Windows Registry: Windows Registry Key Deletion&#39;,
+ &#39;Windows Registry: Windows Registry Key Modification&#39;,
+ &#39;Process: Process Termination&#39;,
+ &#39;File: File Creation&#39;,
+ &#39;Drive: Drive Creation&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-all-groups-from-ics-att-ck">
+<h2>Get All Groups from ICS ATT&amp;CK<a class="headerlink" href="#get-all-groups-from-ics-att-ck" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ICS_GROUPS</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_ics_groups</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">GROUP</span> <span class="ow">in</span> <span class="n">ICS_GROUPS</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">GROUP</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TEMP.Veles
+Dragonfly 2.0
+HEXANE
+APT33
+OilRig
+Dragonfly
+Sandworm Team
+Lazarus Group
+ALLANITE
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-all-malware-from-ics-att-ck">
+<h2>Get All Malware from ICS ATT&amp;CK<a class="headerlink" href="#get-all-malware-from-ics-att-ck" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ICS_MALWARE</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_ics_malware</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">MALWARE</span> <span class="ow">in</span> <span class="n">ICS_MALWARE</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">MALWARE</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conficker
+EKANS
+Bad Rabbit
+KillDisk
+Industroyer
+Stuxnet
+REvil
+Ryuk
+LockerGoga
+Triton
+VPNFilter
+PLC-Blaster
+NotPetya
+WannaCry
+Flame
+Backdoor.Oldrea
+ACAD/Medre.A
+BlackEnergy
+Duqu
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./playground"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="5-Collect_Techniques_by_Data_Sources.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Get Techniques from Data Sources</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="7-Export_Groups_Navigator_Layers.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exporting ATT&amp;CK Group Navigator Layers</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Roberto Rodriguez @Cyb3rWard0g<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

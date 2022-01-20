@@ -1,0 +1,840 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Export All Techniques to CSV &#8212; ATTACK Python Client</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://attackcti.com/playground/3-Export_All_Techniques_To_CSV.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Explore ATT&amp;CK Data Sources" href="4-Explore_Data_Sources.html" />
+    <link rel="prev" title="Collect Matrix Specific Functions" href="2-Collect_Matrix_Specific_Functions.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ATTACK Python Client</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Playground
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-Collect_All_Functions.html">
+   Collect All Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-Collect_Matrix_Specific_Functions.html">
+   Collect Matrix Specific Functions
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Export All Techniques to CSV
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4-Explore_Data_Sources.html">
+   Explore ATT&amp;CK Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="5-Collect_Techniques_by_Data_Sources.html">
+   Get Techniques from Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="6-Explore_ICS_Attack.html">
+   Exploring ICS ATT&amp;CK
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="7-Export_Groups_Navigator_Layers.html">
+   Exporting ATT&amp;CK Group Navigator Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="8-Lookup_Functions.html">
+   Filtering and Looking Up STIX Objects in ATT&amp;CK
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/playground/3-Export_All_Techniques_To_CSV.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OTRF/ATTACK-Python-Client/issues/new?title=Issue%20on%20page%20%2Fplayground/3-Export_All_Techniques_To_CSV.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/OTRF/ATTACK-Python-Client/edit/master/docs/playground/3-Export_All_Techniques_To_CSV.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OTRF/ATTACK-Python-Client/master?urlpath=tree/docs/playground/3-Export_All_Techniques_To_CSV.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries">
+   Import Libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-attack-client">
+   Initialize Attack client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-techniques-stix-format">
+   Get All Techniques STIX Format
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#export-csv-file">
+   Export CSV File
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-techniques-non-stix-format">
+   Get All Techniques Non-STIX Format
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Export CSV File
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Export All Techniques to CSV</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries">
+   Import Libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-attack-client">
+   Initialize Attack client
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-techniques-stix-format">
+   Get All Techniques STIX Format
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#export-csv-file">
+   Export CSV File
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-all-techniques-non-stix-format">
+   Get All Techniques Non-STIX Format
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Export CSV File
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="export-all-techniques-to-csv">
+<h1>Export All Techniques to CSV<a class="headerlink" href="#export-all-techniques-to-csv" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="import-libraries">
+<h2>Import Libraries<a class="headerlink" href="#import-libraries" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">attackcti</span> <span class="kn">import</span> <span class="n">attack_client</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;taxii2client&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initialize-attack-client">
+<h2>Initialize Attack client<a class="headerlink" href="#initialize-attack-client" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lift</span> <span class="o">=</span> <span class="n">attack_client</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-all-techniques-stix-format">
+<h2>Get All Techniques STIX Format<a class="headerlink" href="#get-all-techniques-stix-format" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">all_techniques</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>736
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="export-csv-file">
+<h2>Export CSV File<a class="headerlink" href="#export-csv-file" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">techniques</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">all_techniques</span><span class="p">:</span>
+    <span class="n">techniques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">serialize</span><span class="p">()))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">techniques</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>id</th>
+      <th>created_by_ref</th>
+      <th>created</th>
+      <th>modified</th>
+      <th>name</th>
+      <th>description</th>
+      <th>kill_chain_phases</th>
+      <th>external_references</th>
+      <th>object_marking_refs</th>
+      <th>...</th>
+      <th>x_mitre_permissions_required</th>
+      <th>x_mitre_platforms</th>
+      <th>x_mitre_version</th>
+      <th>x_mitre_remote_support</th>
+      <th>x_mitre_system_requirements</th>
+      <th>x_mitre_network_requirements</th>
+      <th>x_mitre_effective_permissions</th>
+      <th>x_mitre_impact_type</th>
+      <th>x_mitre_tactic_type</th>
+      <th>x_mitre_old_attack_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>attack-pattern</td>
+      <td>attack-pattern--b22e5153-ac28-4cc6-865c-2054e3...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-12T20:02:31.866Z</td>
+      <td>2021-10-16T01:50:40.276Z</td>
+      <td>Resource Forking</td>
+      <td>Adversaries may abuse resource forks to hide m...</td>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>[marking-definition--fa42a846-8d90-4e51-bc29-7...</td>
+      <td>...</td>
+      <td>[User]</td>
+      <td>[macOS]</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>attack-pattern</td>
+      <td>attack-pattern--824add00-99a1-4b15-9a2d-6c5683...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-08T14:06:28.212Z</td>
+      <td>2021-10-15T00:48:06.723Z</td>
+      <td>Downgrade Attack</td>
+      <td>Adversaries may downgrade or use a version of ...</td>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>[marking-definition--fa42a846-8d90-4e51-bc29-7...</td>
+      <td>...</td>
+      <td>[User]</td>
+      <td>[Windows, Linux, macOS]</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>attack-pattern</td>
+      <td>attack-pattern--84601337-6a55-4ad7-9c35-79e0d1...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-05T21:26:15.081Z</td>
+      <td>2021-10-18T16:36:37.042Z</td>
+      <td>Login Items</td>
+      <td>Adversaries may add login items to execute upo...</td>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>[marking-definition--fa42a846-8d90-4e51-bc29-7...</td>
+      <td>...</td>
+      <td>[User]</td>
+      <td>[macOS]</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>attack-pattern</td>
+      <td>attack-pattern--4933e63b-9b77-476e-ab29-761bc5...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-05T01:15:06.293Z</td>
+      <td>2021-11-01T18:09:09.670Z</td>
+      <td>Reflective Code Loading</td>
+      <td>Adversaries may reflectively load code into a ...</td>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>[marking-definition--fa42a846-8d90-4e51-bc29-7...</td>
+      <td>...</td>
+      <td>[User]</td>
+      <td>[macOS, Linux, Windows]</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>attack-pattern</td>
+      <td>attack-pattern--8565825b-21c8-4518-b75e-cbc4c7...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-01T17:58:26.445Z</td>
+      <td>2021-10-07T18:19:25.352Z</td>
+      <td>Cloud Storage Object Discovery</td>
+      <td>Adversaries may enumerate objects in cloud sto...</td>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>[marking-definition--fa42a846-8d90-4e51-bc29-7...</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>[IaaS]</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 25 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;all_techniques_stix.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-all-techniques-non-stix-format">
+<h2>Get All Techniques Non-STIX Format<a class="headerlink" href="#get-all-techniques-non-stix-format" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_techniques</span> <span class="o">=</span> <span class="n">lift</span><span class="o">.</span><span class="n">get_techniques</span><span class="p">(</span><span class="n">stix_format</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">all_techniques</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>736
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">all_techniques</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>kill_chain_phases</th>
+      <th>external_references</th>
+      <th>x_mitre_version</th>
+      <th>type</th>
+      <th>id</th>
+      <th>created_by_ref</th>
+      <th>created</th>
+      <th>modified</th>
+      <th>technique</th>
+      <th>technique_description</th>
+      <th>...</th>
+      <th>platform</th>
+      <th>remote_support</th>
+      <th>capec_id</th>
+      <th>capec_url</th>
+      <th>system_requirements</th>
+      <th>network_requirements</th>
+      <th>effective_permissions</th>
+      <th>impact_type</th>
+      <th>tactic_type</th>
+      <th>x_mitre_old_attack_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>1.0</td>
+      <td>attack-pattern</td>
+      <td>attack-pattern--b22e5153-ac28-4cc6-865c-2054e3...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-12T20:02:31.866Z</td>
+      <td>2021-10-16T01:50:40.276Z</td>
+      <td>Resource Forking</td>
+      <td>Adversaries may abuse resource forks to hide m...</td>
+      <td>...</td>
+      <td>[macOS]</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>1.0</td>
+      <td>attack-pattern</td>
+      <td>attack-pattern--824add00-99a1-4b15-9a2d-6c5683...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-08T14:06:28.212Z</td>
+      <td>2021-10-15T00:48:06.723Z</td>
+      <td>Downgrade Attack</td>
+      <td>Adversaries may downgrade or use a version of ...</td>
+      <td>...</td>
+      <td>[Windows, Linux, macOS]</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>1.0</td>
+      <td>attack-pattern</td>
+      <td>attack-pattern--84601337-6a55-4ad7-9c35-79e0d1...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-05T21:26:15.081Z</td>
+      <td>2021-10-18T16:36:37.042Z</td>
+      <td>Login Items</td>
+      <td>Adversaries may add login items to execute upo...</td>
+      <td>...</td>
+      <td>[macOS]</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>1.0</td>
+      <td>attack-pattern</td>
+      <td>attack-pattern--4933e63b-9b77-476e-ab29-761bc5...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-05T01:15:06.293Z</td>
+      <td>2021-11-01T18:09:09.670Z</td>
+      <td>Reflective Code Loading</td>
+      <td>Adversaries may reflectively load code into a ...</td>
+      <td>...</td>
+      <td>[macOS, Linux, Windows]</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>[{'kill_chain_name': 'mitre-attack', 'phase_na...</td>
+      <td>[{'source_name': 'mitre-attack', 'url': 'https...</td>
+      <td>1.0</td>
+      <td>attack-pattern</td>
+      <td>attack-pattern--8565825b-21c8-4518-b75e-cbc4c7...</td>
+      <td>identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5</td>
+      <td>2021-10-01T17:58:26.445Z</td>
+      <td>2021-10-07T18:19:25.352Z</td>
+      <td>Cloud Storage Object Discovery</td>
+      <td>Adversaries may enumerate objects in cloud sto...</td>
+      <td>...</td>
+      <td>[IaaS]</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 31 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Export CSV File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;all_techniques_non_stix.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./playground"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="2-Collect_Matrix_Specific_Functions.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Collect Matrix Specific Functions</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="4-Explore_Data_Sources.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Explore ATT&amp;CK Data Sources</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Roberto Rodriguez @Cyb3rWard0g<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
