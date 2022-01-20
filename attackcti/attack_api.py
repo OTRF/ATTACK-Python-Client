@@ -1698,7 +1698,11 @@ class attack_client(object):
                         "description": ("Enterprise techniques used by {0}, ATT&CK group {1} v1.0".format(k,v[0]['group_id'])),
                         "name": ("{0} ({1})".format(k,v[0]['group_id'])),
                         "domain": "mitre-enterprise",
-                        "version": "3.0",
+                        "versions": {
+                            "attack": "10",
+                            "navigator": "4.5.5",
+                            "layer": "4.3"
+                        },
                         "techniques": [
                             {
                                 "score": 1,
