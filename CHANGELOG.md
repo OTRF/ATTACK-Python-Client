@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased](https://github.com/OTRF/ATTACK-Python-Client/tree/HEAD)
+
+[Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.6...HEAD)
+
+**Closed issues:**
+
+- attack\_client not workning \(Err\_connection\) [\#58](https://github.com/OTRF/ATTACK-Python-Client/issues/58)
+- Bug: enrich\_data\_sources is not working [\#57](https://github.com/OTRF/ATTACK-Python-Client/issues/57)
+
 ## [0.3.6](https://github.com/OTRF/ATTACK-Python-Client/tree/0.3.6) (2022-01-20)
 
 [Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.4.4...0.3.6)
