@@ -822,6 +822,20 @@ class attack_client(object):
             ics_techniques = self.translate_stix_objects(ics_techniques)
         return ics_techniques
 
+    def get_ics_data_components(self, stix_format=True):
+        """ Extracts all the available data components STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        ics_data_components = self.TC_ICS_SOURCE.query(Filter("type", "=", "x-mitre-data-component"))
+        if not stix_format:
+            ics_data_components = self.translate_stix_objects(ics_data_components)
+        return ics_data_components
+
     def get_ics_mitigations(self, stix_format=True):
         """ Extracts all the available mitigations STIX objects in the ICS ATT&CK matrix
 
@@ -901,6 +915,23 @@ class attack_client(object):
         if not stix_format:
             ics_tactics = self.translate_stix_objects(ics_tactics)
         return ics_tactics
+
+    def get_ics_data_sources(self, include_data_components=False, stix_format=True):
+        """ Extracts all the available data source STIX objects availalbe in the ICS ATT&CK matrix. This function filters all STIX objects by the type x-mitre-data-source.
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        ics_data_sources = self.TC_ICS_SOURCE.query(Filter("type", "=", "x-mitre-data-source"))
+        if include_data_components:
+            for ds in ics_data_sources:
+                ds['data_components']= self.get_data_components_by_data_source(ds)
+        if not stix_format:
+            ics_data_sources = self.translate_stix_objects(ics_data_sources)
+        return ics_data_sources
 
     # ******** Get All Functions ********
     def get_stix_objects(self, stix_format=True):
@@ -997,14 +1028,14 @@ class attack_client(object):
             stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
         """
         enterprise_data_components = self.get_enterprise_data_components()
-        '''mobile_data_components = self.get_mobile_data_components()
         ics_data_components = self.get_ics_data_components()
+        '''mobile_data_components = self.get_mobile_data_components()
         for mdc in mobile_data_components:
             if mdc not in enterprise_data_components:
-                enterprise_data_components.append(mdc)
+                enterprise_data_components.append(mdc)'''
         for idc in ics_data_components:
             if idc not in enterprise_data_components:
-                enterprise_data_components.append(idc)'''
+                enterprise_data_components.append(idc)
         
         if skip_revoked_deprecated:
             enterprise_data_components = self.remove_revoked_deprecated(enterprise_data_components)
@@ -1104,15 +1135,21 @@ class attack_client(object):
             List of STIX objects
         
         """
+        enterprise_data_sources = self.get_enterprise_data_sources(include_data_components)
+        ics_data_sources = self.get_ics_data_sources(include_data_components)
+        for ds in ics_data_sources:
+            if ds not in enterprise_data_sources:
+                enterprise_data_sources.append(ds)
+        '''
         if include_data_components:
             data_sources = self.get_enterprise_data_sources(include_data_components=True)
         else:
-            data_sources = self.get_enterprise_data_sources()
+            data_sources = self.get_enterprise_data_sources()'''
 
         if not stix_format:
-            data_sources = self.translate_stix_objects(data_sources)
+            enterprise_data_sources = self.translate_stix_objects(enterprise_data_sources)
 
-        return data_sources
+        return enterprise_data_sources
 
     # ******** Custom Functions ********
     def get_technique_by_name(self, name, case=True, stix_format=True):
