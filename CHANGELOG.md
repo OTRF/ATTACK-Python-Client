@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/OTRF/ATTACK-Python-Client/tree/HEAD)
+## [0.3.7](https://github.com/OTRF/ATTACK-Python-Client/tree/0.3.7) (2022-07-05)
 
-[Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.6...HEAD)
+[Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.6...0.3.7)
 
 **Closed issues:**
 
