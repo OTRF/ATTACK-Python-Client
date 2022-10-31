@@ -546,7 +546,7 @@ class attack_client(object):
         if include_subtechniques:
             pre_techniques = self.TC_PRE_SOURCE.query(Filter("type", "=", "attack-pattern"))
         else:
-            pre_techniques = self.TC_ENTERPRISE_SOURCE.query([
+            pre_techniques = self.TC_PRE_SOURCE.query([
                 Filter("type", "=", "attack-pattern"),
                 Filter('x_mitre_is_subtechnique', '=', False)
             ])
