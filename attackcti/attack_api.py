@@ -208,6 +208,19 @@ class attack_client(object):
             "x_mitre_collection_layers": "collection_layers",
             "x_mitre_contributors": "contributors"
         }
+        campaign_stix_mapping = {
+            "type": "type",
+            "id": "id",
+            "created_by_ref": "created_by_ref",
+            "created": "created",
+            "modified": "modified",      
+            "title": "name",
+            "description": "campaign_description",
+            "aliases": "campaign_aliases",
+            "object_marking_refs": "object_marking_refs",
+            "external_references": "external_references",
+
+        }
 
         # ******** Helper Functions ********
         def handle_list(list_object, object_type):
@@ -230,6 +243,8 @@ class attack_client(object):
                     obj_dict['tactic_id'] = list_object[0]['external_id']
                 elif obj_dict['type'] == 'matrix':
                     obj_dict['matrix_id'] = list_object[0]['external_id']
+                elif obj_dict['type'] == 'campaign':
+                    obj_dict['campaign_id'] = list_object[0]['external_id']
             elif object_type == "kill_chain_phases":
                 tactic_list = list()
                 for phase in list_object:
@@ -266,6 +281,8 @@ class attack_client(object):
                     stix_mapping = marking_stix_mapping
                 elif obj['type'] == "x-mitre-data-source":
                     stix_mapping = data_source_stix_mapping
+                elif obj['type'] == "campaign":
+                    stix_mapping = campaign_stix_mapping
                 else:
                     return stix_objects_list
 
@@ -330,7 +347,8 @@ class attack_client(object):
             "tactics": self.get_enterprise_tactics,
             "matrix": Filter("type", "=", "x-mitre-matrix"),
             "identity": Filter("type", "=", "identity"),
-            "marking-definition": Filter("type", "=", "marking-definition")
+            "marking-definition": Filter("type", "=", "marking-definition"),
+            "campaign": self.get_enterprise_campaigns
         }
         enterprise_stix_objects = dict()
         for key in enterprise_filter_objects:
@@ -338,6 +356,25 @@ class attack_client(object):
             if not stix_format:
                 enterprise_stix_objects[key] = self.translate_stix_objects(enterprise_stix_objects[key])
         return enterprise_stix_objects
+
+    def get_enterprise_campaigns(self, skip_revoked_deprecated=True, stix_format=True):
+        """ Extracts all the available campaigns STIX objects in the Enterprise ATT&CK matrix
+
+        Args:
+            skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects. 
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        enterprise_campaigns = self.TC_ENTERPRISE_SOURCE.query([Filter("type", "=", "campaign")])
+
+        if skip_revoked_deprecated:
+            enterprise_campaigns = self.remove_revoked_deprecated(enterprise_campaigns)
+        
+        if not stix_format:
+            enterprise_campaigns = self.translate_stix_objects(enterprise_campaigns)
+        return enterprise_campaigns
 
     def get_enterprise_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, enrich_data_sources = False, stix_format=True):
         """ Extracts all the available techniques STIX objects in the Enterprise ATT&CK matrix
@@ -636,7 +673,8 @@ class attack_client(object):
             "tactics": self.get_mobile_tactics,
             "matrix": Filter("type", "=", "x-mitre-matrix"),
             "identity": Filter("type", "=", "identity"),
-            "marking-definition": Filter("type", "=", "marking-definition")
+            "marking-definition": Filter("type", "=", "marking-definition"),
+            "campaigns": self.get_mobile_campaigns
         }
         mobile_stix_objects = {}
         for key in mobile_filter_objects:
@@ -644,7 +682,27 @@ class attack_client(object):
             if not stix_format:
                 mobile_stix_objects[key] = self.translate_stix_objects(mobile_stix_objects[key])           
         return mobile_stix_objects
-  
+
+    def get_mobile_campaigns(self, skip_revoked_deprecated=True, stix_format=True):
+        """  Extracts all the available techniques STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects. 
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+
+        mobile_campaigns = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "campaigns"))
+
+        if skip_revoked_deprecated:
+            mobile_campaigns = self.remove_revoked_deprecated(mobile_campaigns)
+
+        if not stix_format:
+            mobile_campaigns = self.translate_stix_objects(mobile_campaigns)
+        return mobile_campaigns
+
     def get_mobile_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, stix_format=True):
         """  Extracts all the available techniques STIX objects in the Mobile ATT&CK matrix
 
@@ -945,7 +1003,32 @@ class attack_client(object):
                 for resource_type in attack_stix_objects[matrix].keys():
                     attack_stix_objects[matrix][resource_type] = self.translate_stix_objects(attack_stix_objects[matrix][resource_type])
         return attack_stix_objects
-    
+
+    def get_campaigns(self, skip_revoked_deprecated=True, stix_format=True):
+        """ Extracts all the available campaigns STIX objects across all ATT&CK matrices
+
+        Args: 
+            skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects.
+            stix_format (bool): Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        
+        enterprise_campaigns = self.get_enterprise_campaigns()
+        mobile_campaigns = self.get_mobile_campaigns()
+        for mc in mobile_campaigns:
+            if mc not in enterprise_campaigns:
+                enterprise_campaigns.append(mc)
+
+        if skip_revoked_deprecated:
+            enterprise_campaigns = self.remove_revoked_deprecated(enterprise_campaigns)
+
+        if not stix_format:
+            enterprise_campaigns = self.translate_stix_objects(enterprise_campaigns)
+
+        return enterprise_campaigns
+
     def get_techniques(self, include_subtechniques=True, skip_revoked_deprecated=True, enrich_data_sources=False, stix_format=True):
         """ Extracts all the available techniques STIX objects across all ATT&CK matrices
 
@@ -1282,6 +1365,36 @@ class attack_client(object):
                 all_stix_objects = self.translate_stix_objects(all_stix_objects)
             return all_stix_objects
 
+    def get_campaign_by_alias(self, campaign_alias, case=True, stix_format=True):
+        """ Extracts campaign STIX objects by alias name accross all ATT&CK matrices
+
+        Args:
+            campaign_alias (str) : Alias of threat actor group
+            case (bool) : case sensitive or not
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        if not case:
+            all_campaigns = self.get_campaigns()
+            all_campaigns_list = list()
+            for campaign in all_campaigns:
+                if "aliases" in campaign.keys():
+                    for alias in campaign['aliases']:
+                        if campaign_alias.lower() in alias.lower():
+                            all_campaigns_list.append(campaign)
+        else:
+            filter_objects = [
+                Filter('type', '=', 'campaign'),
+                Filter('aliases', '=', campaign_alias)
+            ]
+            all_campaigns_list = self.COMPOSITE_DS.query(filter_objects)
+        if not stix_format:
+            all_campaigns_list = self.translate_stix_objects(all_campaigns_list)
+        return all_campaigns_list
+
     def get_group_by_alias(self, group_alias, case=True, stix_format=True):
         """ Extracts group STIX objects by alias name accross all ATT&CK matrices
 
@@ -1311,7 +1424,27 @@ class attack_client(object):
         if not stix_format:
             all_groups_list = self.translate_stix_objects(all_groups_list)
         return all_groups_list
-    
+
+    def get_campaigns_since_time(self, timestamp, stix_format=True):
+        """ Extracts campaings STIX objects since specific time accross all ATT&CK matrices
+
+        Args:
+            timestamp (timestamp): Timestamp
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        
+        """
+        filter_objects = [
+            Filter('type', '=', 'campaigns'),
+            Filter('created', '>', timestamp)
+        ]
+        all_campaigns_list = self.COMPOSITE_DS.query(filter_objects)
+        if not stix_format:
+            all_campaigns_list = self.translate_stix_objects(all_campaigns_list)
+        return all_campaigns_list
+
     def get_techniques_since_time(self, timestamp, stix_format=True):
         """ Extracts techniques STIX objects since specific time accross all ATT&CK matrices
 
