@@ -214,12 +214,13 @@ class attack_client(object):
             "created_by_ref": "created_by_ref",
             "created": "created",
             "modified": "modified",      
-            "title": "name",
+            "name": "name",
             "description": "campaign_description",
             "aliases": "campaign_aliases",
             "object_marking_refs": "object_marking_refs",
             "external_references": "external_references",
-
+            "x_mitre_first_seen_citation": "first_seen_citation",
+            "x_mitre_last_seen_citation": "last_seen_citation"
         }
 
         # ******** Helper Functions ********
@@ -694,7 +695,7 @@ class attack_client(object):
             List of STIX objects
         """
 
-        mobile_campaigns = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "campaigns"))
+        mobile_campaigns = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "campaign"))
 
         if skip_revoked_deprecated:
             mobile_campaigns = self.remove_revoked_deprecated(mobile_campaigns)
@@ -1352,7 +1353,7 @@ class attack_client(object):
             List of STIX objects
         
         """
-        valid_objects = {'attack-pattern','course-of-action','intrusion-set','malware','tool','x-mitre-data-source', 'x-mitre-data-component'}
+        valid_objects = {'attack-pattern','course-of-action','intrusion-set','malware','tool','x-mitre-data-source', 'x-mitre-data-component', 'campaign'}
         if object_type not in valid_objects:
             raise ValueError(f"ERROR: Valid object must be one of {valid_objects}")
         else:
@@ -1437,7 +1438,7 @@ class attack_client(object):
         
         """
         filter_objects = [
-            Filter('type', '=', 'campaigns'),
+            Filter('type', '=', 'campaign'),
             Filter('created', '>', timestamp)
         ]
         all_campaigns_list = self.COMPOSITE_DS.query(filter_objects)
