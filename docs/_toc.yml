@@ -14,6 +14,7 @@ parts:
   - file: playground/6-Explore_ICS_Attack
   - file: playground/7-Export_Groups_Navigator_Layers
   - file: playground/8-Lookup_Functions
+  - file: playground/9-Explore_Campaigns
 - caption: Presentations
   chapters:
   - file: presentations/1-SANS_CTI_Summit_2022_Explorando_Fuentes_Componentes_Datos
