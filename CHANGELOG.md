@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.8](https://github.com/OTRF/ATTACK-Python-Client/tree/0.3.8) (2022-11-19)
+
+[Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.7...0.3.8)
+
+**Implemented enhancements:**
+
+- Should PRE-attack be removed? [\#59](https://github.com/OTRF/ATTACK-Python-Client/issues/59)
+
+**Merged pull requests:**
+
+- Add support for campaings entity added in MITRE v12 [\#62](https://github.com/OTRF/ATTACK-Python-Client/pull/62) ([dadokkio](https://github.com/dadokkio))
+- added include\_pre\_attack parameter to attack\_client constructor [\#61](https://github.com/OTRF/ATTACK-Python-Client/pull/61) ([rubinatorz](https://github.com/rubinatorz))
+
 ## [0.3.7](https://github.com/OTRF/ATTACK-Python-Client/tree/0.3.7) (2022-07-05)
 
 [Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.6...0.3.7)
