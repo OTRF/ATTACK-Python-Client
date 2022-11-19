@@ -40,7 +40,7 @@ class attack_client(object):
     TC_ICS_SOURCE = None
     COMPOSITE_DS = None
 
-    def __init__(self, local_path=None):
+    def __init__(self, local_path=None, include_pre_attack=False):
         if local_path is not None and os.path.isdir(os.path.join(local_path, ENTERPRISE_ATTACK_LOCAL_DIR)) \
                                   and os.path.isdir(os.path.join(local_path, PRE_ATTACK_LOCAL_DIR)) \
                                   and os.path.isdir(os.path.join(local_path, MOBILE_ATTACK_LOCAL_DIR)) \
@@ -61,8 +61,11 @@ class attack_client(object):
             self.TC_ICS_SOURCE = TAXIICollectionSource(ICS_COLLECTION)
 
         self.COMPOSITE_DS = CompositeDataSource()
-        self.COMPOSITE_DS.add_data_sources([self.TC_ENTERPRISE_SOURCE, self.TC_PRE_SOURCE, self.TC_MOBILE_SOURCE, self.TC_ICS_SOURCE])
-            
+        self.COMPOSITE_DS.add_data_sources([self.TC_ENTERPRISE_SOURCE, self.TC_MOBILE_SOURCE, self.TC_ICS_SOURCE])
+
+        if include_pre_attack:
+            self.COMPOSITE_DS.add_data_sources([self.TC_PRE_SOURCE])
+
     def translate_stix_objects(self, stix_objects):
         technique_stix_mapping = {
             "type": "type",
@@ -543,7 +546,7 @@ class attack_client(object):
         if include_subtechniques:
             pre_techniques = self.TC_PRE_SOURCE.query(Filter("type", "=", "attack-pattern"))
         else:
-            pre_techniques = self.TC_ENTERPRISE_SOURCE.query([
+            pre_techniques = self.TC_PRE_SOURCE.query([
                 Filter("type", "=", "attack-pattern"),
                 Filter('x_mitre_is_subtechnique', '=', False)
             ])
