@@ -1,29 +1,27 @@
 # ATTACK Python Client script: Jupyter Environment Dockerfile
 # Author: Roberto Rodriguez (@Cyb3rWard0g)
-# License: GPL-3.0
 
-FROM cyb3rward0g/jupyter-base:0.0.3
-LABEL maintainer="Roberto Rodriguez @Cyb3rWard0g"
-LABEL description="Dockerfile attackcti Project."
+ARG OWNER=jupyter
+ARG BASE_CONTAINER=$OWNER/base-notebook
+FROM $BASE_CONTAINER
 
-ARG NB_USER
-ARG NB_UID
-ENV NB_USER jovyan
-ENV NB_UID 1000
-ENV HOME /home/${NB_USER}
+LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
+
+# Fix: https://github.com/hadolint/hadolint/wiki/DL4006
+# Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER root
 
-RUN adduser --disabled-password \
-    --gecos "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER} \
-    && python3 -m pip install --upgrade six==1.15.0 attackcti==0.3.8 pandas==1.3.5 altair vega
+# Install all OS dependencies for fully functional notebook server
+RUN apt-get update --yes && \
+    apt-get install --yes --no-install-recommends
+
+RUN python3 -m pip install --upgrade six==1.15.0 attackcti==0.3.8 pandas==1.3.5 altair vega
 
 COPY docs/playground ${HOME}/notebooks
 
-RUN chown -R ${NB_USER}:${NB_USER} ${HOME} ${JUPYTER_DIR}
-
-USER ${NB_USER}
+# Switch back to jovyan to avoid accidental container runs as root
+USER ${NB_UID}
 
 WORKDIR ${HOME}
