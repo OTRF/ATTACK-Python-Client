@@ -1,5 +1,4 @@
 # ATTACK Python Client script: Jupyter Environment Dockerfile
-# Author: Roberto Rodriguez (@Cyb3rWard0g)
 
 ARG OWNER=jupyter
 ARG BASE_CONTAINER=$OWNER/base-notebook
