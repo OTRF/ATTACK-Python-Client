@@ -18,7 +18,7 @@ RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
     ${NB_USER} \
-    && python3 -m pip install --upgrade six==1.15.0 attackcti==0.3.5 pandas==1.1.4 altair vega
+    && python3 -m pip install --upgrade six==1.15.0 attackcti==0.3.8 pandas==1.5.1 altair vega
 
 COPY docs/playground ${HOME}/notebooks
 
