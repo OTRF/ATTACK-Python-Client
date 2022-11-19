@@ -18,7 +18,9 @@ RUN apt-get update --yes && \
 
 RUN python3 -m pip install --upgrade six==1.15.0 attackcti==0.3.8 pandas==1.3.5 altair vega
 
-COPY docs/playground ${HOME}/
+COPY docs/intro.ipynb ${HOME}/docs/
+COPY docs/playground ${HOME}/docs/playground
+COPY docs/presentations ${HOME}/docs/presentations
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
