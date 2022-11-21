@@ -352,7 +352,7 @@ class attack_client(object):
             "matrix": Filter("type", "=", "x-mitre-matrix"),
             "identity": Filter("type", "=", "identity"),
             "marking-definition": Filter("type", "=", "marking-definition"),
-            "campaign": self.get_enterprise_campaigns
+            "campaigns": self.get_enterprise_campaigns
         }
         enterprise_stix_objects = dict()
         for key in enterprise_filter_objects:
