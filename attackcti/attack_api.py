@@ -842,10 +842,12 @@ class attack_client(object):
         """
         ics_filter_objects = {
             "techniques": self.get_ics_techniques,
+            "data-component": self.get_ics_data_components,
             "mitigations": self.get_ics_mitigations,
             "groups": self.get_ics_groups,
             "malware": self.get_ics_malware,
             "tools": self.get_ics_tools,
+            "data-source": self.get_ics_data_sources,
             "relationships": self.get_ics_relationships,
             "tactics": self.get_ics_tactics,
             "matrix": Filter("type", "=", "x-mitre-matrix"),
