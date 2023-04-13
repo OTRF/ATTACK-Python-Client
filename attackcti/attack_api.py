@@ -352,7 +352,7 @@ class attack_client(object):
             "matrix": Filter("type", "=", "x-mitre-matrix"),
             "identity": Filter("type", "=", "identity"),
             "marking-definition": Filter("type", "=", "marking-definition"),
-            "campaign": self.get_enterprise_campaigns
+            "campaigns": self.get_enterprise_campaigns
         }
         enterprise_stix_objects = dict()
         for key in enterprise_filter_objects:
@@ -688,7 +688,7 @@ class attack_client(object):
         return mobile_stix_objects
 
     def get_mobile_campaigns(self, skip_revoked_deprecated=True, stix_format=True):
-        """  Extracts all the available techniques STIX objects in the Mobile ATT&CK matrix
+        """  Extracts all the available campaign STIX objects in the Mobile ATT&CK matrix
 
         Args:
             skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects. 
@@ -842,12 +842,18 @@ class attack_client(object):
         """
         ics_filter_objects = {
             "techniques": self.get_ics_techniques,
+            "data-component": self.get_ics_data_components,
             "mitigations": self.get_ics_mitigations,
             "groups": self.get_ics_groups,
             "malware": self.get_ics_malware,
+            "tools": self.get_ics_tools,
+            "data-source": self.get_ics_data_sources,
             "relationships": self.get_ics_relationships,
             "tactics": self.get_ics_tactics,
-            "matrix": Filter("type", "=", "x-mitre-matrix")
+            "matrix": Filter("type", "=", "x-mitre-matrix"),
+            "identity": Filter("type", "=", "identity"),
+            "marking-definition": Filter("type", "=", "marking-definition"),
+            "campaigns": self.get_ics_campaigns
         }
         ics_stix_objects = {}
         for key in ics_filter_objects:
@@ -855,6 +861,26 @@ class attack_client(object):
             if not stix_format:
                 ics_stix_objects[key] = self.translate_stix_objects(ics_stix_objects[key])           
         return ics_stix_objects
+
+    def get_ics_campaigns(self, skip_revoked_deprecated=True, stix_format=True):
+        """  Extracts all the available techniques STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects.
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+
+        Returns:
+            List of STIX objects
+        """
+
+        ics_campaigns = self.TC_ICS_SOURCE.query(Filter("type", "=", "campaign"))
+
+        if skip_revoked_deprecated:
+            ics_campaigns = self.remove_revoked_deprecated(ics_campaigns)
+
+        if not stix_format:
+            ics_campaigns = self.translate_stix_objects(ics_campaigns)
+        return ics_campaigns
 
     def get_ics_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, stix_format=True):
         """ Extracts all the available techniques STIX objects in the ICS ATT&CK matrix
@@ -948,6 +974,21 @@ class attack_client(object):
             ics_malware = self.translate_stix_objects(ics_malware)
         return ics_malware
 
+    def get_ics_tools(self, stix_format=True):
+        """Extracts all the available tools STIX objects in the ICS ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+
+        Returns:
+            List of STIX objects
+
+        """
+        ics_tools = self.TC_ICS_SOURCE.query(Filter("type", "=", "tool"))
+        if not stix_format:
+            ics_tools = self.translate_stix_objects(ics_tools)
+        return ics_tools
+
     def get_ics_relationships(self, stix_format=True):
         """ Extracts all the available relationships STIX objects in the ICS ATT&CK matrix
 
@@ -1021,9 +1062,10 @@ class attack_client(object):
         
         enterprise_campaigns = self.get_enterprise_campaigns()
         mobile_campaigns = self.get_mobile_campaigns()
-        for mc in mobile_campaigns:
-            if mc not in enterprise_campaigns:
-                enterprise_campaigns.append(mc)
+        ics_campaigns = self.get_ics_campaigns()
+        for c in mobile_campaigns + ics_campaigns:
+            if c not in enterprise_campaigns:
+                enterprise_campaigns.append(c)
 
         if skip_revoked_deprecated:
             enterprise_campaigns = self.remove_revoked_deprecated(enterprise_campaigns)
