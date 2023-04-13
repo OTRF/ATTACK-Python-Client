@@ -13,7 +13,7 @@ with open('README.md')as f:
 
 setup(
     name="attackcti",
-    version="0.3.8",
+    version="0.3.9",
     author="Roberto Rodriguez",
     description="MITRE ATTACK CTI Python Libary",
     long_description=long_description,
