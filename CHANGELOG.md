@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.9](https://github.com/OTRF/ATTACK-Python-Client/tree/0.3.9) (2023-04-12)
+
+[Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.8...0.3.9)
+
+**Merged pull requests:**
+
+- Added ICS campaigns and some ICS fixes [\#64](https://github.com/OTRF/ATTACK-Python-Client/pull/64) ([rubinatorz](https://github.com/rubinatorz))
+
 ## [0.3.8](https://github.com/OTRF/ATTACK-Python-Client/tree/0.3.8) (2022-11-19)
 
 [Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.7...0.3.8)
