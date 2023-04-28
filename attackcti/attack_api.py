@@ -669,10 +669,12 @@ class attack_client(object):
 
         mobile_filter_objects = {
             "techniques": self.get_mobile_techniques,
+            "data-component": self.get_mobile_data_components,
             "mitigations": self.get_mobile_mitigations,
             "groups": self.get_mobile_groups,
             "malware": self.get_mobile_malware,
             "tools": self.get_mobile_tools,
+            "data-source": self.get_mobile_data_sources,
             "relationships": self.get_mobile_relationships,
             "tactics": self.get_mobile_tactics,
             "matrix": Filter("type", "=", "x-mitre-matrix"),
@@ -733,6 +735,20 @@ class attack_client(object):
         if not stix_format:
             mobile_techniques = self.translate_stix_objects(mobile_techniques)
         return mobile_techniques
+    
+    def get_mobile_data_components(self, stix_format=True):
+        """ Extracts all the available data components STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        mobile_data_components = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "x-mitre-data-component"))
+        if not stix_format:
+            mobile_data_components = self.translate_stix_objects(mobile_data_components)
+        return mobile_data_components
     
     def get_mobile_mitigations(self, stix_format=True):
         """ Extracts all the available mitigations STIX objects in the Mobile ATT&CK matrix
@@ -828,6 +844,23 @@ class attack_client(object):
         if not stix_format:
             mobile_tactics = self.translate_stix_objects(mobile_tactics)
         return mobile_tactics
+
+    def get_mobile_data_sources(self, include_data_components=False, stix_format=True):
+        """ Extracts all the available data source STIX objects availalbe in the Mobile ATT&CK matrix. This function filters all STIX objects by the type x-mitre-data-source.
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        mobile_data_sources = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "x-mitre-data-source"))
+        if include_data_components:
+            for ds in mobile_data_sources:
+                ds['data_components']= self.get_data_components_by_data_source(ds)
+        if not stix_format:
+            mobile_data_sources = self.translate_stix_objects(mobile_data_sources)
+        return mobile_data_sources
     
     # ******** ICS ATT&CK Technology Domain *******
     def get_ics(self, stix_format=True):
@@ -1158,10 +1191,10 @@ class attack_client(object):
         """
         enterprise_data_components = self.get_enterprise_data_components()
         ics_data_components = self.get_ics_data_components()
-        '''mobile_data_components = self.get_mobile_data_components()
+        mobile_data_components = self.get_mobile_data_components()
         for mdc in mobile_data_components:
             if mdc not in enterprise_data_components:
-                enterprise_data_components.append(mdc)'''
+                enterprise_data_components.append(mdc)
         for idc in ics_data_components:
             if idc not in enterprise_data_components:
                 enterprise_data_components.append(idc)
@@ -1266,9 +1299,13 @@ class attack_client(object):
         """
         enterprise_data_sources = self.get_enterprise_data_sources(include_data_components)
         ics_data_sources = self.get_ics_data_sources(include_data_components)
-        for ds in ics_data_sources:
-            if ds not in enterprise_data_sources:
-                enterprise_data_sources.append(ds)
+        mobile_data_sources = self.get_mobile_data_sources(include_data_components)
+        for mds in mobile_data_sources:
+            if mds not in enterprise_data_sources:
+                enterprise_data_sources.append(mds)
+        for ids in ics_data_sources:
+            if ids not in enterprise_data_sources:
+                enterprise_data_sources.append(ids)
         '''
         if include_data_components:
             data_sources = self.get_enterprise_data_sources(include_data_components=True)
