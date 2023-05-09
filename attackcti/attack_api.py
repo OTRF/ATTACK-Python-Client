@@ -380,7 +380,7 @@ class attack_client(object):
             enterprise_campaigns = self.translate_stix_objects(enterprise_campaigns)
         return enterprise_campaigns
 
-    def get_enterprise_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, enrich_data_sources = False, stix_format=True):
+    def get_enterprise_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, enrich_data_sources=False, stix_format=True):
         """ Extracts all the available techniques STIX objects in the Enterprise ATT&CK matrix
 
         Args:
@@ -709,12 +709,13 @@ class attack_client(object):
             mobile_campaigns = self.translate_stix_objects(mobile_campaigns)
         return mobile_campaigns
 
-    def get_mobile_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, stix_format=True):
+    def get_mobile_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, enrich_data_sources=False, stix_format=True):
         """  Extracts all the available techniques STIX objects in the Mobile ATT&CK matrix
 
         Args:
             skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects. 
             include_subtechniques (bool): default True. Include techniques and sub-techniques STIX objects.
+            enrich_data_sources (bool): default False. Adds data component and data source context to each technqiue.
             stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
         
         Returns:
@@ -731,6 +732,9 @@ class attack_client(object):
 
         if skip_revoked_deprecated:
             mobile_techniques = self.remove_revoked_deprecated(mobile_techniques)
+        
+        if enrich_data_sources:
+            mobile_techniques = self.enrich_techniques_data_sources(mobile_techniques)
 
         if not stix_format:
             mobile_techniques = self.translate_stix_objects(mobile_techniques)
@@ -915,12 +919,13 @@ class attack_client(object):
             ics_campaigns = self.translate_stix_objects(ics_campaigns)
         return ics_campaigns
 
-    def get_ics_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, stix_format=True):
+    def get_ics_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, enrich_data_sources=False, stix_format=True):
         """ Extracts all the available techniques STIX objects in the ICS ATT&CK matrix
 
         Args:
             skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects. 
             include_subtechniques (bool): default True. Include techniques and sub-techniques STIX objects.
+            enrich_data_sources (bool): default False. Adds data component and data source context to each technqiue.
             stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
         
         Returns:
@@ -938,6 +943,9 @@ class attack_client(object):
 
         if skip_revoked_deprecated:
             ics_techniques = self.remove_revoked_deprecated(ics_techniques)
+        
+        if enrich_data_sources:
+            ics_techniques = self.enrich_techniques_data_sources(ics_techniques)
         
         if not stix_format:
             ics_techniques = self.translate_stix_objects(ics_techniques)
@@ -2006,18 +2014,17 @@ class attack_client(object):
 
         # https://stix2.readthedocs.io/en/latest/guide/versioning.html
         for i in range(len(stix_object)):
-            if 'x_mitre_data_sources' in stix_object[i].keys():
-                technique_ds = dict()
-                for rl in relationships:
-                    if stix_object[i]['id'] == rl['target_ref']:
-                        dc = dc_lookup[rl['source_ref']]
-                        dc_ds_ref = dc['x_mitre_data_source_ref']
-                        if dc_ds_ref not in technique_ds.keys():
-                            technique_ds[dc_ds_ref] = ds_lookup[dc_ds_ref].copy()
-                            technique_ds[dc_ds_ref]['data_components'] = list()
-                        if dc not in technique_ds[dc_ds_ref]['data_components']:
-                            technique_ds[dc_ds_ref]['data_components'].append(dc)
-                if technique_ds:
-                    new_data_sources = [ v for v in technique_ds.values()]
-                    stix_object[i] = stix_object[i].new_version(x_mitre_data_sources = new_data_sources)
+            technique_ds = dict()
+            for rl in relationships:
+                if stix_object[i]['id'] == rl['target_ref']:
+                    dc = dc_lookup[rl['source_ref']]
+                    dc_ds_ref = dc['x_mitre_data_source_ref']
+                    if dc_ds_ref not in technique_ds.keys():
+                        technique_ds[dc_ds_ref] = ds_lookup[dc_ds_ref].copy()
+                        technique_ds[dc_ds_ref]['data_components'] = list()
+                    if dc not in technique_ds[dc_ds_ref]['data_components']:
+                        technique_ds[dc_ds_ref]['data_components'].append(dc)
+            if technique_ds:
+                new_data_sources = [ v for v in technique_ds.values()]
+                stix_object[i] = stix_object[i].new_version(x_mitre_data_sources = new_data_sources)
         return stix_object
