@@ -380,7 +380,7 @@ class attack_client(object):
             enterprise_campaigns = self.translate_stix_objects(enterprise_campaigns)
         return enterprise_campaigns
 
-    def get_enterprise_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, enrich_data_sources = False, stix_format=True):
+    def get_enterprise_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, enrich_data_sources=False, stix_format=True):
         """ Extracts all the available techniques STIX objects in the Enterprise ATT&CK matrix
 
         Args:
@@ -669,10 +669,12 @@ class attack_client(object):
 
         mobile_filter_objects = {
             "techniques": self.get_mobile_techniques,
+            "data-component": self.get_mobile_data_components,
             "mitigations": self.get_mobile_mitigations,
             "groups": self.get_mobile_groups,
             "malware": self.get_mobile_malware,
             "tools": self.get_mobile_tools,
+            "data-source": self.get_mobile_data_sources,
             "relationships": self.get_mobile_relationships,
             "tactics": self.get_mobile_tactics,
             "matrix": Filter("type", "=", "x-mitre-matrix"),
@@ -707,12 +709,13 @@ class attack_client(object):
             mobile_campaigns = self.translate_stix_objects(mobile_campaigns)
         return mobile_campaigns
 
-    def get_mobile_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, stix_format=True):
+    def get_mobile_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, enrich_data_sources=False, stix_format=True):
         """  Extracts all the available techniques STIX objects in the Mobile ATT&CK matrix
 
         Args:
             skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects. 
             include_subtechniques (bool): default True. Include techniques and sub-techniques STIX objects.
+            enrich_data_sources (bool): default False. Adds data component and data source context to each technqiue.
             stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
         
         Returns:
@@ -729,10 +732,27 @@ class attack_client(object):
 
         if skip_revoked_deprecated:
             mobile_techniques = self.remove_revoked_deprecated(mobile_techniques)
+        
+        if enrich_data_sources:
+            mobile_techniques = self.enrich_techniques_data_sources(mobile_techniques)
 
         if not stix_format:
             mobile_techniques = self.translate_stix_objects(mobile_techniques)
         return mobile_techniques
+    
+    def get_mobile_data_components(self, stix_format=True):
+        """ Extracts all the available data components STIX objects in the Mobile ATT&CK matrix
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        mobile_data_components = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "x-mitre-data-component"))
+        if not stix_format:
+            mobile_data_components = self.translate_stix_objects(mobile_data_components)
+        return mobile_data_components
     
     def get_mobile_mitigations(self, stix_format=True):
         """ Extracts all the available mitigations STIX objects in the Mobile ATT&CK matrix
@@ -828,6 +848,23 @@ class attack_client(object):
         if not stix_format:
             mobile_tactics = self.translate_stix_objects(mobile_tactics)
         return mobile_tactics
+
+    def get_mobile_data_sources(self, include_data_components=False, stix_format=True):
+        """ Extracts all the available data source STIX objects availalbe in the Mobile ATT&CK matrix. This function filters all STIX objects by the type x-mitre-data-source.
+
+        Args:
+            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+        
+        Returns:
+            List of STIX objects
+        """
+        mobile_data_sources = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "x-mitre-data-source"))
+        if include_data_components:
+            for ds in mobile_data_sources:
+                ds['data_components']= self.get_data_components_by_data_source(ds)
+        if not stix_format:
+            mobile_data_sources = self.translate_stix_objects(mobile_data_sources)
+        return mobile_data_sources
     
     # ******** ICS ATT&CK Technology Domain *******
     def get_ics(self, stix_format=True):
@@ -882,12 +919,13 @@ class attack_client(object):
             ics_campaigns = self.translate_stix_objects(ics_campaigns)
         return ics_campaigns
 
-    def get_ics_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, stix_format=True):
+    def get_ics_techniques(self, skip_revoked_deprecated=True, include_subtechniques=True, enrich_data_sources=False, stix_format=True):
         """ Extracts all the available techniques STIX objects in the ICS ATT&CK matrix
 
         Args:
             skip_revoked_deprecated (bool): default True. Skip revoked and deprecated STIX objects. 
             include_subtechniques (bool): default True. Include techniques and sub-techniques STIX objects.
+            enrich_data_sources (bool): default False. Adds data component and data source context to each technqiue.
             stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
         
         Returns:
@@ -905,6 +943,9 @@ class attack_client(object):
 
         if skip_revoked_deprecated:
             ics_techniques = self.remove_revoked_deprecated(ics_techniques)
+        
+        if enrich_data_sources:
+            ics_techniques = self.enrich_techniques_data_sources(ics_techniques)
         
         if not stix_format:
             ics_techniques = self.translate_stix_objects(ics_techniques)
@@ -1158,10 +1199,10 @@ class attack_client(object):
         """
         enterprise_data_components = self.get_enterprise_data_components()
         ics_data_components = self.get_ics_data_components()
-        '''mobile_data_components = self.get_mobile_data_components()
+        mobile_data_components = self.get_mobile_data_components()
         for mdc in mobile_data_components:
             if mdc not in enterprise_data_components:
-                enterprise_data_components.append(mdc)'''
+                enterprise_data_components.append(mdc)
         for idc in ics_data_components:
             if idc not in enterprise_data_components:
                 enterprise_data_components.append(idc)
@@ -1266,9 +1307,13 @@ class attack_client(object):
         """
         enterprise_data_sources = self.get_enterprise_data_sources(include_data_components)
         ics_data_sources = self.get_ics_data_sources(include_data_components)
-        for ds in ics_data_sources:
-            if ds not in enterprise_data_sources:
-                enterprise_data_sources.append(ds)
+        mobile_data_sources = self.get_mobile_data_sources(include_data_components)
+        for mds in mobile_data_sources:
+            if mds not in enterprise_data_sources:
+                enterprise_data_sources.append(mds)
+        for ids in ics_data_sources:
+            if ids not in enterprise_data_sources:
+                enterprise_data_sources.append(ids)
         '''
         if include_data_components:
             data_sources = self.get_enterprise_data_sources(include_data_components=True)
@@ -1969,18 +2014,17 @@ class attack_client(object):
 
         # https://stix2.readthedocs.io/en/latest/guide/versioning.html
         for i in range(len(stix_object)):
-            if 'x_mitre_data_sources' in stix_object[i].keys():
-                technique_ds = dict()
-                for rl in relationships:
-                    if stix_object[i]['id'] == rl['target_ref']:
-                        dc = dc_lookup[rl['source_ref']]
-                        dc_ds_ref = dc['x_mitre_data_source_ref']
-                        if dc_ds_ref not in technique_ds.keys():
-                            technique_ds[dc_ds_ref] = ds_lookup[dc_ds_ref].copy()
-                            technique_ds[dc_ds_ref]['data_components'] = list()
-                        if dc not in technique_ds[dc_ds_ref]['data_components']:
-                            technique_ds[dc_ds_ref]['data_components'].append(dc)
-                if technique_ds:
-                    new_data_sources = [ v for v in technique_ds.values()]
-                    stix_object[i] = stix_object[i].new_version(x_mitre_data_sources = new_data_sources)
+            technique_ds = dict()
+            for rl in relationships:
+                if stix_object[i]['id'] == rl['target_ref']:
+                    dc = dc_lookup[rl['source_ref']]
+                    dc_ds_ref = dc['x_mitre_data_source_ref']
+                    if dc_ds_ref not in technique_ds.keys():
+                        technique_ds[dc_ds_ref] = ds_lookup[dc_ds_ref].copy()
+                        technique_ds[dc_ds_ref]['data_components'] = list()
+                    if dc not in technique_ds[dc_ds_ref]['data_components']:
+                        technique_ds[dc_ds_ref]['data_components'].append(dc)
+            if technique_ds:
+                new_data_sources = [ v for v in technique_ds.values()]
+                stix_object[i] = stix_object[i].new_version(x_mitre_data_sources = new_data_sources)
         return stix_object
