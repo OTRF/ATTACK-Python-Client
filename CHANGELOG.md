@@ -1,6 +1,14 @@
 # Changelog
 
-## [0.3.9](https://github.com/OTRF/ATTACK-Python-Client/tree/0.3.9) (2023-04-12)
+## [0.4.0](https://github.com/OTRF/ATTACK-Python-Client/tree/HEAD)
+
+[Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.9...HEAD)
+
+**Merged pull requests:**
+
+- Added support for Mobile data sources/components [\#65](https://github.com/OTRF/ATTACK-Python-Client/pull/65) ([rubinatorz](https://github.com/rubinatorz))
+
+## [0.3.9](https://github.com/OTRF/ATTACK-Python-Client/tree/0.3.9) (2023-04-13)
 
 [Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.8...0.3.9)
 
