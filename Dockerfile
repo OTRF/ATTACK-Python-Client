@@ -1,14 +1,10 @@
 # ATTACK Python Client script: Jupyter Environment Dockerfile
 
-ARG OWNER=jupyter
-ARG BASE_CONTAINER=$OWNER/base-notebook
-FROM $BASE_CONTAINER
-
+FROM jupyter/base-notebook
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 
 USER root
 
-# Install all OS dependencies for fully functional notebook server
 RUN apt-get update --yes && \
     apt-get install gcc build-essential --yes --no-install-recommends
 
