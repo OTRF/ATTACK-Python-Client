@@ -40,7 +40,13 @@ class attack_client(object):
     TC_ICS_SOURCE = None
     COMPOSITE_DS = None
 
-    def __init__(self, local_path=None, include_pre_attack=False):
+    def __init__(self, local_path=None, include_pre_attack=False, proxies=None, verify=True):
+        """
+        Args:
+            proxies - See https://requests.readthedocs.io/en/latest/user/advanced/#proxies
+            verify - See https://requests.readthedocs.io/en/latest/user/advanced/#ssl-cert-verification
+        """
+
         if local_path is not None and os.path.isdir(os.path.join(local_path, ENTERPRISE_ATTACK_LOCAL_DIR)) \
                                   and os.path.isdir(os.path.join(local_path, PRE_ATTACK_LOCAL_DIR)) \
                                   and os.path.isdir(os.path.join(local_path, MOBILE_ATTACK_LOCAL_DIR)) \
@@ -50,10 +56,10 @@ class attack_client(object):
             self.TC_MOBILE_SOURCE = FileSystemSource(os.path.join(local_path, MOBILE_ATTACK_LOCAL_DIR))
             self.TC_ICS_SOURCE = FileSystemSource(os.path.join(local_path, ICS_ATTACK_LOCAL_DIR))
         else:
-            ENTERPRISE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ENTERPRISE_ATTACK + "/")
-            PRE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + PRE_ATTACK + "/")
-            MOBILE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + MOBILE_ATTACK + "/")
-            ICS_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ICS_ATTACK + "/")
+            ENTERPRISE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ENTERPRISE_ATTACK + "/", verify=verify, proxies=proxies)
+            PRE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + PRE_ATTACK + "/", verify=verify, proxies=proxies)
+            MOBILE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + MOBILE_ATTACK + "/", verify=verify, proxies=proxies)
+            ICS_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ICS_ATTACK + "/", verify=verify, proxies=proxies)
 
             self.TC_ENTERPRISE_SOURCE = TAXIICollectionSource(ENTERPRISE_COLLECTION)
             self.TC_PRE_SOURCE = TAXIICollectionSource(PRE_COLLECTION)
@@ -2028,3 +2034,4 @@ class attack_client(object):
                 new_data_sources = [ v for v in technique_ds.values()]
                 stix_object[i] = stix_object[i].new_version(x_mitre_data_sources = new_data_sources)
         return stix_object
+
