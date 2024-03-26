@@ -1721,12 +1721,14 @@ class attack_client(object):
             groups_use_techniques = self.translate_stix_objects(groups_use_techniques)
         return groups_use_techniques
 
-    def get_software_used_by_group(self, stix_object, stix_format=True):
+    def get_software_used_by_group(self, stix_object, stix_format=True, batch_size=10):
         """ Extracts software STIX objects used by one group accross all ATT&CK matrices
 
         Args:
             stix_object (stix object) : STIX Object group to extract software from
             stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+            batch_size (int): The batch size to use when querying the TAXII datastore. Use a lower batch size if the
+                              URI becomes too long and you get HTTP 414 errors.
         
         Returns:
             List of STIX objects
@@ -1739,11 +1741,17 @@ class attack_client(object):
                 software_relationships.append(relation)
         if len(software_relationships) == 0:
             return software_relationships
-        filter_objects = [
-            Filter('type', 'in', ['malware', 'tool']),
-            Filter('id', '=', [r.target_ref for r in software_relationships])
-        ]
-        all_software = self.COMPOSITE_DS.query(filter_objects)
+        
+        all_software = []
+
+        for software_relation_batch in [software_relationships[i:i+batch_size] for i in range(0, len(software_relationships), batch_size)]:
+            filter_objects = [
+                Filter('type', 'in', ['malware', 'tool']),
+                Filter('id', '=', [r.target_ref for r in software_relation_batch])
+            ]
+            
+            search_results = self.COMPOSITE_DS.query(filter_objects)
+            all_software.extend(search_results)
 
         if not stix_format:
             all_software = self.translate_stix_objects(all_software)
