@@ -40,7 +40,13 @@ class attack_client(object):
     TC_ICS_SOURCE = None
     COMPOSITE_DS = None
 
-    def __init__(self, local_path=None, include_pre_attack=False):
+    def __init__(self, local_path=None, include_pre_attack=False, proxies=None, verify=True):
+        """
+        Args:
+            proxies - See https://requests.readthedocs.io/en/latest/user/advanced/#proxies
+            verify - See https://requests.readthedocs.io/en/latest/user/advanced/#ssl-cert-verification
+        """
+
         if local_path is not None and os.path.isdir(os.path.join(local_path, ENTERPRISE_ATTACK_LOCAL_DIR)) \
                                   and os.path.isdir(os.path.join(local_path, PRE_ATTACK_LOCAL_DIR)) \
                                   and os.path.isdir(os.path.join(local_path, MOBILE_ATTACK_LOCAL_DIR)) \
@@ -50,10 +56,10 @@ class attack_client(object):
             self.TC_MOBILE_SOURCE = FileSystemSource(os.path.join(local_path, MOBILE_ATTACK_LOCAL_DIR))
             self.TC_ICS_SOURCE = FileSystemSource(os.path.join(local_path, ICS_ATTACK_LOCAL_DIR))
         else:
-            ENTERPRISE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ENTERPRISE_ATTACK + "/")
-            PRE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + PRE_ATTACK + "/")
-            MOBILE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + MOBILE_ATTACK + "/")
-            ICS_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ICS_ATTACK + "/")
+            ENTERPRISE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ENTERPRISE_ATTACK + "/", verify=verify, proxies=proxies)
+            PRE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + PRE_ATTACK + "/", verify=verify, proxies=proxies)
+            MOBILE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + MOBILE_ATTACK + "/", verify=verify, proxies=proxies)
+            ICS_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ICS_ATTACK + "/", verify=verify, proxies=proxies)
 
             self.TC_ENTERPRISE_SOURCE = TAXIICollectionSource(ENTERPRISE_COLLECTION)
             self.TC_PRE_SOURCE = TAXIICollectionSource(PRE_COLLECTION)
@@ -1715,12 +1721,14 @@ class attack_client(object):
             groups_use_techniques = self.translate_stix_objects(groups_use_techniques)
         return groups_use_techniques
 
-    def get_software_used_by_group(self, stix_object, stix_format=True):
+    def get_software_used_by_group(self, stix_object, stix_format=True, batch_size=10):
         """ Extracts software STIX objects used by one group accross all ATT&CK matrices
 
         Args:
             stix_object (stix object) : STIX Object group to extract software from
             stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
+            batch_size (int): The batch size to use when querying the TAXII datastore. Use a lower batch size if the
+                              URI becomes too long and you get HTTP 414 errors.
         
         Returns:
             List of STIX objects
@@ -1733,11 +1741,17 @@ class attack_client(object):
                 software_relationships.append(relation)
         if len(software_relationships) == 0:
             return software_relationships
-        filter_objects = [
-            Filter('type', 'in', ['malware', 'tool']),
-            Filter('id', '=', [r.target_ref for r in software_relationships])
-        ]
-        all_software = self.COMPOSITE_DS.query(filter_objects)
+        
+        all_software = []
+
+        for software_relation_batch in [software_relationships[i:i+batch_size] for i in range(0, len(software_relationships), batch_size)]:
+            filter_objects = [
+                Filter('type', 'in', ['malware', 'tool']),
+                Filter('id', '=', [r.target_ref for r in software_relation_batch])
+            ]
+            
+            search_results = self.COMPOSITE_DS.query(filter_objects)
+            all_software.extend(search_results)
 
         if not stix_format:
             all_software = self.translate_stix_objects(all_software)
@@ -2028,3 +2042,4 @@ class attack_client(object):
                 new_data_sources = [ v for v in technique_ds.values()]
                 stix_object[i] = stix_object[i].new_version(x_mitre_data_sources = new_data_sources)
         return stix_object
+
