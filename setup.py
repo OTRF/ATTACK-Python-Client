@@ -12,8 +12,8 @@ with open('README.md')as f:
     long_description = f.read()
 
 setup(
-    name="attackcti",
-    version="0.4.0",
+    name="attackcti-thelok",
+    version="0.4.1",
     author="Roberto Rodriguez",
     description="MITRE ATTACK CTI Python Libary",
     long_description=long_description,
