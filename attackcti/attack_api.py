@@ -1849,7 +1849,7 @@ class attack_client(object):
             Filter('type', '=', ['x-mitre-data-component']),
             Filter('id', 'in', [r.source_ref for r in relationships])
         ]
-        all_data_components = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
+        all_data_components = self.COMPOSITE_DS.query(filter_objects)
 
         if not stix_format:
             all_data_components = self.translate_stix_objects(all_data_components)
@@ -1961,7 +1961,7 @@ class attack_client(object):
             Filter('type', '=', 'x-mitre-data-component'),
             Filter('x_mitre_data_source_ref', '=', stix_object['id'])
         ]
-        data_components = self.TC_ENTERPRISE_SOURCE.query(filter_objects)
+        data_components = self.COMPOSITE_DS.query(filter_objects)
         if not stix_format:
             data_components = self.translate_stix_objects(data_components)
         return data_components
