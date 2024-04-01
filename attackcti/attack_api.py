@@ -1437,16 +1437,21 @@ class attack_client(object):
         return matched_techniques
 
     
-    def get_techniques_by_platform(self, name, case=True, stix_format=True ):
-        """ Extracts techniques STIX object by platform across all ATT&CK matrices
+    def get_techniques_by_platform(self, name: str, case: bool = True, stix_format: bool = True) -> List:
+        """
+        Retrieves techniques STIX objects associated with a specific platform across all ATT&CK matrices. 
+        The search can be case-sensitive or case-insensitive.
 
         Args:
-            case (bool) : case sensitive or not
-            stix_format (bool):  Returns results in original STIX format or friendly syntax (e.g. 'attack-pattern' or 'technique')
-        
+            name (str): The name of the platform to search for within the technique's platform.
+            case (bool, optional): Determines if the search should be case sensitive. Default is True.
+            stix_format (bool, optional): If True, returns technique objects in their original STIX format. If False,
+                                        returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
+                                        Default is True.
+
         Returns:
-            List of STIX objects
-        
+            List: A list containing the matched technique objects, either as raw STIX objects or as custom dictionaries
+                    following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
         """
         if not case:
             all_techniques = self.get_techniques()
