@@ -1909,7 +1909,7 @@ class attack_client(object):
             Filter('relationship_type', '=', 'uses'),
             Filter('source_ref', 'in', [r.target_ref for r in software_relationships])
         ]
-        software_uses = self.COMPOSITE_DS.query.query(filter_objects)
+        software_uses = self.COMPOSITE_DS.query(filter_objects)
         # Get all techniques used by the software that is used by group
         filter_techniques = [
             Filter('type', '=', 'attack-pattern'),
