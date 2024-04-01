@@ -1836,7 +1836,7 @@ class attack_client(object):
             groups_use_techniques = self.parse_stix_objects(groups_use_techniques, GroupTechnique)
         return groups_use_techniques
 
-    def get_software_used_by_group(self, stix_object: Any = None, stix_format: bool = True) -> List:
+    def get_software_used_by_group(self, stix_object: Any = None, stix_format: bool = True, batch_size=10) -> List:
         """
         Retrieves techniques used by a specified group STIX object across all ATT&CK matrices.
 
@@ -1845,6 +1845,8 @@ class attack_client(object):
             stix_format (bool, optional): If True, returns technique objects in their original STIX format. If False,
                                         returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
                                         Default is True.
+            batch_size (int): The batch size to use when querying the TAXII datastore. Use a lower batch size if the
+                              URI becomes too long and you get HTTP 414 errors.
 
         Returns:
             List: A list of software objects used by a specific group, either as raw STIX objects or as custom dictionaries following the
@@ -1857,11 +1859,17 @@ class attack_client(object):
                 software_relationships.append(relation)
         if len(software_relationships) == 0:
             return software_relationships
-        filter_objects = [
-            Filter('type', 'in', ['malware', 'tool']),
-            Filter('id', '=', [r.target_ref for r in software_relationships])
-        ]
-        all_software = self.COMPOSITE_DS.query(filter_objects)
+        
+        all_software = []
+
+        for software_relation_batch in [software_relationships[i:i+batch_size] for i in range(0, len(software_relationships), batch_size)]:
+            filter_objects = [
+                Filter('type', 'in', ['malware', 'tool']),
+                Filter('id', '=', [r.target_ref for r in software_relation_batch])
+            ]
+            
+            search_results = self.COMPOSITE_DS.query(filter_objects)
+            all_software.extend(search_results)
 
         if not stix_format:
             all_software = self.parse_stix_objects(all_software, Software)
