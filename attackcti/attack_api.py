@@ -1558,8 +1558,8 @@ class attack_client(object):
             all_campaigns_list = list()
             for campaign in all_campaigns:
                 if "aliases" in campaign.keys():
-                    for alias in campaign['aliases']:
-                        if alias.lower() in alias.lower():
+                    for campaign_alias in campaign['aliases']:
+                        if alias.lower() in campaign_alias.lower():
                             all_campaigns_list.append(campaign)
         else:
             filter_objects = [
