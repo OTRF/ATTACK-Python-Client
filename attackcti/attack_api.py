@@ -1592,8 +1592,8 @@ class attack_client(object):
             all_groups_list = list()
             for group in all_groups:
                 if "aliases" in group.keys():
-                    for alias in group['aliases']:
-                        if alias.lower() in alias.lower():
+                    for group_alias in group['aliases']:
+                        if alias.lower() in group_alias.lower():
                             all_groups_list.append(group)
         else:
             filter_objects = [
