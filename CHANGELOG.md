@@ -1,8 +1,41 @@
 # Changelog
 
-## [0.4.0](https://github.com/OTRF/ATTACK-Python-Client/tree/HEAD)
+## [0.4.1](https://github.com/OTRF/ATTACK-Python-Client/tree/0.4.1) (2024-04-01)
 
-[Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.9...HEAD)
+[Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.4.0...0.4.1)
+
+**Implemented enhancements:**
+
+- SSL certificate problem [\#56](https://github.com/OTRF/ATTACK-Python-Client/issues/56)
+- Integrating examples from MITRE CTI - USAGE docs in GitHub [\#35](https://github.com/OTRF/ATTACK-Python-Client/issues/35)
+- Create a function template for functions in attack\_client class  [\#34](https://github.com/OTRF/ATTACK-Python-Client/issues/34)
+- Dynamic Interaction with stix2.v20.sdo object types [\#33](https://github.com/OTRF/ATTACK-Python-Client/issues/33)
+
+**Fixed bugs:**
+
+- AttributeError: 'function' object has no attribute 'query' when using get\_techniques\_used\_by\_group\_software [\#67](https://github.com/OTRF/ATTACK-Python-Client/issues/67)
+
+**Closed issues:**
+
+- 503 Error when client = attack\_client\(\) [\#72](https://github.com/OTRF/ATTACK-Python-Client/issues/72)
+- Connection Timeout Issue When Using 'attackcti' Library [\#71](https://github.com/OTRF/ATTACK-Python-Client/issues/71)
+- Expired certificate causes library crash [\#70](https://github.com/OTRF/ATTACK-Python-Client/issues/70)
+- How to Access the Cloud ATT&CK Matrix [\#68](https://github.com/OTRF/ATTACK-Python-Client/issues/68)
+- some external references are not available in technique data [\#32](https://github.com/OTRF/ATTACK-Python-Client/issues/32)
+- \[TO-DO\] Add case insensitive features to some of the search functions  [\#25](https://github.com/OTRF/ATTACK-Python-Client/issues/25)
+
+**Merged pull requests:**
+
+- Updated Type Annotations and Docstrings [\#77](https://github.com/OTRF/ATTACK-Python-Client/pull/77) ([Cyb3rWard0g](https://github.com/Cyb3rWard0g))
+- Removed double query method from COMPOSITE\_DS.query, fix \#67 [\#76](https://github.com/OTRF/ATTACK-Python-Client/pull/76) ([Cyb3rWard0g](https://github.com/Cyb3rWard0g))
+- Improve STIX Object Handling and Documentation with Pydantic and Type Annotations [\#75](https://github.com/OTRF/ATTACK-Python-Client/pull/75) ([Cyb3rWard0g](https://github.com/Cyb3rWard0g))
+- Adding `proxies` and `verify` parameters for TAXII Client [\#73](https://github.com/OTRF/ATTACK-Python-Client/pull/73) ([thelok](https://github.com/thelok))
+- Update Dockerfile [\#69](https://github.com/OTRF/ATTACK-Python-Client/pull/69) ([halcyondream](https://github.com/halcyondream))
+- use COMPOSITE\_DS instead of TC\_ENTERPRISE\_SOURCE in generic functions [\#66](https://github.com/OTRF/ATTACK-Python-Client/pull/66) ([rubinatorz](https://github.com/rubinatorz))
+
+## [0.4.0](https://github.com/OTRF/ATTACK-Python-Client/tree/0.4.0) (2023-05-23)
+
+[Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.3.9...0.4.0)
 
 **Merged pull requests:**
 
