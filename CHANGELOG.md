@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.2](https://github.com/OTRF/ATTACK-Python-Client/tree/0.4.2) (2024-04-09)
+
+## What's Changed
+* updated CHANGELOG and setup version by @Cyb3rWard0g in https://github.com/OTRF/ATTACK-Python-Client/pull/78
+* Update requirements.txt to include pydantic by @thelok in https://github.com/OTRF/ATTACK-Python-Client/pull/79
+* Fix a bug where all groups/campaigns are returned from case insensitive search of `get_group_by_alias`/`get_campaign_by_alias` by @thelok in https://github.com/OTRF/ATTACK-Python-Client/pull/80
+* V0.4.2 Updated Package Requirements, Annotations, Docstrings and Models by @Cyb3rWard0g in https://github.com/OTRF/ATTACK-Python-Client/pull/81
+
+
+**Full Changelog**: https://github.com/OTRF/ATTACK-Python-Client/compare/0.4.1...0.4.2
+
 ## [0.4.1](https://github.com/OTRF/ATTACK-Python-Client/tree/0.4.1) (2024-04-01)
 
 [Full Changelog](https://github.com/OTRF/ATTACK-Python-Client/compare/0.4.0...0.4.1)
