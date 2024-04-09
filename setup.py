@@ -12,8 +12,8 @@ with open('README.md')as f:
     long_description = f.read()
 
 setup(
-    name="attackcti-thelok",
-    version="0.4.1",
+    name="attackcti",
+    version="0.4.2",
     author="Roberto Rodriguez",
     description="MITRE ATTACK CTI Python Libary",
     long_description=long_description,
@@ -29,6 +29,7 @@ setup(
     install_requires=[
         'stix2',
         'taxii2-client',
+        'pydantic'
     ],
     license='BSD',
     classifiers=[

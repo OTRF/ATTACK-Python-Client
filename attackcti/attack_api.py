@@ -12,7 +12,15 @@
 from stix2 import TAXIICollectionSource, Filter, CompositeDataSource, FileSystemSource
 from stix2.datastore.filters import apply_common_filters
 from stix2.utils import get_type_from_id
-#from stix2.v20.sdo import *
+from stix2.v20.sdo import (
+    AttackPattern as AttackPattern_v20, # Technique
+    Campaign as Campaign_v20, # Campaign
+    Malware as Malware_v20, # Malware
+    CourseOfAction as CourseOfAction_v20, # Mitigation
+    IntrusionSet as IntrusionSet_v20, # Group
+    Tool as Tool_v20 # Tool
+)
+from stix2.v20.sro import Relationship as Relationship_v20
 from taxii2client.v20 import Collection
 import json
 import os
@@ -103,7 +111,7 @@ class attack_client(object):
         source: TAXIICollectionSource, 
         filter_objects: Dict[str, Union[Filter, callable]], 
         stix_format: bool = True
-    ) -> Dict[str, List[Union[Dict[str, Any], BaseModel]]]:
+    ) -> Dict[str, List]:
         """
         Retrieves STIX objects from the specified TAXII collection source based on the given filters or methods.
         Depending on the 'stix_format' flag, this function returns the STIX objects in their original format or 
@@ -117,9 +125,9 @@ class attack_client(object):
                                 as parsed objects based on Pydantic models, providing a user-friendly representation.
 
         Returns:
-            Dict[str, List[Union[Dict[str, Any], BaseModel]]]: A dictionary categorizing STIX objects by their types. 
-            Each key represents an object type (e.g., 'techniques', 'campaigns'), and each value is a list of STIX objects 
-            in their original format or parsed objects based on Pydantic models, depending on the 'stix_format' flag.
+            Dict[str, List]: A dictionary categorizing STIX objects by their types. Each key represents an object
+            type (e.g., 'techniques', 'campaigns'), and each value is a list of STIX objects in their original format
+            or parsed objects based on Pydantic models, depending on the 'stix_format' flag.
         """
         stix_objects_result = dict()
         for key, method_or_filter in filter_objects.items():
@@ -139,7 +147,7 @@ class attack_client(object):
 
         return stix_objects_result
 
-    def parse_stix_objects(self, stix_objects: List, model: Type[BaseModel]) -> List[Dict]:
+    def parse_stix_objects(self, stix_objects: List, model: Type[BaseModel]) -> List[Dict[str, Any]]:
         """
         Converts a list of STIX objects to dictionaries and parses them into the specified Pydantic model.
 
@@ -148,7 +156,7 @@ class attack_client(object):
             model (Type[BaseModel]): The Pydantic model class to use for parsing.
 
         Returns:
-            List[Dict]: The parsed objects as dictionaries.
+            List[Dict[str, Any]]: A list of dictionaries.
         """
         # Convert STIX objects to dictionaries
         objects_as_dicts = [json.loads(obj.serialize()) if not isinstance(obj, dict) else obj for obj in stix_objects]
@@ -221,7 +229,7 @@ class attack_client(object):
         )
 
     # ******** Enterprise ATT&CK Technology Domain  *******
-    def get_enterprise(self, stix_format: bool = True) -> Dict[str, List[Union[Dict[str, Any], Any]]]:
+    def get_enterprise(self, stix_format: bool = True) -> Dict[str, List]:
         """
         Extracts all available STIX objects from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         the function either returns STIX objects in their original format or as parsed objects represented as dictionaries.
@@ -231,9 +239,9 @@ class attack_client(object):
                                         in a parsed and user-friendly format as dictionaries, structured according to the Pydantic model's schema.
 
         Returns:
-            Dict[str, List[Union[Dict[str, Any], Any]]]: A dictionary categorizing STIX objects by their types.
-            Each key represents an object type (e.g., 'techniques', 'campaigns'), and each value is a list of STIX objects 
-            in their original format or as dictionaries representing the parsed data, depending on the 'stix_format' flag.
+            Dict[str, List]: A dictionary categorizing STIX objects by their types. Each key represents an object
+            type (e.g., 'techniques', 'campaigns'), and each value is a list of STIX objects in their original format
+            or as dictionaries representing the parsed data, depending on the 'stix_format' flag.
         """
         enterprise_filter_objects = {
             "techniques": self.get_enterprise_techniques,
@@ -253,7 +261,11 @@ class attack_client(object):
 
         return self.get_stix_objects(self.TC_ENTERPRISE_SOURCE, enterprise_filter_objects, stix_format)
 
-    def get_enterprise_campaigns(self, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_enterprise_campaigns(
+        self,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[Campaign_v20, Dict[str, Any]]]:
         """
         Extracts all available campaigns from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -267,8 +279,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of campaign objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Campaign Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Campaign_v20, Dict[str, Any]]]: A list of campaign objects, either as STIX objects (Campaign_v20) 
+                or as custom dictionaries following the structure defined by the Campaign Pydantic model, depending
+                on the 'stix_format' flag.
         """
         enterprise_campaigns = self.TC_ENTERPRISE_SOURCE.query([Filter("type", "=", "campaign")])
 
@@ -286,7 +299,7 @@ class attack_client(object):
         include_subtechniques: bool = True, 
         enrich_data_sources: bool = False, 
         stix_format: bool = True
-    ) -> List:
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Extracts all available techniques from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -301,12 +314,13 @@ class attack_client(object):
             enrich_data_sources (bool, optional): If True, adds data component and data source context to each technique.
                                                 Default is False.
             stix_format (bool, optional): If True, returns technique objects in their original STIX format. If False,
-                                        returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
-                                        Default is True.
+                                        returns techniques as custom dictionaries parsed according to the Technique
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of technique objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """  
         if include_subtechniques:
             enterprise_techniques = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "attack-pattern"))
@@ -327,27 +341,27 @@ class attack_client(object):
         
         return enterprise_techniques
 
-    def get_enterprise_data_components(self, stix_format: bool = True) -> List:
+    def get_enterprise_data_components(self, stix_format: bool = True) -> List[Dict[str,Any]]:
         """
         Extracts all available data components from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
-        this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
+        this function returns a list of dictionaries in their original STIX format or as parsed objects (Dictionaries)
         following a structure defined by Pydantic models.
 
         Args:
             stix_format (bool, optional): If True, returns data component objects in their original STIX format. If False,
-                                        returns data components as custom dictionaries parsed according to the DataComponent Pydantic model.
-                                        Default is True.
+                                        returns data components as custom dictionaries parsed according to the
+                                        DataComponent Pydantic model. Default is True.
 
         Returns:
-            List: A list of data component objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the DataComponent Pydantic model, depending on the 'stix_format' flag.
+            List[Dict[str, Any]]: A list of data component objects as dictionaries following the structure
+                defined STIX or the DataComponent Pydantic model, depending on the 'stix_format' flag.
         """
         enterprise_data_components = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "x-mitre-data-component"))
         if not stix_format:
             enterprise_data_components = self.parse_stix_objects(enterprise_data_components, DataComponent)
         return enterprise_data_components
 
-    def get_enterprise_mitigations(self, stix_format: bool = True) -> List:
+    def get_enterprise_mitigations(self, stix_format: bool = True) -> List[Union[CourseOfAction_v20, Dict[str, Any]]]:
         """
         Extracts all available mitigations from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -355,19 +369,24 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns mitigation objects in their original STIX format. If False,
-                                        returns mitigations as custom dictionaries parsed according to the Mitigation Pydantic model.
-                                        Default is True.
+                                        returns mitigations as custom dictionaries parsed according to the Mitigation
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of mitigation objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Mitigation Pydantic model, depending on the 'stix_format' flag.
+            List[Union[CourseOfAction_v20, Dict[str, Any]]]: A list of mitigation objects, either as STIX objects (CourseOfAction_v20)
+                or as custom dictionaries following the structure defined by the Mitigation Pydantic model, depending
+                on the 'stix_format' flag.
         """
         enterprise_mitigations = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "course-of-action"))
         if not stix_format:
             enterprise_mitigations = self.parse_stix_objects(enterprise_mitigations, Mitigation)
         return enterprise_mitigations
     
-    def get_enterprise_groups(self, skip_revoked_deprecated: bool = True, stix_format:bool =True) -> List:
+    def get_enterprise_groups(
+        self,
+        skip_revoked_deprecated: bool = True,
+        stix_format:bool =True
+    ) -> List[Union[IntrusionSet_v20, Dict[str, Any]]]:
         """
         Extracts all available groups from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -381,8 +400,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of group objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Group Pydantic model, depending on the 'stix_format' flag.
+            List[Union[IntrusionSet_v20, Dict[str, Any]]]: A list of group objects, either as STIX objects (IntrusionSet_v20)
+                or as custom dictionaries following the structure defined by the Group Pydantic model, depending
+                on the 'stix_format' flag.
         """
         enterprise_groups = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "intrusion-set"))
 
@@ -393,7 +413,7 @@ class attack_client(object):
             enterprise_groups = self.parse_stix_objects(enterprise_groups, Group)
         return enterprise_groups
     
-    def get_enterprise_malware(self, stix_format: bool = True) -> List:
+    def get_enterprise_malware(self, stix_format: bool = True) -> List[Union[Malware_v20, Dict[str, Any]]]:
         """
         Extracts all available malware from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -401,19 +421,20 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns malware objects in their original STIX format. If False,
-                                        returns malware objects as custom dictionaries parsed according to the Software Pydantic model.
-                                        Default is True.
+                                        returns malware objects as custom dictionaries parsed according to the Software
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of malware objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Software Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Malware_v20, Dict[str, Any]]]: A list of malware objects, either as STIX objects (Malware_v20)
+                or as custom dictionaries following the structure defined by the Software Pydantic model, depending
+                on the 'stix_format' flag.
         """
         enterprise_malware = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "malware"))
         if not stix_format:
             enterprise_malware = self.parse_stix_objects(enterprise_malware, Software)
         return enterprise_malware
     
-    def get_enterprise_tools(self, stix_format: bool = True) -> List:
+    def get_enterprise_tools(self, stix_format: bool = True) -> List[Union[Tool_v20, Dict[str, Any]]]:
         """
         Extracts all available tools from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -421,19 +442,20 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns tool objects in their original STIX format. If False,
-                                        returns tools as custom dictionaries parsed according to the Software Pydantic model.
-                                        Default is True.
+                                        returns tools as custom dictionaries parsed according to the Software
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of tool objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Software Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Tool_v20, Dict[str, Any]]]: A list of tool objects, either as STIX objects (Tool_v20)
+                or as custom dictionaries following the structure defined by the Software Pydantic model, depending
+                on the 'stix_format' flag.
         """
         enterprise_tools = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "tool"))
         if not stix_format:
             enterprise_tools = self.parse_stix_objects(enterprise_tools, Software)
         return enterprise_tools
     
-    def get_enterprise_relationships(self, stix_format: bool = True) -> List:
+    def get_enterprise_relationships(self, stix_format: bool = True) -> List[Union[Relationship_v20, Dict[str, Any]]]:
         """
         Extracts all available relationships from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -441,19 +463,20 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns relationship objects in their original STIX format. If False,
-                                        returns relationships as custom dictionaries parsed according to the Relationship Pydantic model.
-                                        Default is True.
+                                        returns relationships as custom dictionaries parsed according to the Relationship
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of relationship objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Relationship Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Relationship_v20, Dict[str, Any]]]: A list of relationship objects, either as STIX objects (Relationship_v20)
+                or as custom dictionaries following the structure defined by the Relationship Pydantic model, depending
+                on the 'stix_format' flag.
         """
         enterprise_relationships = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             enterprise_relationships = self.parse_stix_objects(enterprise_relationships, Relationship)
         return enterprise_relationships
     
-    def get_enterprise_tactics(self, stix_format: bool = True) -> List:
+    def get_enterprise_tactics(self, stix_format: bool = True) -> List[Dict[str, Any]]:
         """
         Extracts all available tactics from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -465,15 +488,19 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of tactic objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Tactic Pydantic model, depending on the 'stix_format' flag.
+            List[Dict[str, Any]]: A list of tactic objects, either as dictionaries following the original STIX structure
+                or defined by the Tactic Pydantic model, depending on the 'stix_format' flag.
         """
         enterprise_tactics = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             enterprise_tactics = self.parse_stix_objects(enterprise_tactics, Tactic)
         return enterprise_tactics
     
-    def get_enterprise_data_sources(self, include_data_components: bool = False, stix_format: bool = True) -> List:
+    def get_enterprise_data_sources(
+        self,
+        include_data_components: bool = False,
+        stix_format: bool = True
+    ) -> List[Dict[str, Any]]:
         """
         Extracts all available data sources from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -483,12 +510,12 @@ class attack_client(object):
             include_data_components (bool, optional): If True, includes related data components in the results.
                                                     Default is False.
             stix_format (bool, optional): If True, returns data source objects in their original STIX format. If False,
-                                        returns data sources as custom objects parsed according to the DataSources Pydantic model.
-                                        Default is True.
+                                        returns data sources as custom objects parsed according to the DataSources
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of data source objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the DataSource Pydantic model, depending on the 'stix_format' flag.
+            List: A list of data source objects, either as dictionaries following the original STIX structure
+                or defined by the DataSource Pydantic model, depending on the 'stix_format' flag.
         """
         enterprise_data_sources = self.TC_ENTERPRISE_SOURCE.query(Filter("type", "=", "x-mitre-data-source"))
         if include_data_components:
@@ -499,19 +526,20 @@ class attack_client(object):
         return enterprise_data_sources
 
     # ******** Mobile ATT&CK Technology Domain  *******
-    def get_mobile(self, stix_format: bool = True) -> Dict[str, List[Union[Dict[str, Any], Any]]]:
+    def get_mobile(self, stix_format: bool = True) -> Dict[str, List]:
         """
         Extracts all available STIX objects from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         the function either returns STIX objects in their original format or as parsed objects represented as dictionaries.
 
         Args:
             stix_format (bool, optional): If True, returns results in the original STIX format. If False, returns the results
-                                        in a parsed and user-friendly format as dictionaries, structured according to the Pydantic model's schema.
+                                        in a parsed and user-friendly format as dictionaries, structured according to the
+                                        Pydantic model's schema.
 
         Returns:
-            Dict[str, List[Union[Dict[str, Any], Any]]]: A dictionary categorizing STIX objects by their types.
-            Each key represents an object type (e.g., 'techniques', 'campaigns'), and each value is a list of STIX objects 
-            in their original format or as dictionaries representing the parsed data, depending on the 'stix_format' flag.
+            Dict[str, List]: A dictionary categorizing STIX objects by their types. Each key represents an object
+            type (e.g., 'techniques', 'campaigns'), and each value is a list of STIX objects in their original format
+            or as dictionaries representing the parsed data, depending on the 'stix_format' flag.
         """
         mobile_filter_objects = {
             "techniques": self.get_mobile_techniques,
@@ -531,7 +559,11 @@ class attack_client(object):
     
         return self.get_stix_objects(self.TC_MOBILE_SOURCE, mobile_filter_objects, stix_format)
 
-    def get_mobile_campaigns(self, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_mobile_campaigns(
+        self,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[Campaign_v20, Dict[str, Any]]]:
         """
         Extracts all available campaigns from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -541,12 +573,13 @@ class attack_client(object):
             skip_revoked_deprecated (bool, optional): If True, filters out revoked and deprecated campaign objects.
                                                     Default is True.
             stix_format (bool, optional): If True, returns campaign objects in their original STIX format. If False,
-                                        returns campaigns as custom dictionaries parsed according to the Campaign Pydantic model.
-                                        Default is True.
+                                        returns campaigns as custom dictionaries parsed according to the Campaign
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of campaign objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Campaign Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Campaign_v20, Dict[str, Any]]]: A list of campaign objects, either as STIX objects (Campaign_v20) 
+                or as custom dictionaries following the structure defined by the Campaign Pydantic model, depending
+                on the 'stix_format' flag.
         """
         mobile_campaigns = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "campaign"))
 
@@ -563,7 +596,7 @@ class attack_client(object):
         include_subtechniques: bool = True, 
         enrich_data_sources: bool = False, 
         stix_format: bool = True
-    ) -> List:
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Extracts all available techniques from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -578,12 +611,13 @@ class attack_client(object):
             enrich_data_sources (bool, optional): If True, adds data component and data source context to each technique.
                                                 Default is False.
             stix_format (bool, optional): If True, returns technique objects in their original STIX format. If False,
-                                        returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
-                                        Default is True.
+                                        returns techniques as custom dictionaries parsed according to the Technique
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of technique objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if include_subtechniques:
             mobile_techniques = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "attack-pattern"))
@@ -603,7 +637,7 @@ class attack_client(object):
             mobile_techniques = self.parse_stix_objects(mobile_techniques, Technique)
         return mobile_techniques
     
-    def get_mobile_data_components(self, stix_format: bool = True) -> List:
+    def get_mobile_data_components(self, stix_format: bool = True) -> List[Dict[str,Any]]:
         """
         Extracts all available data components from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -611,19 +645,19 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns data component objects in their original STIX format. If False,
-                                        returns data components as custom dictionaries parsed according to the DataComponent Pydantic model.
-                                        Default is True.
+                                        returns data components as custom dictionaries parsed according to the DataComponent
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of data component objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the DataComponent Pydantic model, depending on the 'stix_format' flag.
+            List[Dict[str, Any]]: A list of data component objects as dictionaries following the structure
+                defined STIX or the DataComponent Pydantic model, depending on the 'stix_format' flag.
         """
         mobile_data_components = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "x-mitre-data-component"))
         if not stix_format:
             mobile_data_components = self.parse_stix_objects(mobile_data_components, DataComponent)
         return mobile_data_components
     
-    def get_mobile_mitigations(self, stix_format: bool = True) -> List:
+    def get_mobile_mitigations(self, stix_format: bool = True) -> List[Union[CourseOfAction_v20, Dict[str, Any]]]:
         """
         Extracts all available mitigations from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -631,19 +665,24 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns mitigation objects in their original STIX format. If False,
-                                        returns mitigations as custom dictionaries parsed according to the Mitigation Pydantic model.
-                                        Default is True.
+                                        returns mitigations as custom dictionaries parsed according to the Mitigation
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of mitigation objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Mitigation Pydantic model, depending on the 'stix_format' flag.
+            List[Union[CourseOfAction_v20, Dict[str, Any]]]: A list of mitigation objects, either as STIX objects (CourseOfAction_v20)
+                or as custom dictionaries following the structure defined by the Mitigation Pydantic model, depending
+                on the 'stix_format' flag.
         """
         mobile_mitigations = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "course-of-action"))
         if not stix_format:
             mobile_mitigations = self.parse_stix_objects(mobile_mitigations, Mitigation)
         return mobile_mitigations
 
-    def get_mobile_groups(self, skip_revoked_deprecated: bool = True, stix_format:bool =True) -> List:
+    def get_mobile_groups(
+        self,
+        skip_revoked_deprecated: bool = True,
+        stix_format:bool =True
+    ) -> List[Union[IntrusionSet_v20, Dict[str, Any]]]:
         """
         Extracts all available groups from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -657,8 +696,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of group objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Group Pydantic model, depending on the 'stix_format' flag.
+            List[Union[IntrusionSet_v20, Dict[str, Any]]]: A list of group objects, either as STIX objects (IntrusionSet_v20)
+                or as custom dictionaries following the structure defined by the Group Pydantic model, depending
+                on the 'stix_format' flag.
         """
         mobile_groups = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "intrusion-set"))
 
@@ -669,7 +709,7 @@ class attack_client(object):
             mobile_groups = self.parse_stix_objects(mobile_groups, Group)
         return mobile_groups
     
-    def get_mobile_malware(self, stix_format: bool = True) -> List:
+    def get_mobile_malware(self, stix_format: bool = True) -> List[Union[Malware_v20, Dict[str, Any]]]:
         """
         Extracts all available malware from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -677,19 +717,20 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns malware objects in their original STIX format. If False,
-                                        returns malware objects as custom dictionaries parsed according to the Software Pydantic model.
-                                        Default is True.
+                                        returns malware objects as custom dictionaries parsed according to the Software
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of malware objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Software Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Malware_v20, Dict[str, Any]]]: A list of malware objects, either as STIX objects (Malware_v20)
+                or as custom dictionaries following the structure defined by the Software Pydantic model, depending
+                on the 'stix_format' flag.
         """
         mobile_malware = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "malware"))
         if not stix_format:
             mobile_malware = self.parse_stix_objects(mobile_malware, Software)
         return mobile_malware
     
-    def get_mobile_tools(self, stix_format: bool = True) -> List:
+    def get_mobile_tools(self, stix_format: bool = True) -> List[Union[Tool_v20, Dict[str, Any]]]:
         """
         Extracts all available tools from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -697,19 +738,20 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns tool objects in their original STIX format. If False,
-                                        returns tools as custom dictionaries parsed according to the Software Pydantic model.
-                                        Default is True.
+                                        returns tools as custom dictionaries parsed according to the Software
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of tool objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Software Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Tool_v20, Dict[str, Any]]]: A list of tool objects, either as STIX objects (Tool_v20)
+                or as custom dictionaries following the structure defined by the Software Pydantic model, depending
+                on the 'stix_format' flag.
         """
         mobile_tools = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "tool"))
         if not stix_format:
             mobile_tools = self.parse_stix_objects(mobile_tools, Software)
         return mobile_tools
 
-    def get_mobile_relationships(self, stix_format: bool = True) -> List:
+    def get_mobile_relationships(self, stix_format: bool = True) -> List[Union[Relationship_v20, Dict[str, Any]]]:
         """
         Extracts all available relationships from the Enterprise ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -717,19 +759,20 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns relationship objects in their original STIX format. If False,
-                                        returns relationships as custom dictionaries parsed according to the Relationship Pydantic model.
-                                        Default is True.
+                                        returns relationships as custom dictionaries parsed according to the Relationship
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of relationship objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Relationship Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Relationship_v20, Dict[str, Any]]]: A list of relationship objects, either as STIX objects (Relationship_v20)
+                or as custom dictionaries following the structure defined by the Relationship Pydantic model, depending
+                on the 'stix_format' flag.
         """
         mobile_relationships = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             mobile_relationships = self.parse_stix_objects(mobile_relationships, Relationship)
         return mobile_relationships
     
-    def get_mobile_tactics(self, stix_format: bool = True) -> List:
+    def get_mobile_tactics(self, stix_format: bool = True) -> List[Dict[str, Any]]:
         """
         Extracts all available tactics from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -741,15 +784,19 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of tactic objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Tactic Pydantic model, depending on the 'stix_format' flag.
+            List[Dict[str, Any]]: A list of tactic objects, either as dictionaries following the original STIX structure
+                or defined by the Tactic Pydantic model, depending on the 'stix_format' flag.
         """
         mobile_tactics = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             mobile_tactics = self.parse_stix_objects(mobile_tactics, Tactic)
         return mobile_tactics
 
-    def get_mobile_data_sources(self, include_data_components: bool = False, stix_format: bool = True) -> List:
+    def get_mobile_data_sources(
+        self,
+        include_data_components: bool = False,
+        stix_format: bool = True
+    ) -> List[Dict[str, Any]]:
         """
         Extracts all available data sources from the Mobile ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -759,12 +806,12 @@ class attack_client(object):
             include_data_components (bool, optional): If True, includes related data components in the results.
                                                     Default is False.
             stix_format (bool, optional): If True, returns data source objects in their original STIX format. If False,
-                                        returns data sources as custom objects parsed according to the DataSources Pydantic model.
-                                        Default is True.
+                                        returns data sources as custom objects parsed according to the DataSources
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of data source objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the DataSource Pydantic model, depending on the 'stix_format' flag.
+            List: A list of data source objects, either as dictionaries following the original STIX structure
+                or defined by the DataSource Pydantic model, depending on the 'stix_format' flag.
         """
         mobile_data_sources = self.TC_MOBILE_SOURCE.query(Filter("type", "=", "x-mitre-data-source"))
         if include_data_components:
@@ -775,7 +822,7 @@ class attack_client(object):
         return mobile_data_sources
     
     # ******** ICS ATT&CK Technology Domain *******
-    def get_ics(self, stix_format: bool = True) -> Dict[str, List[Union[Dict[str, Any], Any]]]:
+    def get_ics(self, stix_format: bool = True) -> Dict[str, List]:
         """
         Extracts all available STIX objects from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         the function either returns STIX objects in their original format or as parsed objects represented as dictionaries.
@@ -785,9 +832,9 @@ class attack_client(object):
                                         in a parsed and user-friendly format as dictionaries, structured according to the Pydantic model's schema.
 
         Returns:
-            Dict[str, List[Union[Dict[str, Any], Any]]]: A dictionary categorizing STIX objects by their types.
-            Each key represents an object type (e.g., 'techniques', 'campaigns'), and each value is a list of STIX objects 
-            in their original format or as dictionaries representing the parsed data, depending on the 'stix_format' flag.
+            Dict[str, List]: A dictionary categorizing STIX objects by their types. Each key represents an object
+            type (e.g., 'techniques', 'campaigns'), and each value is a list of STIX objects in their original format
+            or as dictionaries representing the parsed data, depending on the 'stix_format' flag.
         """
         ics_filter_objects = {
             "techniques": self.get_ics_techniques,
@@ -807,7 +854,11 @@ class attack_client(object):
 
         return self.get_stix_objects(self.TC_ICS_SOURCE, ics_filter_objects, stix_format)
 
-    def get_ics_campaigns(self, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_ics_campaigns(
+        self,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[Campaign_v20, Dict[str, Any]]]:
         """
         Extracts all available campaigns from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -817,12 +868,13 @@ class attack_client(object):
             skip_revoked_deprecated (bool, optional): If True, filters out revoked and deprecated campaign objects.
                                                     Default is True.
             stix_format (bool, optional): If True, returns campaign objects in their original STIX format. If False,
-                                        returns campaigns as custom dictionaries parsed according to the Campaign Pydantic model.
-                                        Default is True.
+                                        returns campaigns as custom dictionaries parsed according to the Campaign
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of campaign objects, either as raw STIX objects or as custom dictionaries
-                        following the structure defined by the Campaign Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Campaign_v20, Dict[str, Any]]]: A list of campaign objects, either as STIX objects (Campaign_v20) 
+                or as custom dictionaries following the structure defined by the Campaign Pydantic model, depending
+                on the 'stix_format' flag.
         """
         ics_campaigns = self.TC_ICS_SOURCE.query(Filter("type", "=", "campaign"))
 
@@ -839,7 +891,7 @@ class attack_client(object):
         include_subtechniques: bool = True, 
         enrich_data_sources: bool = False, 
         stix_format: bool = True
-    ) -> List:
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Extracts all available techniques from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -858,8 +910,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of technique objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if include_subtechniques:
             ics_techniques = self.TC_ICS_SOURCE.query(Filter("type", "=", "attack-pattern"))
@@ -879,7 +932,7 @@ class attack_client(object):
             ics_techniques = self.parse_stix_objects(ics_techniques, Technique)
         return ics_techniques
 
-    def get_ics_data_components(self, stix_format: bool = True) -> List:
+    def get_ics_data_components(self, stix_format: bool = True) -> List[Dict[str,Any]]:
         """
         Extracts all available data components from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -887,19 +940,19 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns data component objects in their original STIX format. If False,
-                                        returns data components as custom dictionaries parsed according to the DataComponent Pydantic model.
-                                        Default is True.
+                                        returns data components as custom dictionaries parsed according to the DataComponent
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of data component objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the DataComponent Pydantic model, depending on the 'stix_format' flag.
+            List[Dict[str, Any]]: A list of data component objects as dictionaries following the structure
+                defined STIX or the DataComponent Pydantic model, depending on the 'stix_format' flag.
         """
         ics_data_components = self.TC_ICS_SOURCE.query(Filter("type", "=", "x-mitre-data-component"))
         if not stix_format:
             ics_data_components = self.parse_stix_objects(ics_data_components, DataComponent)
         return ics_data_components
 
-    def get_ics_mitigations(self, stix_format: bool = True) -> List:
+    def get_ics_mitigations(self, stix_format: bool = True) -> List[Union[CourseOfAction_v20, Dict[str, Any]]]:
         """
         Extracts all available mitigations from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -907,19 +960,24 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns mitigation objects in their original STIX format. If False,
-                                        returns mitigations as custom dictionaries parsed according to the Mitigation Pydantic model.
-                                        Default is True.
+                                        returns mitigations as custom dictionaries parsed according to the Mitigation
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of mitigation objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Mitigation Pydantic model, depending on the 'stix_format' flag.
+            List[Union[CourseOfAction_v20, Dict[str, Any]]]: A list of mitigation objects, either as STIX objects (CourseOfAction_v20)
+                or as custom dictionaries following the structure defined by the Mitigation Pydantic model, depending
+                on the 'stix_format' flag.
         """
         ics_mitigations = self.TC_ICS_SOURCE.query(Filter("type", "=", "course-of-action"))
         if not stix_format:
             ics_mitigations = self.parse_stix_objects(ics_mitigations, Mitigation)
         return ics_mitigations
 
-    def get_ics_groups(self, skip_revoked_deprecated: bool = True, stix_format:bool =True) -> List:
+    def get_ics_groups(
+        self,
+        skip_revoked_deprecated: bool = True,
+        stix_format:bool =True
+    ) -> List[Union[IntrusionSet_v20, Dict[str, Any]]]:
         """
         Extracts all available groups from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -933,8 +991,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of group objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Group Pydantic model, depending on the 'stix_format' flag.
+            List[Union[IntrusionSet_v20, Dict[str, Any]]]: A list of group objects, either as STIX objects (IntrusionSet_v20)
+                or as custom dictionaries following the structure defined by the Group Pydantic model, depending
+                on the 'stix_format' flag.
         """
         ics_groups = self.TC_ICS_SOURCE.query(Filter("type", "=", "intrusion-set"))
 
@@ -945,7 +1004,7 @@ class attack_client(object):
             ics_groups = self.parse_stix_objects(ics_groups, Group)
         return ics_groups
 
-    def get_ics_malware(self, stix_format: bool = True) -> List:
+    def get_ics_malware(self, stix_format: bool = True) -> List[Union[Malware_v20, Dict[str, Any]]]:
         """
         Extracts all available malware from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -953,19 +1012,20 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns malware objects in their original STIX format. If False,
-                                        returns malware objects as custom dictionaries parsed according to the Software Pydantic model.
-                                        Default is True.
+                                        returns malware objects as custom dictionaries parsed according to the Software
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of malware objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Software Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Malware_v20, Dict[str, Any]]]: A list of malware objects, either as STIX objects (Malware_v20)
+                or as custom dictionaries following the structure defined by the Software Pydantic model, depending
+                on the 'stix_format' flag.
         """
         ics_malware = self.TC_ICS_SOURCE.query(Filter("type", "=", "malware"))
         if not stix_format:
             ics_malware = self.parse_stix_objects(ics_malware, Software)
         return ics_malware
 
-    def get_ics_tools(self, stix_format: bool = True) -> List:
+    def get_ics_tools(self, stix_format: bool = True) -> List[Union[Tool_v20, Dict[str, Any]]]:
         """
         Extracts all available tools from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -977,15 +1037,16 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of tool objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Software Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Tool_v20, Dict[str, Any]]]: A list of tool objects, either as STIX objects (Tool_v20)
+                or as custom dictionaries following the structure defined by the Software Pydantic model, depending
+                on the 'stix_format' flag.
         """
         ics_tools = self.TC_ICS_SOURCE.query(Filter("type", "=", "tool"))
         if not stix_format:
             ics_tools = self.parse_stix_objects(ics_tools, Software)
         return ics_tools
 
-    def get_ics_relationships(self, stix_format: bool = True) -> List:
+    def get_ics_relationships(self, stix_format: bool = True) -> List[Union[Relationship_v20, Dict[str, Any]]]:
         """
         Extracts all available relationships from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -993,19 +1054,20 @@ class attack_client(object):
 
         Args:
             stix_format (bool, optional): If True, returns relationship objects in their original STIX format. If False,
-                                        returns relationships as custom dictionaries parsed according to the Relationship Pydantic model.
-                                        Default is True.
+                                        returns relationships as custom dictionaries parsed according to the Relationship
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of relationship objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Relationship Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Relationship_v20, Dict[str, Any]]]: A list of relationship objects, either as STIX objects (Relationship_v20)
+                or as custom dictionaries following the structure defined by the Relationship Pydantic model, depending
+                on the 'stix_format' flag.
         """
         ics_relationships = self.TC_ICS_SOURCE.query(Filter("type", "=", "relationship"))
         if not stix_format:
             ics_relationships = self.parse_stix_objects(ics_relationships, Relationship)
         return ics_relationships
     
-    def get_ics_tactics(self, stix_format: bool = True) -> List:
+    def get_ics_tactics(self, stix_format: bool = True) -> List[Dict[str, Any]]:
         """
         Extracts all available tactics from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -1017,15 +1079,19 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of tactic objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the Tactic Pydantic model, depending on the 'stix_format' flag.
+            List[Dict[str, Any]]: A list of tactic objects, either as dictionaries following the original STIX structure
+                or defined by the Tactic Pydantic model, depending on the 'stix_format' flag.
         """
         ics_tactics = self.TC_ICS_SOURCE.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             ics_tactics = self.parse_stix_objects(ics_tactics, Tactic)
         return ics_tactics
 
-    def get_ics_data_sources(self, include_data_components: bool = False, stix_format: bool = True) -> List:
+    def get_ics_data_sources(
+        self,
+        include_data_components: bool = False,
+        stix_format: bool = True
+    ) -> List[Dict[str, Any]]:
         """
         Extracts all available data sources from the ICS ATT&CK matrix. Depending on the 'stix_format' flag,
         this function either returns a list of STIX objects in their original format or as parsed objects (Dictionaries)
@@ -1035,12 +1101,12 @@ class attack_client(object):
             include_data_components (bool, optional): If True, includes related data components in the results.
                                                     Default is False.
             stix_format (bool, optional): If True, returns data source objects in their original STIX format. If False,
-                                        returns data sources as custom objects parsed according to the DataSources Pydantic model.
-                                        Default is True.
+                                        returns data sources as custom objects parsed according to the DataSources
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of data source objects, either as raw STIX objects or as custom dictionaries
-                following the structure defined by the DataSource Pydantic model, depending on the 'stix_format' flag.
+            List: A list of data source objects, either as dictionaries following the original STIX structure
+                or defined by the DataSource Pydantic model, depending on the 'stix_format' flag.
         """
         ics_data_sources = self.TC_ICS_SOURCE.query(Filter("type", "=", "x-mitre-data-source"))
         if include_data_components:
@@ -1074,7 +1140,11 @@ class attack_client(object):
         
         return attack_stix_objects
 
-    def get_campaigns(self, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_campaigns(
+        self,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[Campaign_v20, Dict[str, Any]]]:
         """
         Extracts all available campaign STIX objects across all ATT&CK matrices (Enterprise, Mobile, ICS). Depending on 
         the 'stix_format' flag, this function either returns STIX objects in their original format or as parsed objects 
@@ -1088,8 +1158,9 @@ class attack_client(object):
                                         Pydantic model. Default is True.
 
         Returns:
-            List: A list of campaign objects, either as raw STIX objects or as custom dictionaries following the 
-                    structure defined by the Campaign Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Campaign_v20, Dict[str, Any]]]: A list of campaign objects, either as STIX objects (Campaign_v20) 
+                or as custom dictionaries following the structure defined by the Campaign Pydantic model, depending
+                on the 'stix_format' flag.
         """
         enterprise_campaigns = self.get_enterprise_campaigns()
         mobile_campaigns = self.get_mobile_campaigns()
@@ -1106,7 +1177,13 @@ class attack_client(object):
 
         return enterprise_campaigns
 
-    def get_techniques(self, include_subtechniques: bool = True, skip_revoked_deprecated: bool = True, enrich_data_sources: bool = False, stix_format: bool = True) -> List:
+    def get_techniques(
+        self, 
+        skip_revoked_deprecated: bool = True, 
+        include_subtechniques: bool = True, 
+        enrich_data_sources: bool = False, 
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Extracts all available techniques from across all ATT&CK matrices (Enterprise, Mobile, ICS).
         This function can filter the techniques to include or exclude sub-techniques, remove revoked
@@ -1114,9 +1191,9 @@ class attack_client(object):
         in either the original STIX format or a friendly parsed format.
 
         Args:
-            include_subtechniques (bool, optional): If True, includes both techniques and sub-techniques in the results.
-                                                    Default is True.
             skip_revoked_deprecated (bool, optional): If True, filters out revoked and deprecated technique objects.
+                                                    Default is True.
+            include_subtechniques (bool, optional): If True, includes both techniques and sub-techniques in the results.
                                                     Default is True.
             enrich_data_sources (bool, optional): If True, enriches each technique with data component and data source
                                                 context. Default is False.
@@ -1125,8 +1202,9 @@ class attack_client(object):
                                         Pydantic model. Default is True.
 
         Returns:
-            List[Dict]: A list of technique objects, either as raw STIX objects or as custom dictionaries following the 
-                    structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if include_subtechniques:
             all_techniques = self.COMPOSITE_DS.query(Filter("type", "=", "attack-pattern"))
@@ -1147,7 +1225,11 @@ class attack_client(object):
 
         return all_techniques
     
-    def get_groups(self, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_groups(
+        self,
+        skip_revoked_deprecated: bool = True,
+        stix_format:bool =True
+    ) -> List[Union[IntrusionSet_v20, Dict[str, Any]]]:
         """
         Extracts all available groups from across all ATT&CK matrices (Enterprise, Mobile, ICS). Depending
         on the 'stix_format' flag, this function either returns a list of STIX objects in their original 
@@ -1161,8 +1243,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of group objects, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Group Pydantic model, depending on the 'stix_format' flag.
+            List[Union[IntrusionSet_v20, Dict[str, Any]]]: A list of group objects, either as STIX objects (IntrusionSet_v20)
+                or as custom dictionaries following the structure defined by the Group Pydantic model, depending
+                on the 'stix_format' flag.
         """
         all_groups = self.COMPOSITE_DS.query(Filter("type", "=", "intrusion-set"))
         
@@ -1173,7 +1256,11 @@ class attack_client(object):
             all_groups = self.parse_stix_objects(all_groups, Group)
         return all_groups
    
-    def get_mitigations(self, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_mitigations(
+        self,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[CourseOfAction_v20, Dict[str, Any]]]:
         """
         Extracts all available mitigations from across all ATT&CK matrices (Enterprise, Mobile, ICS). Depending
         on the 'stix_format' flag, this function either returns a list of STIX objects in their original 
@@ -1187,8 +1274,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of relationship objects, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Mitigation Pydantic model, depending on the 'stix_format' flag.
+            List[Union[CourseOfAction_v20, Dict[str, Any]]]: A list of mitigation objects, either as STIX objects (CourseOfAction_v20)
+                or as custom dictionaries following the structure defined by the Mitigation Pydantic model, depending
+                on the 'stix_format' flag.
         """
         enterprise_mitigations = self.get_enterprise_mitigations()
         mobile_mitigations = self.get_mobile_mitigations()
@@ -1207,7 +1295,7 @@ class attack_client(object):
             enterprise_mitigations = self.parse_stix_objects(enterprise_mitigations, Mitigation)
         return enterprise_mitigations
 
-    def get_data_components(self, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_data_components(self, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List[Dict[str,Any]]:
         """
         Extracts all available data components from across all ATT&CK matrices (Enterprise, Mobile, ICS). Depending
         on the 'stix_format' flag, this function either returns a list of STIX objects in their original 
@@ -1217,12 +1305,12 @@ class attack_client(object):
             skip_revoked_deprecated (bool, optional): If True, filters out revoked and deprecated data component objects.
                                                     Default is True.
             stix_format (bool, optional): If True, returns data component objects in their original STIX format. If False,
-                                        returns data components as custom dictionaries parsed according to the DataComponent Pydantic model.
-                                        Default is True.
+                                        returns data components as custom dictionaries parsed according to the DataComponent
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of data component objects, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the DataComponent Pydantic model, depending on the 'stix_format' flag.
+            List[Dict[str, Any]]: A list of data component objects as dictionaries following the structure
+                defined STIX or the DataComponent Pydantic model, depending on the 'stix_format' flag.
         """
         enterprise_data_components = self.get_enterprise_data_components()
         ics_data_components = self.get_ics_data_components()
@@ -1241,7 +1329,10 @@ class attack_client(object):
             enterprise_data_components = self.parse_stix_objects(enterprise_data_components, DataComponent)
         return enterprise_data_components
 
-    def get_software(self, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_software(
+        self, skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[Malware_v20, Tool_v20, Dict[str, Any]]]:
         """
         Extracts all available software from across all ATT&CK matrices (Enterprise, Mobile, ICS). Depending
         on the 'stix_format' flag, this function either returns a list of STIX objects in their original 
@@ -1251,12 +1342,13 @@ class attack_client(object):
             skip_revoked_deprecated (bool, optional): If True, filters out revoked and deprecated software objects.
                                                     Default is True.
             stix_format (bool, optional): If True, returns software objects in their original STIX format. If False,
-                                        returns software as custom dictionaries parsed according to the Software Pydantic model.
-                                        Default is True.
+                                        returns software as custom dictionaries parsed according to the Software
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of software objects, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Software Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Malware_v20, Tool_v20, Dict[str, Any]]]: A list of software objects, either as 
+                STIX objects (Malware_v20 or Tool_v20) or as custom dictionaries following the structure defined
+                by the Software Pydantic model, depending on the 'stix_format' flag.
         """
         enterprise_malware = self.get_enterprise_malware()
         enterprise_tools = self.get_enterprise_tools()
@@ -1281,7 +1373,11 @@ class attack_client(object):
             all_software = self.parse_stix_objects(all_software, Software)
         return all_software
    
-    def get_relationships(self, relationship_type: str = None, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List[Dict]:
+    def get_relationships(
+        self, relationship_type: str = None,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[Relationship_v20, Dict[str, Any]]]:
         """
         Extracts STIX relationship objects across all ATT&CK matrices (Enterprise, Mobile, ICS), optionally filtered by a
         specific relationship type. Depending on the 'stix_format' flag, this function either returns a list of STIX objects
@@ -1298,9 +1394,9 @@ class attack_client(object):
                                         that corresponds to the relationship type. Default is True.
 
         Returns:
-            List[Dict]: A list of relationship objects, either as raw STIX objects or as custom dictionaries following the
-                        structure defined by a Pydantic model corresponding to the relationship type, depending on the
-                        'stix_format' flag.
+            List[Union[Relationship_v20, Dict[str, Any]]]: A list of relationship objects, either as STIX objects (Relationship_v20)
+                or as custom dictionaries following the structure defined by the Relationship Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if relationship_type:
             relationship_types = ['uses', 'mitigates', 'subtechnique-of', 'detects', 'revoked-by']
@@ -1322,7 +1418,7 @@ class attack_client(object):
 
         return all_relationships
     
-    def get_tactics(self, stix_format: bool = True) -> List:
+    def get_tactics(self, stix_format: bool = True) -> List[Dict[str, Any]]:
         """
         Extracts all available tactics from across all ATT&CK matrices (Enterprise, Mobile, ICS). Depending on
         the 'stix_format' flag, this function either returns a list of STIX objects in their original format or
@@ -1334,15 +1430,18 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of tactic objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Tactic Pydantic model, depending on the 'stix_format' flag.
+            List[Dict[str, Any]]: A list of tactic objects, either as dictionaries following the original STIX structure
+                or defined by the Tactic Pydantic model, depending on the 'stix_format' flag.
         """
         all_tactics = self.COMPOSITE_DS.query(Filter("type", "=", "x-mitre-tactic"))
         if not stix_format:
             all_tactics = self.parse_stix_objects(all_tactics, Tactic)
         return all_tactics
     
-    def get_data_sources(self, include_data_components: bool = False, stix_format: bool = True) -> List:
+    def get_data_sources(
+        self, include_data_components: bool = False,
+        stix_format: bool = True
+    ) -> List[Dict[str, Any]]:
         """
         Extracts all available data sources from across all ATT&CK matrices (Enterprise, Mobile, ICS). Depending on
         the 'stix_format' flag, this function either returns data sources in their original STIX format or as parsed
@@ -1350,14 +1449,15 @@ class attack_client(object):
         for each data source.
 
         Args:
-            include_data_components (bool, optional): If True, includes data components related to each data source. Default is False.
+            include_data_components (bool, optional): If True, includes data components related to each data source.
+                                                    Default is False.
             stix_format (bool, optional): If True, returns data sources in their original STIX format. If False,
-                                        returns data sources as custom dictionaries parsed according to the DataSource Pydantic model.
-                                        Default is True.
+                                        returns data sources as custom dictionaries parsed according to the DataSource
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of data source objects, either as raw STIX objects or as custom dictionaries
-                        following the structure defined by the DataSource Pydantic model, depending on the 'stix_format' flag.
+            List: A list of data source objects, either as dictionaries following the original STIX structure
+                or defined by the DataSource Pydantic model, depending on the 'stix_format' flag.
         """
         enterprise_data_sources = self.get_enterprise_data_sources(include_data_components)
         ics_data_sources = self.get_ics_data_sources(include_data_components)
@@ -1375,7 +1475,12 @@ class attack_client(object):
         return enterprise_data_sources
 
     # ******** Custom Functions ********
-    def get_technique_by_name(self, name: str, case: bool = True, stix_format: bool = True) -> List:
+    def get_technique_by_name(
+        self,
+        name: str,
+        case: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Searches and retrieves the technique STIX object(s) by name across all ATT&CK matrices. The search can be case-sensitive
         or case-insensitive, and the results can be returned in the original STIX format or a friendly syntax.
@@ -1385,12 +1490,13 @@ class attack_client(object):
             case (bool, optional): Determines if the search should be case sensitive (True) or case insensitive (False).
                                 Default is True.
             stix_format (bool, optional): If True, returns the technique object in its original STIX format. If False,
-                                        returns the technique as a custom dictionary parsed according to the Technique Pydantic model.
-                                        Default is True.
+                                        returns the technique as a custom dictionary parsed according to the Technique
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list containing the matched technique object(s), either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if not case:
             all_techniques = self.get_techniques()
@@ -1408,7 +1514,11 @@ class attack_client(object):
             matched_techniques = self.parse_stix_objects(matched_techniques, Technique)
         return matched_techniques
     
-    def get_techniques_by_content(self, content: str, stix_format: bool = True) -> List:
+    def get_techniques_by_content(
+        self,
+        content: str,
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Searches and retrieves technique STIX objects containing the specified content in their descriptions across all ATT&CK matrices,
         using a case-insensitive search.
@@ -1420,8 +1530,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list containing the matched technique objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         all_techniques = self.get_techniques()
         matched_techniques = []
@@ -1437,7 +1548,11 @@ class attack_client(object):
         return matched_techniques
 
     
-    def get_techniques_by_platform(self, name: str, case: bool = True, stix_format: bool = True) -> List:
+    def get_techniques_by_platform(
+        self, name: str,
+        case: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Retrieves techniques STIX objects associated with a specific platform across all ATT&CK matrices. 
         The search can be case-sensitive or case-insensitive.
@@ -1450,8 +1565,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list containing the matched technique objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if not case:
             all_techniques = self.get_techniques()
@@ -1471,7 +1587,12 @@ class attack_client(object):
             matched_techniques = self.parse_stix_objects(matched_techniques, Technique)
         return matched_techniques
     
-    def get_techniques_by_tactic(self, name: str, case: bool = True, stix_format: bool = True) -> List:
+    def get_techniques_by_tactic(
+        self,
+        name: str,
+        case: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Retrieves techniques STIX objects associated with a specific tactic across all ATT&CK matrices. 
         The search can be case-sensitive or case-insensitive.
@@ -1484,8 +1605,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list containing the matched technique objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if not case:
             all_techniques = self.get_techniques()
@@ -1537,7 +1659,12 @@ class attack_client(object):
                     all_stix_objects = self.parse_stix_objects(all_stix_objects, pydantic_model)
             return all_stix_objects
 
-    def get_campaign_by_alias(self, alias: str, case: bool = True, stix_format: bool = True) -> List:
+    def get_campaign_by_alias(
+        self,
+        alias: str,
+        case: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[Campaign_v20, Dict[str, Any]]]:
         """
         Retrieves campaign STIX objects associated with a specific alias across all ATT&CK matrices. 
         The search can be case-sensitive or case-insensitive.
@@ -1550,8 +1677,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list containing the matched campaign objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Campaign Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Campaign_v20, Dict[str, Any]]]: A list of campaign objects, either as STIX objects (Campaign_v20) 
+                or as custom dictionaries following the structure defined by the Campaign Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if not case:
             all_campaigns = self.get_campaigns()
@@ -1571,7 +1699,12 @@ class attack_client(object):
             all_campaigns_list = self.parse_stix_objects(all_campaigns_list, Campaign)
         return all_campaigns_list
 
-    def get_group_by_alias(self, alias: str, case: bool = True, stix_format: bool = True) -> List:
+    def get_group_by_alias(
+        self,
+        alias: str,
+        case: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[IntrusionSet_v20, Dict[str, Any]]]:
         """
         Retrieves group STIX objects associated with a specific alias across all ATT&CK matrices. 
         The search can be case-sensitive or case-insensitive.
@@ -1584,8 +1717,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list containing the matched group objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Group Pydantic model, depending on the 'stix_format' flag.
+            List[Union[IntrusionSet_v20, Dict[str, Any]]]: A list of group objects, either as STIX objects (IntrusionSet_v20)
+                or as custom dictionaries following the structure defined by the Group Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if not case:
             all_groups = self.get_groups()
@@ -1605,19 +1739,20 @@ class attack_client(object):
             all_groups_list = self.parse_stix_objects(all_groups_list, Group)
         return all_groups_list
 
-    def get_campaigns_since_time(self, timestamp: str, stix_format: bool = True) -> List:
+    def get_campaigns_since_time(self, timestamp: str, stix_format: bool = True) -> List[Union[Campaign_v20, Dict[str, Any]]]:
         """
         Retrieves campaign STIX objects created or modified since a specific timestamp across all ATT&CK matrices.
 
         Args:
             timestamp (str): The timestamp to filter campaigns that have been created or modified after this time.
             stix_format (bool, optional): If True, returns campaign objects in their original STIX format. If False,
-                                        returns campaigns as custom dictionaries parsed according to the Campaign Pydantic model.
-                                        Default is True.
+                                        returns campaigns as custom dictionaries parsed according to the Campaign
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of campaign objects, either in raw STIX format or as custom dictionaries
-                    following the structure defined by the Campaign Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Campaign_v20, Dict[str, Any]]]: A list of campaign objects, either as STIX objects (Campaign_v20) 
+                or as custom dictionaries following the structure defined by the Campaign Pydantic model, depending
+                on the 'stix_format' flag.
         """
         filter_objects = [
             Filter('type', '=', 'campaign'),
@@ -1628,19 +1763,20 @@ class attack_client(object):
             all_campaigns_list = self.parse_stix_objects(all_campaigns_list, Campaign)
         return all_campaigns_list
 
-    def get_techniques_since_time(self, timestamp: str, stix_format: bool = True) -> List:
+    def get_techniques_since_time(self, timestamp: str, stix_format: bool = True) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Retrieves technique STIX objects created or modified since a specific timestamp across all ATT&CK matrices.
 
         Args:
             timestamp (str): The timestamp to filter techniques that have been created or modified after this time.
             stix_format (bool, optional): If True, returns technique objects in their original STIX format. If False,
-                                        returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
-                                        Default is True.
+                                        returns techniques as custom dictionaries parsed according to the Technique
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of technique objects, either in raw STIX format or as custom dictionaries
-                    following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         filter_objects = [
             Filter('type', '=', 'attack-pattern'),
@@ -1659,7 +1795,7 @@ class attack_client(object):
         target_only: bool = False, 
         skip_revoked_deprecated: bool = True, 
         stix_format: bool = True
-    ) -> List:
+    ) -> List[Union[Relationship_v20, Dict[str, Any]]]:
         """
         Retrieves relationship STIX objects associated with a specified STIX object across all ATT&CK matrices.
 
@@ -1670,11 +1806,13 @@ class attack_client(object):
             target_only (bool, optional): If True, only retrieves relationships where the specified object is the target. Default is False.
             skip_revoked_deprecated (bool, optional): If True, filters out revoked and deprecated relationship objects. Default is True.
             stix_format (bool, optional): If True, returns relationship objects in their original STIX format. If False,
-                                        returns relationships as custom dictionaries parsed according to the Relationship Pydantic model. Default is True.
+                                        returns relationships as custom dictionaries parsed according to the Relationship Pydantic model.
+                                        Default is True.
 
         Returns:
-            List: A list of relationship objects, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Relationship Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Relationship_v20, Dict[str, Any]]]: A list of relationship objects, either as STIX objects (Relationship_v20)
+                or as custom dictionaries following the structure defined by the Relationship Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if source_only and target_only:
             raise ValueError("ERROR: You can only set source_only or target_only but not both")
@@ -1709,7 +1847,7 @@ class attack_client(object):
         relationship_type: str = None, 
         skip_revoked_deprecated: bool = True, 
         stix_format: bool = True
-    ) -> List:
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Retrieves techniques related to a specified STIX object by a specific relationship type across all ATT&CK matrices.
 
@@ -1721,8 +1859,9 @@ class attack_client(object):
                                         returns techniques as custom dictionaries parsed according to the Technique Pydantic model. Default is True.
 
         Returns:
-            List: A list of techniques, either as raw STIX objects or as custom dictionaries
-                    following the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         if stix_object and relationship_type:
             relationships = self.get_relationships_by_object(stix_object, relationship_type, skip_revoked_deprecated=skip_revoked_deprecated, source_only=True)
@@ -1753,7 +1892,12 @@ class attack_client(object):
         
         return all_objects 
     
-    def get_techniques_used_by_group(self, stix_object: Any = None, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_techniques_used_by_group(
+        self,
+        stix_object: Any = None,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Retrieves techniques used by a specified group STIX object across all ATT&CK matrices.
 
@@ -1762,12 +1906,13 @@ class attack_client(object):
             skip_revoked_deprecated (bool, optional): If True, filters out revoked and deprecated technique objects.
                                                     Default is True.
             stix_format (bool, optional): If True, returns technique objects in their original STIX format. If False,
-                                        returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
-                                        Default is True.
+                                        returns techniques as custom dictionaries parsed according to the Technique
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of technique objects used by a specific group, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects, either as STIX objects (AttackPattern_v20)
+                or as custom dictionaries following the structure defined by the Technique Pydantic model, depending
+                on the 'stix_format' flag.
         """
         return self.get_techniques_by_relationship(stix_object, None, skip_revoked_deprecated, stix_format)
     
@@ -1781,8 +1926,8 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of technique objects used by a all groups, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List: A list of technique objects used by a all groups, either as STIX objects or as custom dictionaries following the
+                    structure defined by the GroupTechnique Pydantic model, depending on the 'stix_format' flag.
         """
         groups = self.get_groups()
         techniques = self.get_techniques()
@@ -1836,21 +1981,27 @@ class attack_client(object):
             groups_use_techniques = self.parse_stix_objects(groups_use_techniques, GroupTechnique)
         return groups_use_techniques
 
-    def get_software_used_by_group(self, stix_object: Any = None, stix_format: bool = True, batch_size=10) -> List:
+    def get_software_used_by_group(
+        self,
+        stix_object: Any = None,
+        stix_format: bool = True,
+        batch_size=10
+    ) -> List[Union[Malware_v20, Tool_v20, Dict[str, Any]]]:
         """
-        Retrieves techniques used by a specified group STIX object across all ATT&CK matrices.
+        Retrieves software (Malware and Tools) used by a specified group STIX object across all ATT&CK matrices.
 
         Args:
             stix_object (Any, optional): group STIX object used to find related software.
-            stix_format (bool, optional): If True, returns technique objects in their original STIX format. If False,
-                                        returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
-                                        Default is True.
+            stix_format (bool, optional): If True, returns Software (Malware or Tool) objects in their original STIX format.
+                                        If False, returns Malware or Tools as custom dictionaries parsed according to the Software
+                                        Pydantic model. Default is True.
             batch_size (int): The batch size to use when querying the TAXII datastore. Use a lower batch size if the
                               URI becomes too long and you get HTTP 414 errors.
 
         Returns:
-            List: A list of software objects used by a specific group, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Software Pydantic model, depending on the 'stix_format' flag.
+            List[Union[Malware_v20, Tool_v20, Dict[str, Any]]]: A list of software objects used by a specific group, either as 
+                STIX objects (Malware_v20 or Tool_v20) or as custom dictionaries following the structure defined
+                by the Software Pydantic model, depending on the 'stix_format' flag.
         """
         relationships = self.get_relationships_by_object(stix_object, source_only=True)
         software_relationships = list()
@@ -1875,7 +2026,12 @@ class attack_client(object):
             all_software = self.parse_stix_objects(all_software, Software)
         return all_software
 
-    def get_techniques_used_by_software(self, stix_object: Any = None, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_techniques_used_by_software(
+        self,
+        stix_object: Any = None,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Retrieves techniques used by a specified software STIX object across all ATT&CK matrices.
 
@@ -1888,24 +2044,30 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of technique objects used by a specific group, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects used by a specific software
+                (Malware or Tool), either as STIX objects (AttackPattern_v20) or as custom dictionaries following
+                the structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
         """
         return self.get_techniques_by_relationship(stix_object, None, skip_revoked_deprecated, stix_format )
     
-    def get_techniques_used_by_group_software(self, stix_object: Any = None, stix_format: bool = True) -> List:
+    def get_techniques_used_by_group_software(
+        self,
+        stix_object: Any = None,
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
-        Retrieves techniques used by a specified group software STIX object across all ATT&CK matrices.
+        Retrieves techniques used by a specific group software STIX object across all ATT&CK matrices.
 
         Args:
             stix_object (Any, optional): group software STIX object used to find related techniques.
             stix_format (bool, optional): If True, returns technique objects in their original STIX format. If False,
-                                        returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
-                                        Default is True.
+                                        returns techniques as custom dictionaries parsed according to the Technique
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of technique objects used by a specific group software, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects used by a specific group software,
+                either as STIX objects (AttackPattern_v20) or as custom dictionaries following the structure defined
+                by the Technique Pydantic model, depending on the 'stix_format' flag.
         """
         # Get all relationships available for group
         relationships = self.get_relationships_by_object(stix_object, source_only=True)
@@ -1933,9 +2095,14 @@ class attack_client(object):
             matched_techniques = self.parse_stix_objects(matched_techniques, Technique)
         return matched_techniques
     
-    def get_techniques_mitigated_by_mitigations(self, stix_object: Any = None, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_techniques_mitigated_by_mitigations(
+        self,
+        stix_object: Any = None,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
-        Retrieves all techniques mitigated by all mitigations or all techniques mitigated by a specified mitigation STIX object across all ATT&CK matrices.
+        Retrieves all techniques mitigated by all or one mitigations STIX object across all ATT&CK matrices.
 
         Args:
             stix_object (Any, optional): mitigation STIX object used to find related techniques.
@@ -1946,8 +2113,9 @@ class attack_client(object):
                                         Default is True.
 
         Returns:
-            List: A list of technique objects mitigated by mitigations, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique objects mitigated by mitigations,
+                either as STIX objects (AttackPattern_v20) or as custom dictionaries following the structure defined
+                by the Technique Pydantic model, depending on the 'stix_format' flag.
         """
         if stix_object:
             all_techniques = self.get_techniques_by_relationship(stix_object, 'mitigates', skip_revoked_deprecated, stix_format)
@@ -1956,21 +2124,27 @@ class attack_client(object):
 
         return all_techniques
     
-    def get_techniques_detected_by_data_components(self, stix_object: Any = None, skip_revoked_deprecated: bool = True, stix_format: bool = True) -> List:
+    def get_techniques_detected_by_data_components(
+        self,
+        stix_object: Any = None,
+        skip_revoked_deprecated: bool = True,
+        stix_format: bool = True
+    ) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
-        Retrieves all techniques detected by all data components or all techniques detected by a specified data component STIX object across all ATT&CK matrices.
+        Retrieves all techniques detected by all or one data component STIX object across all ATT&CK matrices.
 
         Args:
             stix_object (Any, optional): data component STIX object used to find related techniques.
             skip_revoked_deprecated (bool, optional): If True, filters out revoked and deprecated technique objects.
                                                     Default is True.
             stix_format (bool, optional): If True, returns technique objects in their original STIX format. If False,
-                                        returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
-                                        Default is True.
+                                        returns techniques as custom dictionaries parsed according to the Technique
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of technique objects mitigated by mitigations, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the Technique Pydantic model, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique detected by data components
+                either as STIX objects (AttackPattern_v20) or as custom dictionaries following the structure defined
+                by the Technique Pydantic model, depending on the 'stix_format' flag.
         """
         if stix_object:
             all_techniques = self.get_techniques_by_relationship(stix_object, 'detects', skip_revoked_deprecated, stix_format)
@@ -1979,19 +2153,19 @@ class attack_client(object):
 
         return all_techniques
 
-    def get_data_components_by_technique(self, stix_object: Any = None, stix_format: bool = True) -> List:
+    def get_data_components_by_technique(self, stix_object: Any = None, stix_format: bool = True) -> List[Dict[str, Any]]:
         """
         Retrieves data components by a specified technique STIX object across all ATT&CK matrices.
 
         Args:
             stix_object (Any, optional): technique STIX object used to find related data components.
             stix_format (bool, optional): If True, returns  data component objects in their original STIX format. If False,
-                                        returns data components as custom dictionaries parsed according to the DataComponent Pydantic model.
-                                        Default is True.
+                                        returns data components as custom dictionaries parsed according to the DataComponent
+                                        Pydantic model. Default is True.
 
         Returns:
-            List: A list of data component objects, either as raw STIX objects or as custom dictionaries following the
-                    structure defined by the DataComponent Pydantic model, depending on the 'stix_format' flag.
+            List[Dict[str, Any]]: A list of data component objects, either as STIX objects or as custom dictionaries following the
+                structure defined by the DataComponent Pydantic model, depending on the 'stix_format' flag.
         """
         relationships = self.get_relationships_by_object(stix_object, relationship_type='detects', target_only=True)
         filter_objects = [
@@ -2004,14 +2178,14 @@ class attack_client(object):
             all_data_components = self.parse_stix_objects(all_data_components, DataComponent)
         return all_data_components
 
-    def get_data_sources_metadata(self) -> List:
+    def get_data_sources_metadata(self) -> List[str]:
         """ 
         Extracts data sources metadata from all technique STIX objects accross all ATT&CK matrices.
         This function uses the x_mitre_data_sources field from attack-pattern objects.
         This function does NOT retrieve data sources as objects. Data sources as objects are now retrieved by the get_data_sources() function.
 
         Returns:
-            List: A list of data source objects
+            List[str]: A list of data sources as strings.
         """
         techniques = self.get_techniques()
         data_sources = []
@@ -2020,7 +2194,7 @@ class attack_client(object):
                 data_sources += [d for d in t['x_mitre_data_sources'] if d not in data_sources]
         return data_sources
 
-    def get_techniques_by_data_sources(self, *data_sources, stix_format=True) -> List:
+    def get_techniques_by_data_sources(self, *data_sources, stix_format=True) -> List[Union[AttackPattern_v20, Dict[str, Any]]]:
         """
         Extracts technique STIX objects by specific data sources across all ATT&CK matrices.
 
@@ -2028,11 +2202,13 @@ class attack_client(object):
             *data_sources (str): An arbitrary number of strings, each representing the name of a data source. 
                                 Techniques related to any of these data sources will be extracted.
             stix_format (bool, optional): If True, returns results in original STIX format. If False,
-                                returns techniques as custom dictionaries parsed according to the Technique Pydantic model.
+                                returns techniques as custom dictionaries parsed according to the Technique
+                                Pydantic model. Default is True.
 
         Returns:
-            List: A list of techniques related to the specified data sources. Each element in the list is either 
-                a raw STIX object or a custom dictionary, depending on the 'stix_format' flag.
+            List[Union[AttackPattern_v20, Dict[str, Any]]]: A list of technique related to specific data sources
+                either as STIX objects (AttackPattern_v20) or as custom dictionaries following the structure defined
+                by the Technique Pydantic model, depending on the 'stix_format' flag.
         """
         techniques_results = []
         techniques = self.get_techniques()
@@ -2105,7 +2281,7 @@ class attack_client(object):
                     with open(('{0}_{1}.json'.format(k,v[0]['group_id'])), 'w') as f:
                         f.write(json.dumps(actor_layer))
     
-    def  get_data_components_by_data_source(self, stix_object: Any, stix_format: bool = True) -> List:
+    def  get_data_components_by_data_source(self, stix_object: Any, stix_format: bool = True) -> List[Dict[str, Any]]:
         """
         Extracts data component STIX objects referenced by a specific data source STIX object.
 
@@ -2118,8 +2294,8 @@ class attack_client(object):
                                         to the DataComponent Pydantic model. Default is True.
 
         Returns:
-            List: A list of data component STIX objects or their custom dictionary representations,
-                    depending on the 'stix_format' flag. Each object in the list is associated with the specified data source.
+            List[Dict[str, Any]]: A list of data component objects, either as STIX objects or as custom dictionaries
+                following the structure defined by the DataComponent Pydantic model, depending on the 'stix_format' flag.
         """
         filter_objects = [
             Filter('type', '=', 'x-mitre-data-component'),
@@ -2130,7 +2306,7 @@ class attack_client(object):
             data_components = self.parse_stix_objects(data_components, DataComponent)
         return data_components
 
-    def get_data_source_by_data_component(self, stix_object: Any, stix_format: bool = True) -> List:
+    def get_data_source_by_data_component(self, stix_object: Any, stix_format: bool = True) -> List[Dict[str, Any]]:
         """
         Extracts data source STIX objects referenced by a specific data component STIX object.
 
@@ -2143,8 +2319,8 @@ class attack_client(object):
                                         to the DataSource Pydantic model. Default is True.
 
         Returns:
-            List: A list of data source STIX objects or their custom dictionary representations,
-                    depending on the 'stix_format' flag. Each object in the list is associated with the specified data component.
+            List: A list of data source objects related to data components, either as dictionaries following the original STIX structure
+                or defined by the DataSource Pydantic model, depending on the 'stix_format' flag.
         """
 
         filter_objects = [
@@ -2202,4 +2378,3 @@ class attack_client(object):
                 new_data_sources = [ v for v in technique_ds.values()]
                 stix_objects[i] = stix_objects[i].new_version(x_mitre_data_sources = new_data_sources)
         return stix_objects
-
