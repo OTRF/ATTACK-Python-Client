@@ -2,3 +2,4 @@ stix2>=3.0.1
 taxii2-client>=2.3.0
 stix2-patterns>=1.3.2
 six>=1.16.0
+pydantic

@@ -39,6 +39,7 @@ The project is currently in a Production/Stable stage, which means that the curr
 - stix2 >= 2.1.0
 - taxii2-client >= 2.3.0
 - six >= 1.16.0
+- pydantic
 
 ### Installation
 
