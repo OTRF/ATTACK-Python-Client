@@ -157,6 +157,7 @@ class DataSource(STIXCore):
     software_platform: Optional[List[str]] = Field(None, alias='x_mitre_platforms')
     collection_layers: Optional[List[str]] = Field(None, alias='x_mitre_collection_layers')
     contributors: Optional[List[str]] = Field(None, alias='x_mitre_contributors')
+    data_components: Optional[List[DataComponent]] = None
 
 class Campaign(STIXCore):
     campaign: str = Field(..., alias='name')
