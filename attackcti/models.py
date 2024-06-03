@@ -192,3 +192,8 @@ class GroupTechnique(Group):
             phase_names = [phase['phase_name'] for phase in kill_chain_phases if 'phase_name' in phase]
             values['tactic'] = phase_names
         return values
+
+class STIXLocalPaths(BaseModel):
+    enterprise: Optional[str] = Field(None, description="Path to the local enterprise-attack directory or JSON file.")
+    mobile: Optional[str] = Field(None, description="Path to the local mobile-attack directory or JSON file.")
+    ics: Optional[str] = Field(None, description="Path to the local ics-attack directory or JSON file.")
