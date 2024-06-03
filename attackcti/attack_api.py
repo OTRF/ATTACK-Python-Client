@@ -34,12 +34,10 @@ from typing import List, Type, Dict, Any, Union
 
 ATTACK_STIX_COLLECTIONS = "https://cti-taxii.mitre.org/stix/collections/"
 ENTERPRISE_ATTACK = "95ecc380-afe9-11e4-9b6c-751b66dd541e"
-PRE_ATTACK = "062767bd-02d2-4b72-84ba-56caef0f8658"
 MOBILE_ATTACK = "2f669986-b40b-4423-b720-4396ca6a462b"
 ICS_ATTACK = "02c3ef24-9cd4-48f3-a99f-b74ce24f1d34"
 
 ENTERPRISE_ATTACK_LOCAL_DIR = "enterprise-attack"
-PRE_ATTACK_LOCAL_DIR = "pre-attack"
 MOBILE_ATTACK_LOCAL_DIR = "mobile-attack"
 ICS_ATTACK_LOCAL_DIR = "ics-attack"
 
@@ -74,7 +72,7 @@ class attack_client(object):
         "x-mitre-data-component": DataComponent
     }
     
-    def __init__(self, local_path=None, include_pre_attack=False, proxies=None, verify=True):
+    def __init__(self, local_path=None, proxies=None, verify=True):
         """
         Args:
             proxies - See https://requests.readthedocs.io/en/latest/user/advanced/#proxies
@@ -82,29 +80,22 @@ class attack_client(object):
         """
 
         if local_path is not None and os.path.isdir(os.path.join(local_path, ENTERPRISE_ATTACK_LOCAL_DIR)) \
-                                  and os.path.isdir(os.path.join(local_path, PRE_ATTACK_LOCAL_DIR)) \
                                   and os.path.isdir(os.path.join(local_path, MOBILE_ATTACK_LOCAL_DIR)) \
                                   and os.path.isdir(os.path.join(local_path, ICS_ATTACK_LOCAL_DIR)):
             self.TC_ENTERPRISE_SOURCE = FileSystemSource(os.path.join(local_path, ENTERPRISE_ATTACK_LOCAL_DIR))
-            self.TC_PRE_SOURCE = FileSystemSource(os.path.join(local_path, PRE_ATTACK_LOCAL_DIR))
             self.TC_MOBILE_SOURCE = FileSystemSource(os.path.join(local_path, MOBILE_ATTACK_LOCAL_DIR))
             self.TC_ICS_SOURCE = FileSystemSource(os.path.join(local_path, ICS_ATTACK_LOCAL_DIR))
         else:
             ENTERPRISE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ENTERPRISE_ATTACK + "/", verify=verify, proxies=proxies)
-            PRE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + PRE_ATTACK + "/", verify=verify, proxies=proxies)
             MOBILE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + MOBILE_ATTACK + "/", verify=verify, proxies=proxies)
             ICS_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ICS_ATTACK + "/", verify=verify, proxies=proxies)
 
             self.TC_ENTERPRISE_SOURCE = TAXIICollectionSource(ENTERPRISE_COLLECTION)
-            self.TC_PRE_SOURCE = TAXIICollectionSource(PRE_COLLECTION)
             self.TC_MOBILE_SOURCE = TAXIICollectionSource(MOBILE_COLLECTION)
             self.TC_ICS_SOURCE = TAXIICollectionSource(ICS_COLLECTION)
 
         self.COMPOSITE_DS = CompositeDataSource()
         self.COMPOSITE_DS.add_data_sources([self.TC_ENTERPRISE_SOURCE, self.TC_MOBILE_SOURCE, self.TC_ICS_SOURCE])
-
-        if include_pre_attack:
-            self.COMPOSITE_DS.add_data_sources([self.TC_PRE_SOURCE])
     
     def get_stix_objects(
         self, 
