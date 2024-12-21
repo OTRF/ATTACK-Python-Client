@@ -2281,11 +2281,11 @@ class attack_client:
                     actor_layer = {
                         "description": ("Enterprise techniques used by {0}, ATT&CK group {1} v1.0".format(k,v[0]['group_id'])),
                         "name": ("{0} ({1})".format(k,v[0]['group_id'])),
-                        "domain": "mitre-enterprise",
+                        "domain": "enterprise-attack",
                         "versions": {
-                            "attack": "10",
-                            "navigator": "4.5.5",
-                            "layer": "4.3"
+                            "attack": "16",
+                            "navigator": "5.1.0",
+                            "layer": "4.5"
                         },
                         "techniques": [
                             {
