@@ -1,13 +1,8 @@
-#!/usr/bin/env python
+"""ATT&CK client.
 
-# ATT&CK Client Main Script
-# Author: Roberto Rodriguez (@Cyb3rWard0g)
-# License: BSD 3-Clause
-# Reference:
-# https://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/attck%E2%84%A2-content-available-in-stix%E2%84%A2-20-via
-# https://github.com/mitre/cti/blob/master/USAGE.md
-# https://github.com/oasis-open/cti-python-stix2/issues/183
-# https://stackoverflow.com/a/4406521
+This module provides the main high-level interface for retrieving and querying MITRE ATT&CK
+data via TAXII 2.1 or from locally cached STIX bundles.
+"""
 
 from stix2 import TAXIICollectionSource, Filter, CompositeDataSource
 from stix2.datastore.filters import apply_common_filters
@@ -27,19 +22,35 @@ import os
 
 from pydantic import TypeAdapter, ValidationError
 from typing import List, Type, Dict, Any, Union
-from attackcti.models import *
-from attackcti.utils.storage import STIXStore
+from .constants import (
+    ATTACK_TAXII_COLLECTIONS_URL,
+    ENTERPRISE_ATTACK_COLLECTION_ID,
+    ICS_ATTACK_COLLECTION_ID,
+    MOBILE_ATTACK_COLLECTION_ID,
+)
+from .models import (
+    Campaign,
+    DataComponent,
+    DataSource,
+    Group,
+    GroupTechnique,
+    Identity,
+    MarkingDefinition,
+    Matrix,
+    Mitigation,
+    Relationship,
+    Software,
+    STIXLocalPaths,
+    Tactic,
+    Technique,
+)
+from .utils.storage import STIXStore
 
 # os.environ['http_proxy'] = "http://xxxxxxx"
 # os.environ['https_proxy'] = "https://xxxxxxx"
 
-ATTACK_STIX_COLLECTIONS = "https://attack-taxii.mitre.org/api/v21/collections/"
-ENTERPRISE_ATTACK = "x-mitre-collection--1f5f1533-f617-4ca8-9ab4-6a02367fa019"
-MOBILE_ATTACK = "x-mitre-collection--dac0d2d7-8653-445c-9bff-82f934c1e858"
-ICS_ATTACK = "x-mitre-collection--90c00720-636b-4485-b342-8751d232bf09"
-
-class attack_client:
-    """A Python Module for accessing ATT&CK data locally or remotely."""
+class AttackClient:
+    """High-level client for accessing MITRE ATT&CK data."""
     
     pydantic_model_mapping = {
         "techniques": Technique,
@@ -130,9 +141,13 @@ class attack_client:
             proxies (dict, optional): Dictionary mapping protocol or protocol and hostname to the URL of the proxy.
             verify (bool, optional): Whether to verify SSL certificates. Defaults to True.
         """
-        ENTERPRISE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ENTERPRISE_ATTACK + "/", verify=verify, proxies=proxies)
-        MOBILE_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + MOBILE_ATTACK + "/", verify=verify, proxies=proxies)
-        ICS_COLLECTION = Collection(ATTACK_STIX_COLLECTIONS + ICS_ATTACK + "/", verify=verify, proxies=proxies)
+        enterprise_url = f"{ATTACK_TAXII_COLLECTIONS_URL}{ENTERPRISE_ATTACK_COLLECTION_ID}/"
+        mobile_url = f"{ATTACK_TAXII_COLLECTIONS_URL}{MOBILE_ATTACK_COLLECTION_ID}/"
+        ics_url = f"{ATTACK_TAXII_COLLECTIONS_URL}{ICS_ATTACK_COLLECTION_ID}/"
+
+        ENTERPRISE_COLLECTION = Collection(enterprise_url, verify=verify, proxies=proxies)
+        MOBILE_COLLECTION = Collection(mobile_url, verify=verify, proxies=proxies)
+        ICS_COLLECTION = Collection(ics_url, verify=verify, proxies=proxies)
 
         self.TC_ENTERPRISE_SOURCE = TAXIICollectionSource(ENTERPRISE_COLLECTION)
         self.TC_MOBILE_SOURCE = TAXIICollectionSource(MOBILE_COLLECTION)
@@ -2410,3 +2425,7 @@ class attack_client:
                 new_data_sources = [ v for v in technique_ds.values()]
                 stix_objects[i] = stix_objects[i].new_version(x_mitre_data_sources = new_data_sources)
         return stix_objects
+
+
+# Backwards-compatible alias for older imports.
+attack_client = AttackClient

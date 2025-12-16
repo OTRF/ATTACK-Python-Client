@@ -36,7 +36,7 @@ class STIXStore:
         Returns the loaded data store.
 
         Returns:
-            The loaded data store (FileSystemSource or MemoryStore).
+            The loaded data store (FileSystemSource or MemorySource).
         """
         if self.source is None:
             raise ValueError("Data has not been loaded yet. Call load_data() first.")

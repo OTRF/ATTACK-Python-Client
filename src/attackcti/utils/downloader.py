@@ -1,6 +1,6 @@
 import requests
 from pathlib import Path
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Union
 import re
 import json
 
@@ -33,7 +33,9 @@ class STIXDownloader:
             List[str]: A list of available ATT&CK versions in STIX 2.0 format.
         """
         ref_to_tag = re.compile(r"ATT&CK-v(.*)")
-        tags = requests.get("https://api.github.com/repos/mitre/cti/git/refs/tags").json()
+        resp = requests.get("https://api.github.com/repos/mitre/cti/git/refs/tags", timeout=30)
+        resp.raise_for_status()
+        tags = resp.json()
         versions = [ref_to_tag.search(tag["ref"]).groups()[0] for tag in tags if "ATT&CK-v" in tag["ref"]]
         return versions
 
@@ -46,11 +48,13 @@ class STIXDownloader:
             List[str]: A list of available ATT&CK versions in STIX 2.1 format.
         """
         index_url = "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/index.json"
-        index_data = requests.get(index_url).json()
+        resp = requests.get(index_url, timeout=30)
+        resp.raise_for_status()
+        index_data = resp.json()
         versions = [v["version"] for v in index_data["collections"][0]["versions"]]
         return versions
 
-    def download_file(self, url: str, dest_path: str) -> None:
+    def download_file(self, url: str, dest_path: Union[str, Path]) -> None:
         """
         Downloads a file from the given URL to the specified destination path.
 
@@ -62,9 +66,9 @@ class STIXDownloader:
             requests.HTTPError: If the download request fails.
         """
         if self.session:
-            response = self.session.get(url, stream=True)  # Use session if available
+            response = self.session.get(url, stream=True, timeout=60)  # Use session if available
         else:
-            response = requests.get(url, stream=True)  # Otherwise, use a regular request
+            response = requests.get(url, stream=True, timeout=60)  # Otherwise, use a regular request
         
         response.raise_for_status()
         with open(dest_path, 'wb') as f:
@@ -138,7 +142,7 @@ class STIXDownloader:
             versions = self.fetch_attack_stix2_1_versions()
             base_url = self.stix_data_base_url
             if release is None:
-                release_dir = "master"
+                url_path = f"{domain}-attack/{domain}-attack.json"
             elif release not in versions:
                 raise ValueError(f"Release {release} not found in attack-stix-data repository.")
             else:
