@@ -1,5 +1,7 @@
 docs/_build/
 docs/source/
+repos/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
