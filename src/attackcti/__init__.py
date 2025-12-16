@@ -19,10 +19,10 @@ except metadata.PackageNotFoundError:  # pragma: no cover
 
 if TYPE_CHECKING:  # pragma: no cover
     from .client import AttackClient as AttackClient
-    from .client import AttackClient as attack_client
 
 
 def __getattr__(name: str) -> Any:  # PEP 562
+    """Lazily expose selected public symbols."""
     if name in {"AttackClient", "attack_client"}:
         from .client import AttackClient
 

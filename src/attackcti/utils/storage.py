@@ -2,6 +2,8 @@ from stix2 import FileSystemSource, MemorySource
 from pathlib import Path
 
 class STIXStore:
+    """Load a STIX bundle from a directory or JSON file."""
+
     def __init__(self, path: str, auto_load: bool = True):
         """
         Initializes the STIXStore.

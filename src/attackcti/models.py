@@ -2,11 +2,15 @@ from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field, model_validator
 
 class ExternalReference(BaseModel):
+    """STIX external reference entry."""
+
     url: Optional[str] = None
     source_name: Optional[str] = None
     external_id: Optional[str] = None
 
 class STIXCore(BaseModel):
+    """Common fields shared across ATT&CK STIX objects."""
+
     type: str
     id: str
     url: Optional[str] = None
@@ -37,6 +41,8 @@ class STIXCore(BaseModel):
         return None
 
 class Technique(STIXCore):
+    """ATT&CK Technique (Attack Pattern) model."""
+
     technique: str = Field(..., alias='name')
     technique_id: Optional[str] = None
     technique_description: Optional[str] = Field(None, alias='description')
@@ -69,6 +75,8 @@ class Technique(STIXCore):
         return self
 
 class Mitigation(STIXCore):
+    """ATT&CK Mitigation (Course of Action) model."""
+
     mitigation: str = Field(..., alias='name')
     mitigation_id: Optional[str] = None
     mitigation_description: Optional[str] = Field(None, alias='description')
@@ -80,6 +88,8 @@ class Mitigation(STIXCore):
         return self
 
 class Group(STIXCore):
+    """ATT&CK Group (Intrusion Set) model."""
+
     group: str = Field(..., alias='name')
     group_id: Optional[str] = None
     group_description: Optional[str] = Field(None, alias='description')
@@ -92,6 +102,8 @@ class Group(STIXCore):
         return self
 
 class Software(STIXCore):
+    """ATT&CK Software (Tool or Malware) model."""
+
     software: str = Field(..., alias='name')
     software_id: Optional[str] = None
     software_description: Optional[str] = Field(None, alias='description')
@@ -107,18 +119,24 @@ class Software(STIXCore):
         return self
 
 class DataComponent(STIXCore):
+    """ATT&CK Data Component model."""
+
     data_component: str = Field(..., alias='name')
     data_component_description: Optional[str] = Field(None, alias='description')
     data_component_labels: Optional[List[str]] = Field(None, alias='labels')
     data_source: Optional[str] = Field(None, alias='x_mitre_data_source_ref')
 
 class Relationship(STIXCore):
+    """STIX relationship model."""
+
     relationship: str = Field(..., alias='relationship_type')
     source_object: str = Field(..., alias='source_ref')
     target_object: str = Field(..., alias='target_ref')
     relationship_description: Optional[str] = Field(None, alias='description')
 
 class Tactic(STIXCore):
+    """ATT&CK Tactic model."""
+
     tactic: str = Field(..., alias='name')
     tactic_id: Optional[str] = None
     tactic_description: Optional[str] = Field(None, alias='description')
@@ -130,6 +148,8 @@ class Tactic(STIXCore):
         return self
 
 class Matrix(STIXCore):
+    """ATT&CK Matrix model."""
+
     matrix: str = Field(..., alias='name')
     matrix_id: Optional[str] = None
     matrix_description: Optional[str] = Field(None, alias='description')
@@ -141,17 +161,25 @@ class Matrix(STIXCore):
         return self
 
 class Identity(STIXCore):
+    """STIX identity model."""
+
     identity: str = Field(..., alias='name')
     identity_class: str
 
 class Definition(BaseModel):
+    """Marking-definition body."""
+
     statement: str
 
 class MarkingDefinition(STIXCore):
+    """STIX marking-definition model."""
+
     marking_definition_type: str = Field(..., alias='definition_type')
     marking_definition: Definition = Field(..., alias='definition')
 
 class DataSource(STIXCore):
+    """ATT&CK Data Source model."""
+
     data_source: str = Field(..., alias='name')
     data_source_description: Optional[str] = Field(None, alias='description')
     software_platform: Optional[List[str]] = Field(None, alias='x_mitre_platforms')
@@ -160,6 +188,8 @@ class DataSource(STIXCore):
     data_components: Optional[List[DataComponent]] = None
 
 class Campaign(STIXCore):
+    """ATT&CK Campaign model."""
+
     campaign: str = Field(..., alias='name')
     campaign_id: Optional[str] = None
     campaign_description: Optional[str] = Field(None, alias='description')
@@ -173,6 +203,8 @@ class Campaign(STIXCore):
         return self
 
 class GroupTechnique(Group):
+    """Convenience model describing group-technique usage details."""
+
     technique_ref: str
     relationship_description: str
     relationship_id: str
@@ -194,6 +226,8 @@ class GroupTechnique(Group):
         return values
 
 class STIXLocalPaths(BaseModel):
+    """Paths to local STIX data for each domain."""
+
     enterprise: Optional[str] = Field(None, description="Path to the local enterprise-attack directory or JSON file.")
     mobile: Optional[str] = Field(None, description="Path to the local mobile-attack directory or JSON file.")
     ics: Optional[str] = Field(None, description="Path to the local ics-attack directory or JSON file.")

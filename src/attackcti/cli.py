@@ -11,6 +11,7 @@ import sys
 
 
 def _build_parser() -> argparse.ArgumentParser:
+    """Build the top-level CLI parser."""
     parser = argparse.ArgumentParser(prog="attackcti", description="Utilities for working with MITRE ATT&CK CTI data.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -35,6 +36,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """CLI entrypoint for the `attackcti` command."""
     parser = _build_parser()
     args = parser.parse_args(argv)
 

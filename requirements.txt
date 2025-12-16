@@ -2,5 +2,5 @@ stix2>=3.0.1
 taxii2-client>=2.3.0
 stix2-patterns>=2.0.0
 six>=1.17.0
-pydantic>=2
-requests>=2.31.0
+pydantic>=2.12.5
+requests>=2.32.5

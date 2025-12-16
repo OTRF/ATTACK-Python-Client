@@ -5,6 +5,8 @@ import re
 import json
 
 class STIXDownloader:
+    """Download ATT&CK STIX bundles from upstream repositories."""
+
     def __init__(self, download_dir: str, domain: Optional[str] = None, stix_version: Optional[str] = None, use_session: bool = False):
         """
         Initializes the STIXDownloader with optional default settings.
