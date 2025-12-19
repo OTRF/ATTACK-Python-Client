@@ -33,13 +33,6 @@ The project is currently in a Production/Stable stage, which means that the curr
 * [Invoke-ATTACKAPI](https://github.com/Cyb3rWard0g/Invoke-ATTACKAPI)
 * [Mitre-Attack-API](https://github.com/annamcabee/Mitre-Attack-API)
 
-### Requirements
-
-- Python >= 3.0
-- stix2 >= 2.1.0
-- taxii2-client >= 2.3.0
-- six >= 1.16.0
-- pydantic
 
 ### Installation
 
