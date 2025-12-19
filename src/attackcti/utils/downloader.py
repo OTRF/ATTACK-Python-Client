@@ -1,15 +1,21 @@
-import requests
-from pathlib import Path
-from typing import Optional, List, Dict, Union
-import re
+"""Download utilities for ATT&CK STIX bundles."""
+
+from __future__ import annotations
+
 import json
+import os
+import re
+from pathlib import Path
+from typing import Dict, List, Optional, Union
+
+import requests
+
 
 class STIXDownloader:
     """Download ATT&CK STIX bundles from upstream repositories."""
 
     def __init__(self, download_dir: str, domain: Optional[str] = None, stix_version: Optional[str] = None, use_session: bool = False):
-        """
-        Initializes the STIXDownloader with optional default settings.
+        """Initialize the downloader with optional defaults.
 
         Args:
             download_dir (str): Directory to download the STIX files to.
@@ -28,10 +34,10 @@ class STIXDownloader:
 
     @staticmethod
     def fetch_attack_stix2_0_versions() -> List[str]:
-        """
-        Fetches available ATT&CK versions in STIX 2.0 format from the cti GitHub repository.
+        """Fetch available ATT&CK versions in STIX 2.0 format.
 
-        Returns:
+        Returns
+        -------
             List[str]: A list of available ATT&CK versions in STIX 2.0 format.
         """
         ref_to_tag = re.compile(r"ATT&CK-v(.*)")
@@ -43,10 +49,10 @@ class STIXDownloader:
 
     @staticmethod
     def fetch_attack_stix2_1_versions() -> List[str]:
-        """
-        Fetches available ATT&CK versions in STIX 2.1 format from the attack-stix-data repository.
+        """Fetch available ATT&CK versions in STIX 2.1 format.
 
-        Returns:
+        Returns
+        -------
             List[str]: A list of available ATT&CK versions in STIX 2.1 format.
         """
         index_url = "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/index.json"
@@ -56,15 +62,27 @@ class STIXDownloader:
         versions = [v["version"] for v in index_data["collections"][0]["versions"]]
         return versions
 
+    @staticmethod
+    def _version_key(version: str) -> tuple[int, ...]:
+        """Return a comparable key for dotted ATT&CK versions (e.g., '18.1')."""
+        parts: list[int] = []
+        for part in str(version).split("."):
+            try:
+                parts.append(int(part))
+            except ValueError:
+                # Fallback: treat non-numeric segments as 0.
+                parts.append(0)
+        return tuple(parts)
+
     def download_file(self, url: str, dest_path: Union[str, Path]) -> None:
-        """
-        Downloads a file from the given URL to the specified destination path.
+        """Download a file from `url` to `dest_path`.
 
         Args:
             url (str): URL of the file to download.
-            dest_path (str): Destination file path to save the downloaded file.
+            dest_path (str | Path): Destination file path to save the downloaded file.
 
-        Raises:
+        Raises
+        ------
             requests.HTTPError: If the download request fails.
         """
         if self.session:
@@ -77,51 +95,57 @@ class STIXDownloader:
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
 
-    def is_pretty_printed(self, file_path: str) -> bool:
-        """
-        Checks if the JSON file is already pretty-printed.
+    def is_pretty_printed(self, file_path: Union[str, Path]) -> bool:
+        """Heuristically detect whether a JSON file is already pretty-printed.
 
-        Args:
-            file_path (str): Path to the JSON file to check.
-
-        Returns:
-            bool: True if the file is pretty-printed, False otherwise.
+        This is a best-effort check to avoid reformatting files that already have
+        indentation and newlines. It intentionally only inspects a small prefix
+        of the file for performance.
         """
-        with open(file_path, 'r', encoding='utf-8') as f:
-            for i, line in enumerate(f):
-                if i > 10:  # Check only the first few lines for efficiency
-                    break
-                if len(line.strip()) == 0:
-                    continue
-                if line.strip().startswith('{') or line.strip().startswith('['):
-                    continue
-                return True
-        return False
+        path = Path(file_path)
+        with path.open("rb") as f:
+            prefix = f.read(8192)
 
-    def pretty_print_json(self, file_path: str) -> None:
-        """
-        Converts a compact JSON file to a pretty-printed format.
+        # If the file contains no newlines at all, it's almost certainly compact/minified.
+        if b"\n" not in prefix and b"\r" not in prefix:
+            return False
 
-        Args:
-            file_path (str): Path to the JSON file to be pretty-printed.
-        """
-        with open(file_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
-        with open(file_path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4, ensure_ascii=False)
+        # Detect an indentation pattern on a subsequent line.
+        # Example: '\n    "objects": ...'
+        return re.search(rb"\r?\n[ \t]{2,}\"", prefix) is not None
 
-    def download_attack_data(self, stix_version: Optional[str] = None, domain: Optional[str] = None, release: Optional[str] = None, pretty_print: Optional[bool] = None):
-        """
-        Downloads the ATT&CK STIX release file. If release is not specified, downloads the latest release.
+    def pretty_print_json(self, file_path: Union[str, Path]) -> None:
+        """Rewrite a JSON file with indentation (atomic write)."""
+        path = Path(file_path)
+        data = json.loads(path.read_text(encoding="utf-8"))
+
+        tmp_path = path.with_suffix(path.suffix + ".tmp")
+        tmp_path.write_text(
+            json.dumps(data, indent=4, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        os.replace(tmp_path, path)
+
+    def download_attack_data(
+        self,
+        stix_version: Optional[str] = None,
+        domain: Optional[str] = None,
+        release: Optional[str] = None,
+        pretty_print: Optional[bool] = None,
+        *,
+        force: bool = True,
+    ):
+        """Download an ATT&CK STIX release file.
 
         Args:
             stix_version (Optional[str]): Version of STIX to download. Options are "2.0" or "2.1". If not specified, uses the default.
             domain (Optional[str]): An ATT&CK domain from the following list ["enterprise", "mobile", "ics"]. If not specified, uses the default.
             release (Optional[str]): ATT&CK release to download. If not specified, downloads the latest release.
             pretty_print (Optional[bool]): Whether to pretty-print the JSON file after downloading. If None, do not pretty-print.
+            force (bool): When `False`, skip downloading if the destination file already exists.
 
-        Raises:
+        Raises
+        ------
             ValueError: If the STIX version is invalid or the release version does not exist.
         """
         stix_version = stix_version or self.stix_version
@@ -130,56 +154,86 @@ class STIXDownloader:
         if stix_version not in ["2.0", "2.1"]:
             raise ValueError("Invalid STIX version. Choose '2.0' or '2.1'.")
 
+        resolved_release: str | None = release
         if stix_version == "2.0":
-            versions = self.fetch_attack_stix2_0_versions()
             base_url = self.cti_base_url
             if release is None:
                 release_dir = "master"
-            elif release not in versions:
-                raise ValueError(f"Release {release} not found in cti repository.")
             else:
+                versions = self.fetch_attack_stix2_0_versions()
+                if release not in versions:
+                    raise ValueError(f"Release {release} not found in cti repository.")
                 release_dir = f"ATT%26CK-v{release}"
             url_path = f"{release_dir}/{domain}-attack/{domain}-attack.json"
         else:
-            versions = self.fetch_attack_stix2_1_versions()
             base_url = self.stix_data_base_url
             if release is None:
-                url_path = f"{domain}-attack/{domain}-attack.json"
-            elif release not in versions:
-                raise ValueError(f"Release {release} not found in attack-stix-data repository.")
+                # Prefer a versioned file so we can name the directory by the actual version.
+                # This requires a versions lookup from the upstream index.json.
+                try:
+                    versions = self.fetch_attack_stix2_1_versions()
+                    resolved_release = max(versions, key=self._version_key) if versions else None
+                except Exception:
+                    resolved_release = None
+
+                if resolved_release:
+                    url_path = f"{domain}-attack/{domain}-attack-{resolved_release}.json"
+                else:
+                    # Fallback to the unversioned latest bundle if index lookup fails.
+                    url_path = f"{domain}-attack/{domain}-attack.json"
             else:
+                versions = self.fetch_attack_stix2_1_versions()
+                if release not in versions:
+                    raise ValueError(f"Release {release} not found in attack-stix-data repository.")
                 url_path = f"{domain}-attack/{domain}-attack-{release}.json"
 
         download_url = f"{base_url}{url_path}"
         
-        release_folder = "latest" if release is None else f"v{release}"
+        release_folder = f"v{resolved_release}" if resolved_release else "latest"
         release_download_dir = Path(self.download_dir) / release_folder
         release_download_dir.mkdir(parents=True, exist_ok=True)
 
         dest_path = release_download_dir / f"{domain}-attack.json"
+        if not force and dest_path.exists():
+            self.downloaded_file_path = str(dest_path)
+            self.downloaded_file_paths[domain] = str(dest_path)
+            return
+
         self.download_file(download_url, dest_path)
 
         self.downloaded_file_path = str(dest_path)  # Store the full path of the downloaded file
         self.downloaded_file_paths[domain] = str(dest_path)  # Store the path for the specific domain
 
         if pretty_print:
-            if self.is_pretty_printed(self.downloaded_file_path):
-                print("Warning: The file appears to be already pretty-printed.")
-            self.pretty_print_json(self.downloaded_file_path)
+            if not self.is_pretty_printed(dest_path):
+                self.pretty_print_json(dest_path)
 
         print(f"Downloaded {domain}-attack.json to {release_download_dir}")
 
-    def download_all_domains(self, stix_version: Optional[str] = None, release: Optional[str] = None, pretty_print: Optional[bool] = None):
-        """
-        Downloads the ATT&CK STIX release files for all domains (enterprise, mobile, ics).
+    def download_all_domains(
+        self,
+        stix_version: Optional[str] = None,
+        release: Optional[str] = None,
+        pretty_print: Optional[bool] = None,
+        *,
+        force: bool = True,
+    ):
+        """Download ATT&CK STIX release files for all domains.
 
         Args:
             stix_version (Optional[str]): Version of STIX to download. Options are "2.0" or "2.1". If not specified, uses the default.
             release (Optional[str]): ATT&CK release to download. If not specified, downloads the latest release.
             pretty_print (Optional[bool]): Whether to pretty-print the JSON file after downloading. If None, do not pretty-print.
+            force (bool): When `False`, skip downloading files that already exist.
         """
         domains = ["enterprise", "mobile", "ics"]
         for domain in domains:
-            self.download_attack_data(stix_version=stix_version, domain=domain, release=release, pretty_print=pretty_print)
+            self.download_attack_data(
+                stix_version=stix_version,
+                domain=domain,
+                release=release,
+                pretty_print=pretty_print,
+                force=force,
+            )
 
         return self.downloaded_file_paths
