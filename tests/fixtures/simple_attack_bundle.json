@@ -1,0 +1,295 @@
+{
+  "type": "bundle",
+      "id": "bundle--b8b9b0a2-6a5b-41ee-9ed3-6612b45cf66a",
+  "spec_version": "2.1",
+  "objects": [
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--f6d79fc5-6e2a-4c1b-9d22-3be5da1be56f",
+      "created": "2024-01-01T00:00:00.000Z",
+      "modified": "2024-01-01T01:00:00.000Z",
+      "name": "Sample Technique",
+      "description": "A synthetic technique for tests.",
+      "x_mitre_domains": ["enterprise-attack"],
+      "x_mitre_platforms": ["Windows"],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T0001"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "intrusion-set",
+      "spec_version": "2.1",
+      "id": "intrusion-set--d63f0054-df6c-47d9-8a83-d8c8a2ea3c57",
+      "created": "2024-01-01T00:00:00.000Z",
+      "modified": "2024-01-01T01:00:00.000Z",
+      "name": "Sample Group",
+      "description": "A synthetic group for tests.",
+      "aliases": [
+        "Sample Group Alias"
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "G0001"
+        }
+      ]
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--4d7bc865-2e89-4f71-9f82-40c65dd36a2d",
+      "created": "2024-01-01T00:10:00.000Z",
+      "modified": "2024-01-01T01:10:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "intrusion-set--d63f0054-df6c-47d9-8a83-d8c8a2ea3c57",
+      "target_ref": "attack-pattern--f6d79fc5-6e2a-4c1b-9d22-3be5da1be56f",
+      "description": "Sample Group uses Sample Technique."
+    },
+    {
+      "type": "x-mitre-detection-strategy",
+      "spec_version": "2.1",
+      "id": "x-mitre-detection-strategy--a4a22b0c-19c8-4f60-8d08-ecf2f3d9a1a5",
+      "created": "2024-01-01T00:00:00.000Z",
+      "modified": "2024-01-01T01:00:00.000Z",
+      "name": "Sample Detection Strategy",
+      "x_mitre_analytic_refs": [
+        "x-mitre-analytic--0d5f91d8-8c35-4dab-8dd7-1f7c7efe3b77"
+      ],
+      "x_mitre_domains": ["enterprise-attack"]
+    },
+    {
+      "type": "x-mitre-analytic",
+      "spec_version": "2.1",
+      "id": "x-mitre-analytic--0d5f91d8-8c35-4dab-8dd7-1f7c7efe3b77",
+      "created": "2024-01-01T00:05:00.000Z",
+      "modified": "2024-01-01T01:05:00.000Z",
+      "name": "Sample Analytic",
+      "description": "Synthetic analytic for tests.",
+      "x_mitre_log_source_references": [
+        {
+          "x_mitre_data_component_ref": "x-mitre-data-component--ce5f38c9-dafe-4c1b-8ab4-8504e9e4d4ea",
+          "name": "WinEventLog:Security",
+          "channel": "EventCode=4688"
+        }
+      ],
+      "x_mitre_domains": ["enterprise-attack"]
+    },
+    {
+      "type": "x-mitre-data-component",
+      "spec_version": "2.1",
+      "id": "x-mitre-data-component--ce5f38c9-dafe-4c1b-8ab4-8504e9e4d4ea",
+      "created": "2024-01-01T00:00:00.000Z",
+      "modified": "2024-01-01T01:00:00.000Z",
+      "name": "Process Creation",
+      "description": "Synthetic data component for tests.",
+      "x_mitre_log_sources": [
+        {
+          "name": "WinEventLog:Security",
+          "channel": "EventCode=4688"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "DC0001"
+        }
+      ]
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--1c99a1ef-3f60-4c28-bb8b-1430de7b5bd7",
+      "created": "2024-01-01T00:20:00.000Z",
+      "modified": "2024-01-01T01:20:00.000Z",
+      "relationship_type": "detects",
+      "source_ref": "x-mitre-detection-strategy--a4a22b0c-19c8-4f60-8d08-ecf2f3d9a1a5",
+      "target_ref": "attack-pattern--f6d79fc5-6e2a-4c1b-9d22-3be5da1be56f"
+    },
+    {
+      "type": "x-mitre-data-source",
+      "spec_version": "2.1",
+      "id": "x-mitre-data-source--3f8c362f-890a-4b60-9b9c-2b2a5822a444",
+      "created": "2024-01-01T00:00:00.000Z",
+      "modified": "2024-01-01T01:00:00.000Z",
+      "name": "Windows Event Logs",
+      "description": "Event logs produced by Microsoft Windows operating systems.",
+      "x_mitre_domains": [
+        "enterprise-attack"
+      ],
+      "x_mitre_data_components": [
+        "x-mitre-data-component--ce5f38c9-dafe-4c1b-8ab4-8504e9e4d4ea"
+      ]
+    },
+    {
+      "type": "x-mitre-tactic",
+      "spec_version": "2.1",
+      "id": "x-mitre-tactic--3a1a2a7a-1a56-4ca4-9e12-4e7d213f1b51",
+      "created": "2024-01-01T00:05:00.000Z",
+      "modified": "2024-01-01T01:05:00.000Z",
+      "name": "Execution",
+      "x_mitre_shortname": "execution",
+      "x_mitre_domains": [
+        "enterprise-attack"
+      ]
+    },
+    {
+      "type": "x-mitre-matrix",
+      "spec_version": "2.1",
+      "id": "x-mitre-matrix--5c1d9b1e-9f9b-4e68-8d78-1e5fbf5a87e2",
+      "created": "2024-01-01T00:00:00.000Z",
+      "modified": "2024-01-01T01:00:00.000Z",
+      "name": "Enterprise ATT&CK Matrix",
+      "description": "A synthetic subset of the Enterprise ATT&CK matrix for tests.",
+      "x_mitre_domain": "enterprise-attack",
+      "x_mitre_version": "12"
+    },
+    {
+      "type": "campaign",
+      "spec_version": "2.1",
+      "id": "campaign--0f00b751-6ad3-4d0d-8d3e-b637d5587ee5",
+      "created": "2024-01-01T00:10:00.000Z",
+      "modified": "2024-01-01T01:10:00.000Z",
+      "name": "Sample Campaign",
+      "description": "A synthetic campaign linking back to Sample Group.",
+      "aliases": [
+        "Sample Campaign Alias"
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "malware",
+      "spec_version": "2.1",
+      "id": "malware--22ad4d95-0d6a-4f6a-9e8b-780daef3b842",
+      "created": "2024-01-01T00:12:00.000Z",
+      "modified": "2024-01-01T01:12:00.000Z",
+      "name": "Sample Malware",
+      "description": "Provides synthetic context for tests.",
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "is_family": false
+    },
+    {
+      "type": "software",
+      "spec_version": "2.1",
+      "id": "software--7c7f8c0a-907a-4d75-868c-41f16b8dcf6e",
+      "created": "2024-01-01T00:15:00.000Z",
+      "modified": "2024-01-01T01:15:00.000Z",
+      "name": "Sample Software",
+      "description": "Used by the sample campaign.",
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "is_family": false
+    },
+    {
+      "type": "tool",
+      "spec_version": "2.1",
+      "id": "tool--2f9f0cb5-61cb-4e5f-95d5-f243d0c0d5a5",
+      "created": "2024-01-01T00:17:00.000Z",
+      "modified": "2024-01-01T01:17:00.000Z",
+      "name": "Sample Tool",
+      "description": "Supplementary tool entry for tests.",
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "is_family": false
+    },
+    {
+      "type": "course-of-action",
+      "spec_version": "2.1",
+      "id": "course-of-action--526c95c3-3ea6-4da4-88f2-9cde76e5e7f7",
+      "created": "2024-01-01T00:18:00.000Z",
+      "modified": "2024-01-01T01:18:00.000Z",
+      "name": "Sample Mitigation",
+      "description": "Mitigates the Sample Technique."
+    },
+    {
+      "type": "asset",
+      "spec_version": "2.1",
+      "id": "asset--e1cc8f7d-26df-44d3-9db5-1aed6c047fdc",
+      "created": "2024-01-01T00:19:00.000Z",
+      "modified": "2024-01-01T01:19:00.000Z",
+      "name": "Sample Asset",
+      "description": "Infrastructure asset for testing.",
+      "asset_type": "workstation"
+    },
+    {
+      "type": "collection",
+      "spec_version": "2.1",
+      "id": "collection--d2e94c7b-d61b-4cac-a61d-2f1f0b3ab5c8",
+      "created": "2024-01-01T00:20:00.000Z",
+      "modified": "2024-01-01T01:20:00.000Z",
+      "name": "Sample Collection",
+      "description": "A placeholder collection entry."
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--8fca4d55-3f4f-4b1c-896a-79e18aa8db4a",
+      "created": "2024-01-01T00:25:00.000Z",
+      "modified": "2024-01-01T01:25:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--0f00b751-6ad3-4d0d-8d3e-b637d5587ee5",
+      "target_ref": "malware--22ad4d95-0d6a-4f6a-9e8b-780daef3b842"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--4b3d3f1e-6f12-4dd5-9300-54f0a0e4d6df",
+      "created": "2024-01-01T00:26:00.000Z",
+      "modified": "2024-01-01T01:26:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "malware--22ad4d95-0d6a-4f6a-9e8b-780daef3b842",
+      "target_ref": "attack-pattern--f6d79fc5-6e2a-4c1b-9d22-3be5da1be56f"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--6c6fa7c8-4b3a-46ae-9a67-9557c1fc7c0c",
+      "created": "2024-01-01T00:27:00.000Z",
+      "modified": "2024-01-01T01:27:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "software--7c7f8c0a-907a-4d75-868c-41f16b8dcf6e",
+      "target_ref": "attack-pattern--f6d79fc5-6e2a-4c1b-9d22-3be5da1be56f"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--c5748b1b-a4e7-4a3d-8f8b-37101bac73fc",
+      "created": "2024-01-01T00:28:00.000Z",
+      "modified": "2024-01-01T01:28:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "intrusion-set--d63f0054-df6c-47d9-8a83-d8c8a2ea3c57",
+      "target_ref": "tool--2f9f0cb5-61cb-4e5f-95d5-f243d0c0d5a5"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--09c3d60f-7603-4be4-92b9-7bcf8817849c",
+      "created": "2024-01-01T00:29:00.000Z",
+      "modified": "2024-01-01T01:29:00.000Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--526c95c3-3ea6-4da4-88f2-9cde76e5e7f7",
+      "target_ref": "attack-pattern--f6d79fc5-6e2a-4c1b-9d22-3be5da1be56f"
+    }
+  ]
+}
