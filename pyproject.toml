@@ -1,6 +1,6 @@
 [project]
 name = "attackcti"
-version = "0.5.5"
+version = "0.6.4"
 description = "MITRE ATT&CK CTI Python library"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -44,9 +44,18 @@ Code = "https://github.com/OTRF/ATTACK-Python-Client"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8",
+    "pytest>=8.4.2",
+    "pytest-asyncio>=0.23",
     "pyright>=1.1.407",
     "ruff>=0.14.6",
+    "black",
+    "anyio>=4",
+    "build",
+    "twine",
+    "packaging",
+    "setuptools",
+    "setuptools_scm",
+    "wheel",
 ]
 
 [project.scripts]
@@ -62,6 +71,9 @@ include = ["src/attackcti/py.typed"]
 
 [tool.ruff]
 line-length = 120
+extend-exclude = [
+    "docs/playground",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "D", "B"]
@@ -69,3 +81,18 @@ ignore = ["E501"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.9",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra"
+pythonpath = ["src"]
+norecursedirs = ["repos", ".venv"]
+markers = [
+  "integration: tests that spin a real local ipykernel; require RUN_INTEGRATION=1",
+]
