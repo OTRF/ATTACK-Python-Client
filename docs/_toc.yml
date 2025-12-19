@@ -6,6 +6,7 @@ root: intro
 parts:
 - caption: Playground
   chapters:
+  - file: playground/0-Download-ATTACK-STIX-data
   - file: playground/1-Collect_All_Functions
   - file: playground/2-Collect_Matrix_Specific_Functions
   - file: playground/3-Export_All_Techniques_To_CSV
@@ -15,6 +16,9 @@ parts:
   - file: playground/7-Export_Groups_Navigator_Layers
   - file: playground/8-Lookup_Functions
   - file: playground/9-Explore_Campaigns
+  - file: playground/10-Export_All_Techniques_To_YAML
+  - file: playground/11-Initialize_Client_Local_STIX_data
+  - file: playground/12-Local_vs_TAXII_STIX_20_21
 - caption: Presentations
   chapters:
   - file: presentations/1-SANS_CTI_Summit_2022_Explorando_Fuentes_Componentes_Datos
