@@ -1,7 +1,4 @@
-"""Package constants.
-
-These values are intentionally centralized to keep the client implementation focused on behavior.
-"""
+"""Package constants."""
 
 ATTACK_TAXII_COLLECTIONS_URL = "https://attack-taxii.mitre.org/api/v21/collections/"
 
