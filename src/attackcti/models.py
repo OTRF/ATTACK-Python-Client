@@ -1,5 +1,32 @@
-from typing import List, Optional, Dict, Any
+"""Pydantic models for ATT&CK STIX objects."""
+
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
 from pydantic import BaseModel, Field, model_validator
+
+
+@dataclass(frozen=True)
+class LoadedStix:
+    """Container for parsed STIX objects and detected spec version."""
+
+    spec_version: str | None
+    objects: list[Any]
+
+class LogSourceReference(BaseModel):
+    """A log source reference used by an analytic."""
+
+    x_mitre_data_component_ref: str
+    name: str
+    channel: str
+
+
+class MutableElement(BaseModel):
+    """Environment-specific analytic tuning knobs."""
+
+    field: str
+    description: str
+
 
 class ExternalReference(BaseModel):
     """STIX external reference entry."""
@@ -27,6 +54,21 @@ class STIXCore(BaseModel):
     
     @model_validator(mode='before')
     def extract_common_fields(cls, values):
+        """Extract common fields from the input dictionary.
+
+        This method processes the input dictionary to extract and set common fields,
+        such as the URL from the first external reference, if available.
+
+        Parameters
+        ----------
+        values : dict
+            The input dictionary containing STIX object data.
+
+        Returns
+        -------
+        dict
+            The updated dictionary with extracted common fields.
+        """
         external_references = values.get('external_references')
         if external_references and len(external_references) > 0:
             first_ref = external_references[0]
@@ -36,6 +78,18 @@ class STIXCore(BaseModel):
 
     @classmethod
     def extract_external_id(cls, external_references: List[ExternalReference]):
+        """Extract the external ID from the first external reference.
+
+        Parameters
+        ----------
+        external_references : List[ExternalReference]
+            A list of external references associated with the STIX object.
+
+        Returns
+        -------
+        str or None
+            The external ID from the first external reference, or None if not available.
+        """
         if external_references and len(external_references) > 0:
             return external_references[0].external_id
         return None
@@ -63,6 +117,18 @@ class Technique(STIXCore):
         
     @model_validator(mode='before')
     def extract_phase_name(cls, values: Dict[str, Any]):
+        """Extract phase names from the technique field.
+
+        Parameters
+        ----------
+        values : Dict[str, Any]
+            The input dictionary containing technique data.
+
+        Returns
+        -------
+        Dict[str, Any]
+            The updated dictionary with extracted phase names.
+        """
         if 'kill_chain_phases' in values:
             kill_chain_phases = values['kill_chain_phases']
             phase_names = [phase['phase_name'] for phase in kill_chain_phases if 'phase_name' in phase]
@@ -71,6 +137,11 @@ class Technique(STIXCore):
     
     @model_validator(mode='after')
     def set_technique_id(self):
+        """Set the technique ID based on the external references.
+
+        This method extracts the external ID from the first external reference
+        and assigns it to the `technique_id` attribute.
+        """
         self.technique_id = self.extract_external_id(self.external_references)
         return self
 
@@ -84,6 +155,11 @@ class Mitigation(STIXCore):
     
     @model_validator(mode='after')
     def set_mitigation_id(self):
+        """Set the mitigation ID based on the external references.
+
+        This method extracts the external ID from the first external reference
+        and assigns it to the `mitigation_id` attribute.
+        """
         self.mitigation_id = self.extract_external_id(self.external_references)
         return self
 
@@ -98,6 +174,11 @@ class Group(STIXCore):
     
     @model_validator(mode='after')
     def set_group_id(self):
+        """Set the group ID based on the external references.
+
+        This method extracts the external ID from the first external reference
+        and assigns it to the `group_id` attribute.
+        """
         self.group_id = self.extract_external_id(self.external_references)
         return self
 
@@ -115,6 +196,11 @@ class Software(STIXCore):
     
     @model_validator(mode='after')
     def set_software_id(self):
+        """Set the software ID based on the external references.
+
+        This method extracts the external ID from the first external reference
+        and assigns it to the `software_id` attribute.
+        """
         self.software_id = self.extract_external_id(self.external_references)
         return self
 
@@ -144,6 +230,11 @@ class Tactic(STIXCore):
     
     @model_validator(mode='after')
     def set_tactic_id(self):
+        """Set the tactic ID based on the external references.
+
+        This method extracts the external ID from the first external reference
+        and assigns it to the `tactic_id` attribute.
+        """
         self.tactic_id = self.extract_external_id(self.external_references)
         return self
 
@@ -157,6 +248,11 @@ class Matrix(STIXCore):
     
     @model_validator(mode='after')
     def set_matrix_id(self):
+        """Set the matrix ID based on the external references.
+
+        This method extracts the external ID from the first external reference
+        and assigns it to the `matrix_id` attribute.
+        """
         self.matrix_id = self.extract_external_id(self.external_references)
         return self
 
@@ -199,6 +295,11 @@ class Campaign(STIXCore):
     
     @model_validator(mode='after')
     def set_campaign_id(self):
+        """Set the campaign ID based on the external references.
+
+        This method extracts the external ID from the first external reference
+        and assigns it to the `campaign_id` attribute.
+        """
         self.campaign_id = self.extract_external_id(self.external_references)
         return self
 
@@ -219,6 +320,18 @@ class GroupTechnique(Group):
 
     @model_validator(mode='before')
     def extract_phase_name(cls, values: Dict[str, Any]):
+        """Extract phase names from the group field.
+
+        Parameters
+        ----------
+        values : Dict[str, Any]
+            The input dictionary containing group data.
+
+        Returns
+        -------
+        Dict[str, Any]
+            The updated dictionary with extracted phase names.
+        """
         if 'tactic' in values:
             kill_chain_phases = values['tactic']
             phase_names = [phase['phase_name'] for phase in kill_chain_phases if 'phase_name' in phase]
@@ -231,3 +344,47 @@ class STIXLocalPaths(BaseModel):
     enterprise: Optional[str] = Field(None, description="Path to the local enterprise-attack directory or JSON file.")
     mobile: Optional[str] = Field(None, description="Path to the local mobile-attack directory or JSON file.")
     ics: Optional[str] = Field(None, description="Path to the local ics-attack directory or JSON file.")
+
+
+class DetectionStrategy(STIXCore):
+    """ATT&CK Detection Strategy model (x-mitre-detection-strategy)."""
+
+    detection_strategy: str = Field(..., alias="name")
+    analytic_refs: List[str] = Field(default_factory=list, alias="x_mitre_analytic_refs")
+
+
+class Analytic(STIXCore):
+    """ATT&CK Analytic model (x-mitre-analytic)."""
+
+    analytic: str = Field(..., alias="name")
+    analytic_description: Optional[str] = Field(None, alias="description")
+    platforms: Optional[List[str]] = Field(None, alias="x_mitre_platforms")
+    log_source_references: Optional[List[LogSourceReference]] = Field(
+        None, alias="x_mitre_log_source_references"
+    )
+    mutable_elements: Optional[List[MutableElement]] = Field(None, alias="x_mitre_mutable_elements")
+
+pydantic_model_mapping = {
+    "techniques": Technique,
+    "data-component": DataComponent,
+    "mitigations": Mitigation,
+    "groups": Group,
+    "malware": Software,
+    "tools": Software,
+    "tool": Software,
+    "data-source": DataSource,
+    "relationships": Relationship,
+    "tactics": Tactic,
+    "matrix": Matrix,
+    "identity": Identity,
+    "marking-definition": MarkingDefinition,
+    "campaigns": Campaign,
+    "campaign": Campaign,
+    "attack-pattern": Technique,
+    "course-of-action": Mitigation,
+    "intrusion-set": Group,
+    "x-mitre-data-source": DataSource,
+    "x-mitre-data-component": DataComponent,
+    "x-mitre-detection-strategy": DetectionStrategy,
+    "x-mitre-analytic": Analytic,
+}
