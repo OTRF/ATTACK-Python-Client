@@ -1,5 +1,6 @@
 """Backwards-compatible module."""
 
-from .client import AttackClient, AttackClient as attack_client  # noqa: F401
+from .client import MitreAttackClient
+from .client import MitreAttackClient as attack_client
 
-__all__ = ["AttackClient", "attack_client"]
+__all__ = ["MitreAttackClient", "attack_client"]

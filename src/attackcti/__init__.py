@@ -1,7 +1,7 @@
 """attackcti package.
 
 This package exposes a small, stable public surface:
-- `AttackClient`: main client class
+- `MitreAttackClient`: main client class
 - `attack_client`: backwards-compatible alias
 """
 
@@ -18,13 +18,13 @@ except metadata.PackageNotFoundError:  # pragma: no cover
     __version__ = "0.0.0"
 
 if TYPE_CHECKING:  # pragma: no cover
-    from .client import AttackClient as AttackClient
+    from .client import MitreAttackClient as AttackClient
 
 
 def __getattr__(name: str) -> Any:  # PEP 562
     """Lazily expose selected public symbols."""
-    if name in {"AttackClient", "attack_client"}:
-        from .client import AttackClient
+    if name in {"MitreAttackClient", "attack_client"}:
+        from .client import MitreAttackClient
 
-        return AttackClient
+        return MitreAttackClient
     raise AttributeError(name)
