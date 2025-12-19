@@ -1,6 +1,7 @@
 docs/_build/
 docs/source/
 repos/
+.attackcti/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
